@@ -44,6 +44,10 @@ public class User extends AbstractEntity implements UserDetails  {
     @Column(name="is_active")
     private Boolean isActive;
 
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private ProfileDetails profileDetails;
+
     @OneToMany(mappedBy = "user")
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();
 
