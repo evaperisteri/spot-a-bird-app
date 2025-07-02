@@ -3,6 +3,7 @@ package gr.aueb.cf.spot_a_bird_app.dto;
 import gr.aueb.cf.spot_a_bird_app.model.Bird;
 import gr.aueb.cf.spot_a_bird_app.model.Region;
 import gr.aueb.cf.spot_a_bird_app.model.User;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,9 @@ import lombok.Setter;
 @Setter
 public class BirdwatchingLogInsertDTO {
     @NotNull(message = "Bird species is required")
-    private Bird bird;
-    @NotEmpty(message = "Quantity is required")
+    private String birdName;
+    @Min(value=1, message = "Quantity must be at least 1")
     private int quantity;
     @NotNull(message = "Region is required")
-    private Region region;
-    @NotNull(message = "User is required")
-    private User user;
+    private String regionName;
 }
