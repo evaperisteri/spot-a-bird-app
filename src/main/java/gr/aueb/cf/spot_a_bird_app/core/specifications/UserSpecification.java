@@ -28,10 +28,11 @@ public class UserSpecification {
     }
 
     //value.trim().isEmpty() = value.isBlank()
-    public static Specification<User> userStringFieldLike(String field, String value) {
+    public static Specification<User> userIdIs(long id) {
         return((root, query, criteriaBuilder)->{
-            if(value == null || value.trim().isEmpty()) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
-            return criteriaBuilder.like(criteriaBuilder.upper(root.get(field)), "%" + value.toUpperCase() + "%");
+            if(id < 0) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+            Join<User, ProfileDetails> userProfile = root.join("profileDetails");
+            return criteriaBuilder.equal(userProfile.get("id"), id);
         });
     }
 }
