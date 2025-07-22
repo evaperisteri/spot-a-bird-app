@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +64,10 @@ public class UserService {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return userRepository.findAll(pageable).map(mapper::mapToUserReadOnlyDTO);
+    }
+
+    public List<UserReadOnlyDTO> getUsersFiltered (UserFilters filters) {
+        return userRepository.findAll(getSpecsFromFilters(filters)).stream().map(mapper::mapToUserReadOnlyDTO).collect(Collectors.toList());
     }
 
     public Paginated<UserReadOnlyDTO> getUsersFilteredPaginated(UserFilters filters) {
