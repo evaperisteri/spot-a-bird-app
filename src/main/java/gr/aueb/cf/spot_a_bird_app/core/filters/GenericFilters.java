@@ -1,4 +1,4 @@
-package gr.aueb.cf.spot_a_bird_app.core;
+package gr.aueb.cf.spot_a_bird_app.core.filters;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
