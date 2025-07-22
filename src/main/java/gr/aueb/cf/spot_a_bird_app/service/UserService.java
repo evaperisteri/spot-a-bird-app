@@ -2,6 +2,9 @@ package gr.aueb.cf.spot_a_bird_app.service;
 
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectAlreadyExists;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectInvalidArgumentException;
+import gr.aueb.cf.spot_a_bird_app.core.filters.Paginated;
+import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
+import gr.aueb.cf.spot_a_bird_app.core.specifications.UserSpecification;
 import gr.aueb.cf.spot_a_bird_app.dto.UserInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +62,17 @@ public class UserService {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return userRepository.findAll(pageable).map(mapper::mapToUserReadOnlyDTO);
+    }
+
+    public Paginated<UserReadOnlyDTO> getUsersFilteredPaginated(UserFilters filters) {
+        var filtered = userRepository.findAll(getSpecsFromFilters(filters), filters.getPageable());
+        return new Paginated<> (filtered.map(mapper::mapToUserReadOnlyDTO));
+    }
+    //intergrated specifications
+    private Specification<User> getSpecsFromFilters(UserFilters userFilters) {
+        return Specification
+                .where(UserSpecification.userIdIs(userFilters.getId()))
+                .and(UserSpecification.userGenderIs(userFilters.getGender()))
+                .and(UserSpecification.userDateOfBirthIs(userFilters.getDateOfBirth()));
     }
 }
