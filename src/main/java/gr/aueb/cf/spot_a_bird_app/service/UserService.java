@@ -60,21 +60,23 @@ public class UserService {
 
     //dynamic sorting
     @Transactional
-    public Page<UserReadOnlyDTO> getPaginatedAndSortedUsers(int page, int size, String sortBy, String sortDirection){
+    public Page<UserReadOnlyDTO> getUsersPaginatedAndSorted(int page, int size, String sortBy, String sortDirection){
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return userRepository.findAll(pageable).map(mapper::mapToUserReadOnlyDTO);
     }
 
+    @Transactional
     public List<UserReadOnlyDTO> getUsersFiltered (UserFilters filters) {
         return userRepository.findAll(getSpecsFromFilters(filters)).stream().map(mapper::mapToUserReadOnlyDTO).collect(Collectors.toList());
     }
 
+    @Transactional
     public Paginated<UserReadOnlyDTO> getUsersFilteredPaginated(UserFilters filters) {
         var filtered = userRepository.findAll(getSpecsFromFilters(filters), filters.getPageable());
         return new Paginated<> (filtered.map(mapper::mapToUserReadOnlyDTO));
     }
-    //intergrated specifications
+    //integrated specifications
     private Specification<User> getSpecsFromFilters(UserFilters userFilters) {
         return Specification
                 .where(UserSpecification.userIdIs(userFilters.getId()))
