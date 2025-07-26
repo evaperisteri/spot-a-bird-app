@@ -25,15 +25,14 @@ public class UserRestController {
 
     private final UserService userService;
     @PostMapping("/users/save")
-    public ResponseEntity<UserReadOnlyDTO> saveUser(
-            @Valid @RequestPart(name = "user")UserInsertDTO userInsertDTO, BindingResult bindingResult)
+    public ResponseEntity<UserReadOnlyDTO> saveUser(@Valid UserInsertDTO userInsertDTO,
+           BindingResult bindingResult)
             throws AppObjectInvalidArgumentException, ValidationException, AppObjectAlreadyExists, AppServerException, IOException {
         if(bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult);
         }
             UserReadOnlyDTO userReadOnlyDTO = userService.saveUser(userInsertDTO);
             return new ResponseEntity<>(userReadOnlyDTO, HttpStatus.OK);
-
     }
 
     @GetMapping("/users/paginated")
@@ -42,13 +41,15 @@ public class UserRestController {
         return new ResponseEntity<>(usersPage, HttpStatus.OK);
     }
 
-    @GetMapping("/users/filtered")
+    @PostMapping("/users/filtered")
     public ResponseEntity<List<UserReadOnlyDTO>> getFilteredUsers(@Nullable @RequestBody UserFilters filters) throws AppObjectNotAuthorizedException {
         if (filters==null) UserFilters.builder().build();
         return ResponseEntity.ok(userService.getUsersFiltered(filters));
     }
 
-    public ResponseEntity<Paginated<UserReadOnlyDTO>> getUsersFilteredPaginated (@RequestBody UserFilters filters) {
-
+    @PostMapping("/users/filtered/paginated")
+    public ResponseEntity<Paginated<UserReadOnlyDTO>> getFilteredPaginatedUsers (@Nullable @RequestBody UserFilters filters) throws AppObjectNotAuthorizedException {
+        if (filters==null) UserFilters.builder().build();
+        return ResponseEntity.ok(userService.getUsersFilteredPaginated(filters));
     }
 }
