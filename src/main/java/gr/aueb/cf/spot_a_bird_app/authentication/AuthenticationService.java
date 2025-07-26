@@ -5,12 +5,13 @@ import gr.aueb.cf.spot_a_bird_app.dto.AuthenticationRequestDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.AuthenticationResponseDTO;
 import gr.aueb.cf.spot_a_bird_app.model.User;
 import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
+import gr.aueb.cf.spot_a_bird_app.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import gr.
+
 
 @Service
 @RequiredArgsConstructor
