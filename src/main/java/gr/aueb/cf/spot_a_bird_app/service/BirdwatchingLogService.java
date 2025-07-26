@@ -1,5 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.service;
 
+import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogReadOnlyDTO;
