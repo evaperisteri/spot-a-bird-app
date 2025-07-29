@@ -20,6 +20,8 @@ public class Bird {
     private Long id;
     @Column(unique = true)
     private String name;
+    @Column
+    private String scientificName;
 
     @OneToMany(mappedBy = "bird")
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();

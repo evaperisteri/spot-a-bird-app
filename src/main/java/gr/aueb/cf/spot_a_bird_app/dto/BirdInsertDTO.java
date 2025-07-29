@@ -12,4 +12,5 @@ import lombok.Setter;
 public class BirdInsertDTO {
 
     private String name;
+    private String scientificName;
 }
