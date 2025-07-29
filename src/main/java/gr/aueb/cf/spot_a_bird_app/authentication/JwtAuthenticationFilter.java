@@ -1,5 +1,7 @@
 package gr.aueb.cf.spot_a_bird_app.authentication;
 
+import gr.aueb.cf.spot_a_bird_app.security.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
