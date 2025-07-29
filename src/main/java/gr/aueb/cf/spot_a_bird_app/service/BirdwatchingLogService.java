@@ -32,9 +32,9 @@ public class BirdwatchingLogService {
     @Transactional
     public BirdwatchingLogReadOnlyDTO createLog(BirdwatchingLogInsertDTO dto) {
 
-        User user = getAuthenticatedUser();
+        User spotter = getAuthenticatedUser();
 
-        Bird bird = birdRepository.findByName(dto.getBirdName()).orElseGet(()->createNewBird(dto.getBirdName()));
+        Bird spottedBird = birdRepository.findByName(dto.getBirdName()).orElseGet(()->createNewBird(dto.getBirdName()));
 
         Region region = regionRepository.findByName(dto.getRegionName()).orElseThrow(()->new AppObjectNotFoundException("region not found", dto.getRegionName()));
 
@@ -43,9 +43,9 @@ public class BirdwatchingLogService {
         }
 
         BirdwatchingLog log = BirdwatchingLog.builder()
-                .bird(bird)
+                .bird(spottedBird)
                 .region(region)
-                .user(user)
+                .user(spotter)
                 .quantity(dto.getQuantity())
                 .build();
 
