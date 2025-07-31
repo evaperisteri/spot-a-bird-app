@@ -1,6 +1,8 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
 import gr.aueb.cf.spot_a_bird_app.model.Bird;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +14,7 @@ import java.util.Optional;
 public interface BirdRepository extends JpaRepository<Bird, Long>, JpaSpecificationExecutor<Bird> {
     Optional<Bird> findByName(String name);
     List<Bird> findByNameContainingIgnoreCase(String namePart);
+    Page<Bird> findByNameContainingIgnoreCase(String name, Pageable pageable);
     @Query("SELECT b FROM Bird b JOIN b.birdwatchingLogSet s WHERE s.user.id = :userId")
     List<Bird> findBirdsSpottedByUser(@Param("userId") Long userId);
 
