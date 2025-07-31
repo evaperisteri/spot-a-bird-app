@@ -80,10 +80,10 @@ public class BirdwatchingLogService {
                 .build();
     }
 
-    private User getAuthenticatedUser() {
+    private User getAuthenticatedUser() throws AppObjectNotFoundException {
         String username = authService.getAuthenticatedUsername();
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppObjectNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new AppObjectNotFoundException("User not found: ", username));
     }
 
     // New method to get birds for combo box
