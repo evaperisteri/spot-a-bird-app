@@ -17,6 +17,8 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
 
     Page<BirdwatchingLog> findByUser(User user, Pageable pageable);
 
+
+
     //retrieve all birdwatching logs made by a specific user in a specific region
     @Query("SELECT b FROM BirdwatchingLog b WHERE b.user.id = :userId AND b.region.id = :regionId")
     List<BirdwatchingLog> findByUserAndRegion(@Param("userId") Long userId, @Param("regionId") Long regionId);
