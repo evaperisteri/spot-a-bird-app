@@ -2,9 +2,14 @@ package gr.aueb.cf.spot_a_bird_app.service;
 
 import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
+import gr.aueb.cf.spot_a_bird_app.core.filters.BirdWatchingLogFilters;
+import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
+import gr.aueb.cf.spot_a_bird_app.core.specifications.BirdwatchingLogSpecification;
+import gr.aueb.cf.spot_a_bird_app.core.specifications.UserSpecification;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogReadOnlyDTO;
+import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
 import gr.aueb.cf.spot_a_bird_app.model.Bird;
 import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
@@ -16,11 +21,20 @@ import gr.aueb.cf.spot_a_bird_app.repository.RegionRepository;
 import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static gr.aueb.cf.spot_a_bird_app.core.specifications.BirdwatchingLogSpecification.*;
 
 @Slf4j
 @Service
@@ -31,10 +45,12 @@ public class BirdwatchingLogService {
     private final AuthenticationService authService;
     private final BirdRepository birdRepository;
     private final RegionRepository regionRepository;
+    private final BirdwatchingLogRepository bWLogRepository;
     private final Mapper mapper;
 
+
     @Transactional
-    public BirdwatchingLogReadOnlyDTO saveLog(BirdwatchingLogInsertDTO dto) {
+    public BirdwatchingLogReadOnlyDTO saveLog(BirdwatchingLogInsertDTO dto) throws AppObjectNotFoundException {
         validateLogDTO(dto);
         User spotter = getAuthenticatedUser();
 
@@ -44,19 +60,26 @@ public class BirdwatchingLogService {
         BirdwatchingLog log = buildLogEntity(dto, spotter, spottedBird, region);
         logRepository.save(log);
 
-        return mapper.mapToReadOnlyDTO(log);
+        return mapper.mapBWLToReadOnlyDTO(log);
     }
 
-    private Bird findBirdByName(String name) {
-        // Exact match first
-        return birdRepository.findByName(name)
-                .or(() -> birdRepository.findByNameContainingIgnoreCase(name))
-                .orElseThrow(() -> new AppObjectNotFoundException("Bird not found with name: " + name));
+    private Bird findBirdByName(String name) throws AppObjectNotFoundException {
+        Optional<Bird> exactMatch = birdRepository.findByName(name);
+        if (exactMatch.isPresent()) {
+            return exactMatch.get();
+        }
+
+        List<Bird> partialMatches = birdRepository.findByNameContainingIgnoreCase(name);
+        if (!partialMatches.isEmpty()) {
+            return partialMatches.get(0); // Return first match
+        }
+
+        throw new AppObjectNotFoundException("Bird", "Bird not found with name: " + name);
     }
 
-    private Region findRegionByName(String name) {
+    private Region findRegionByName(String name) throws AppObjectNotFoundException {
         return regionRepository.findByName(name)
-                .orElseThrow(() -> new AppObjectNotFoundException("Region not found: " + name));
+                .orElseThrow(() -> new AppObjectNotFoundException("Region not found: ", name));
     }
 
     private void validateLogDTO(BirdwatchingLogInsertDTO dto) {
@@ -86,7 +109,7 @@ public class BirdwatchingLogService {
                 .orElseThrow(() -> new AppObjectNotFoundException("User not found: ", username));
     }
 
-    // New method to get birds for combo box
+
     @Transactional(readOnly = true)
     public List<BirdReadOnlyDTO> getAllBirdsForSelection() {
         return birdRepository.findAll().stream()
@@ -97,5 +120,46 @@ public class BirdwatchingLogService {
                 ))
                 .sorted(Comparator.comparing(BirdReadOnlyDTO::getName))
                 .toList();
+    }
+
+    //fixed sorting
+    @Transactional
+    public Page<BirdwatchingLogReadOnlyDTO> getPaginatedLogs(int page, int size) {
+        String defaultSort = "user";
+        Pageable pageable = PageRequest.of(page, size, Sort.by(defaultSort).ascending());
+        return bWLogRepository.findAll(pageable).map(mapper::mapBWLToReadOnlyDTO);
+    }
+
+    //dynamic sorting
+    @Transactional
+    public Page<BirdwatchingLogReadOnlyDTO> getPaginatedAndSortedLogs(int page, int size, String sortBy, String sortDirection){
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return bWLogRepository.findAll(pageable).map(mapper::mapBWLToReadOnlyDTO);
+    }
+
+    @Transactional
+    public List<BirdwatchingLogReadOnlyDTO> getLogsFiltered (BirdWatchingLogFilters filters) {
+        return bWLogRepository.findAll(getSpecsFromFilters(filters)).stream().map(mapper::mapBWLToReadOnlyDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Page<BirdwatchingLogReadOnlyDTO> getFilteredAndPaginatedLogs(BirdWatchingLogFilters filters, int page, int size, String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return bWLogRepository.findAll(getSpecsFromFilters(filters), pageable)
+                .map(mapper::mapBWLToReadOnlyDTO);
+    }
+
+    public Specification<BirdwatchingLog> getSpecsFromFilters(BirdWatchingLogFilters filters) {
+        return Specification
+                .where(birdNameContains(filters.getName()))
+                .and(birdScientificNameContains(filters.getScientificName()))
+                .and(birdIdEquals(filters.getBirdId()))
+                .and(regionNameContains(filters.getRegionName()))
+                .and(regionIdEquals(filters.getRegionId()))
+                .and(usernameContains(filters.getUsername()))
+                .and(userIdEquals(filters.getUserId()))
+                .and(dateEquals(filters.getDate()));
     }
 }
