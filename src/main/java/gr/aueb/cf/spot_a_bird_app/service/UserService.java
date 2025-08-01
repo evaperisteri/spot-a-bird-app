@@ -2,6 +2,7 @@ package gr.aueb.cf.spot_a_bird_app.service;
 
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectAlreadyExists;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectInvalidArgumentException;
+import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.core.filters.Paginated;
 import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
 import gr.aueb.cf.spot_a_bird_app.core.specifications.UserSpecification;
@@ -48,6 +49,48 @@ public class UserService {
         User savedUser = userRepository.save(user); //this one has an id
 
         return mapper.mapToUserReadOnlyDTO(savedUser);
+    }
+
+    @Transactional(readOnly = true)
+    public UserReadOnlyDTO getUserById(Long id) throws AppObjectNotFoundException {
+        return userRepository.findById(id)
+                .map(mapper::mapToUserReadOnlyDTO)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with id: " + id));
+    }
+
+    @Transactional
+    public UserReadOnlyDTO updateUser(Long id, UserInsertDTO updateDTO)
+            throws AppObjectNotFoundException, AppObjectAlreadyExists {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with id: " + id));
+
+        // Check for duplicate username/email if changing those fields
+        if (updateDTO.getUsername() != null && !updateDTO.getUsername().equals(existingUser.getUsername())) {
+            if (userRepository.findByUsername(updateDTO.getUsername()).isPresent()) {
+                throw new AppObjectAlreadyExists("User", "Username already exists");
+            }
+            existingUser.setUsername(updateDTO.getUsername());
+        }
+
+        if (updateDTO.getEmail() != null && !updateDTO.getEmail().equals(existingUser.getEmail())) {
+            if (userRepository.findByEmail(updateDTO.getEmail()).isPresent()) {
+                throw new AppObjectAlreadyExists("User", "Email already exists");
+            }
+            existingUser.setEmail(updateDTO.getEmail());
+        }
+
+        // Update other fields
+        mapper.updateUserFromDto(updateDTO, existingUser);
+        User updatedUser = userRepository.save(existingUser);
+        return mapper.mapToUserReadOnlyDTO(updatedUser);
+    }
+
+    @Transactional
+    public void deleteUser(Long id) throws AppObjectNotFoundException {
+        if (!userRepository.existsById(id)) {
+            throw new AppObjectNotFoundException("User", "User not found with id: " + id);
+        }
+        userRepository.deleteById(id);
     }
 
     //fixed sorting
