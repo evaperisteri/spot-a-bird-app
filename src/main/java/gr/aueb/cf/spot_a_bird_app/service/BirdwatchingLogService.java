@@ -124,7 +124,7 @@ public class BirdwatchingLogService {
 
     //fixed sorting
     @Transactional
-    public Page<BirdwatchingLogReadOnlyDTO> getPaginatedLogs(int page, int size) {
+    public Page<BirdwatchingLogReadOnlyDTO> getLogsPaginated(int page, int size) {
         String defaultSort = "user";
         Pageable pageable = PageRequest.of(page, size, Sort.by(defaultSort).ascending());
         return bWLogRepository.findAll(pageable).map(mapper::mapBWLToReadOnlyDTO);
@@ -132,7 +132,7 @@ public class BirdwatchingLogService {
 
     //dynamic sorting
     @Transactional
-    public Page<BirdwatchingLogReadOnlyDTO> getPaginatedAndSortedLogs(int page, int size, String sortBy, String sortDirection){
+    public Page<BirdwatchingLogReadOnlyDTO> getLogsPaginatedAndSorted(int page, int size, String sortBy, String sortDirection){
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return bWLogRepository.findAll(pageable).map(mapper::mapBWLToReadOnlyDTO);
@@ -144,7 +144,12 @@ public class BirdwatchingLogService {
     }
 
     @Transactional
-    public Page<BirdwatchingLogReadOnlyDTO> getFilteredAndPaginatedLogs(BirdWatchingLogFilters filters, int page, int size, String sortBy, String sortDirection) {
+    public Page<BirdwatchingLogReadOnlyDTO> getLogsFilteredAndPaginated(
+            BirdWatchingLogFilters filters,
+            int page,
+            int size,
+            String sortBy,
+            String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return bWLogRepository.findAll(getSpecsFromFilters(filters), pageable)
@@ -161,5 +166,42 @@ public class BirdwatchingLogService {
                 .and(usernameContains(filters.getUsername()))
                 .and(userIdEquals(filters.getUserId()))
                 .and(dateEquals(filters.getDate()));
+    }
+
+    @Transactional(readOnly = true)
+    public BirdwatchingLogReadOnlyDTO getLogById(Long id) throws AppObjectNotFoundException {
+        return bWLogRepository.findById(id)
+                .map(mapper::mapBWLToReadOnlyDTO)
+                .orElseThrow(() -> new AppObjectNotFoundException("Bwl", "Birdwatching log not found with id: " + id));
+    }
+
+    @Transactional
+    public BirdwatchingLogReadOnlyDTO updateLog(Long id, BirdwatchingLogInsertDTO updateDTO)
+            throws AppObjectNotFoundException {
+        BirdwatchingLog existingLog = bWLogRepository.findById(id)
+                .orElseThrow(() -> new AppObjectNotFoundException("Bwl", "Log not found with id: " + id));
+
+        // Update fields from DTO
+        if (updateDTO.getBirdName() != null) {
+            Bird bird = findBirdByName(updateDTO.getBirdName());
+            existingLog.setBird(bird);
+        }
+        if (updateDTO.getRegionName() != null) {
+            Region region = findRegionByName(updateDTO.getRegionName());
+            existingLog.setRegion(region);
+        }
+        if (updateDTO.getQuantity() > 0) {
+            existingLog.setQuantity(updateDTO.getQuantity());
+        }
+
+        return mapper.mapBWLToReadOnlyDTO(bWLogRepository.save(existingLog));
+    }
+
+    @Transactional
+    public void deleteLog(Long id) throws AppObjectNotFoundException {
+        if (!bWLogRepository.existsById(id)) {
+            throw new AppObjectNotFoundException("Bwl", "Log not found with id: " + id);
+        }
+        bWLogRepository.deleteById(id);
     }
 }
