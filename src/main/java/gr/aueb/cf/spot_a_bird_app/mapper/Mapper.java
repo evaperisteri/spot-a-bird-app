@@ -1,9 +1,7 @@
 package gr.aueb.cf.spot_a_bird_app.mapper;
 
 import gr.aueb.cf.spot_a_bird_app.dto.*;
-import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
-import gr.aueb.cf.spot_a_bird_app.model.ProfileDetails;
-import gr.aueb.cf.spot_a_bird_app.model.User;
+import gr.aueb.cf.spot_a_bird_app.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -95,5 +93,66 @@ public class Mapper {
                 .createdAt(bwlog.getUpdatedAt())
                 .updatedAt(bwlog.getCreatedAt())
                 .build();
+    }
+
+    public void updateUserFromDto(UserInsertDTO dto, User user) {
+        if (dto == null || user == null) return;
+
+        // Update user fields (only if they're not null in DTO)
+        if (dto.getFirstname() != null) {
+            user.setFirstname(dto.getFirstname());
+        }
+        if (dto.getLastname() != null) {
+            user.setLastname(dto.getLastname());
+        }
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getRole() != null) {
+            user.setRole(dto.getRole());
+        }
+        if (dto.getIsActive() != null) {
+            user.setIsActive(dto.getIsActive());
+        }
+        if (dto.getUsername() != null) {
+            user.setUsername(dto.getUsername());
+        }
+        if (dto.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        // Update profile details if present
+        if (dto.getProfileDetailsInsertDTO() != null && user.getProfileDetails() != null) {
+            updateProfileDetailsFromDto(dto.getProfileDetailsInsertDTO(), user.getProfileDetails());
+        }
+    }
+
+    private void updateProfileDetailsFromDto(ProfileDetailsInsertDTO dto, ProfileDetails profileDetails) {
+        if (dto.getGender() != null) {
+            profileDetails.setGender(dto.getGender());
+        }
+        if (dto.getDateOfBirth() != null) {
+            profileDetails.setDateOfBirth(dto.getDateOfBirth());
+        }
+    }
+
+    public void updateBWLFromDto(BirdwatchingLogInsertDTO dto, BirdwatchingLog log,
+                                 Bird bird, Region region) {
+        if (dto == null || log == null) return;
+
+        // Update bird if provided
+        if (bird != null) {
+            log.setBird(bird);
+        }
+
+        // Update region if provided
+        if (region != null) {
+            log.setRegion(region);
+        }
+
+        // Update quantity if valid
+        if (dto.getQuantity() > 0) {
+            log.setQuantity(dto.getQuantity());
+        }
     }
 }
