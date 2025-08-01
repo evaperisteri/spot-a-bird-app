@@ -47,7 +47,7 @@ public class Mapper {
         return user;
     }
 
-    public BirdwatchingLogReadOnlyDTO mapToReadOnlyDTO(BirdwatchingLog bwlog) {
+    public BirdwatchingLogReadOnlyDTO mapBWLToReadOnlyDTO(BirdwatchingLog bwlog) {
         if (bwlog == null) return null;
 
         // 1. Handle nested Bird mapping

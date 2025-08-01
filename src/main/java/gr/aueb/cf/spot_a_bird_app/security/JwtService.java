@@ -16,22 +16,15 @@ import java.util.HashMap;
 @Service
 public class JwtService {
 
-    //    private String secretKey = System.getenv("SECRET_KEY");
-//    private String secretKey = "FvArDZiJ1hvR9k3Ks1J6s8FqbmL6rRnlmTL5J3jNiT8";
-
-    //    Strong security 384-bits = 48 bytes = 64 Base64URL characters
     private String secretKey = "5ce98d378ec88ea09ba8bcd511ef23645f04cc8e70b9134b98723a53c275bbc5";
     private long jwtExpiration = 10800000;  // 3 hours in milliseconds
-
-//    if use refresh expiration token
-//    private long refreshExpiration = 604800000;
 
     public String generateToken(String username, String role) {
         var claims = new HashMap<String, Object>();
         claims.put("role", role);
         return Jwts
                 .builder()
-                .setIssuer("self") // todo
+                .setIssuer("self")
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

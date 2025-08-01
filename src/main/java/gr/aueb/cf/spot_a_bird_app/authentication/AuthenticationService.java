@@ -1,6 +1,7 @@
 package gr.aueb.cf.spot_a_bird_app.authentication;
 
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotAuthorizedException;
+import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.dto.AuthenticationRequestDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.AuthenticationResponseDTO;
 import gr.aueb.cf.spot_a_bird_app.model.User;
@@ -10,7 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -31,5 +36,14 @@ public class AuthenticationService {
         String token = jwtService.generateToken(authentication.getName(),user.getRole().name());
         return new AuthenticationResponseDTO(user.getFirstname(), user.getLastname(), token);
 
+    }
+
+    public String getAuthenticatedUsername() throws AppObjectNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AppObjectNotFoundException("User", "No authenticated user found");
+        }
+        return authentication.getName(); // Works because JwtAuthenticationToken.getName() returns the subject
     }
 }
