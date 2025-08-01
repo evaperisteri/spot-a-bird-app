@@ -24,6 +24,7 @@ import java.util.List;
 public class UserRestController {
 
     private final UserService userService;
+
     @PostMapping("/users/save")
     public ResponseEntity<UserReadOnlyDTO> saveUser(@Valid UserInsertDTO userInsertDTO,
            BindingResult bindingResult)
