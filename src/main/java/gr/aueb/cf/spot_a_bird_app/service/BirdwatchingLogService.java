@@ -181,19 +181,17 @@ public class BirdwatchingLogService {
         BirdwatchingLog existingLog = bWLogRepository.findById(id)
                 .orElseThrow(() -> new AppObjectNotFoundException("Bwl", "Log not found with id: " + id));
 
-        // Update fields from DTO
+        Bird bird = null;
         if (updateDTO.getBirdName() != null) {
-            Bird bird = findBirdByName(updateDTO.getBirdName());
-            existingLog.setBird(bird);
-        }
-        if (updateDTO.getRegionName() != null) {
-            Region region = findRegionByName(updateDTO.getRegionName());
-            existingLog.setRegion(region);
-        }
-        if (updateDTO.getQuantity() > 0) {
-            existingLog.setQuantity(updateDTO.getQuantity());
+            bird = findBirdByName(updateDTO.getBirdName());
         }
 
+        Region region = null;
+        if (updateDTO.getRegionName() != null) {
+            region = findRegionByName(updateDTO.getRegionName());
+        }
+
+        mapper.updateBWLFromDto(updateDTO, existingLog, bird, region);
         return mapper.mapBWLToReadOnlyDTO(bWLogRepository.save(existingLog));
     }
 
