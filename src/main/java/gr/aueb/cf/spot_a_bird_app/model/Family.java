@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
