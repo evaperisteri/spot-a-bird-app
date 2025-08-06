@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="family")
+@Table(name="families")
 public class Family {
 
     @Id
