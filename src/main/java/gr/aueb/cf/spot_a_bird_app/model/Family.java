@@ -23,6 +23,6 @@ public class Family {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "family", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bird> birds;
 }
