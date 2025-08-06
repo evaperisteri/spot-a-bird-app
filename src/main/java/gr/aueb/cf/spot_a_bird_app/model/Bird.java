@@ -3,7 +3,6 @@ package gr.aueb.cf.spot_a_bird_app.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +17,7 @@ import java.util.Set;
 public class Bird {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String name;
