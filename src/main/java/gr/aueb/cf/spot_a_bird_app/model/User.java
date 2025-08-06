@@ -33,10 +33,13 @@ public class User extends AbstractEntity implements UserDetails  {
     @Column(unique=true, nullable = false)
     private String email;
 
+    @Column
     private String firstname;
 
+    @Column
     private String lastname;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -49,6 +52,7 @@ public class User extends AbstractEntity implements UserDetails  {
     private ProfileDetails profileDetails;
 
     @OneToMany(mappedBy = "user")
+    @Builder.Default    //ensures the builder keeps a default empty HashSet
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();
 
     @Override

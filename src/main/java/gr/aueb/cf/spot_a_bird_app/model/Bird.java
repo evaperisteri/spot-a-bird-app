@@ -19,16 +19,17 @@ public class Bird {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String name;
-    @Column
-    @JoinColumn(name = "scientific_name")
+
+    @Column(name = "scientific_name", nullable = false)
     private String scientificName;
 
     @OneToMany(mappedBy = "bird")
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "family_id")
+    @JoinColumn(name = "family_id", nullable = false)
     private Family family;
 }
