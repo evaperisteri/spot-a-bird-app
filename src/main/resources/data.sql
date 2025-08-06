@@ -1,3 +1,4 @@
+DELETE FROM families;
 INSERT INTO families (id, name) VALUES
 (1, 'Phasianidae'),
 (2, 'Anatidae'),
@@ -71,7 +72,7 @@ INSERT INTO families (id, name) VALUES
 (70, 'Emberizidae');
 ALTER TABLE families AUTO_INCREMENT = 71;
 
-
+DELETE FROM regions;
 INSERT INTO regions (id, name) VALUES
 (1,'Eastern Macedonia & Thrace'),
 (2,'Attica'),
@@ -88,6 +89,7 @@ INSERT INTO regions (id, name) VALUES
 (13,'Central Greece');
 ALTER TABLE regions AUTO_INCREMENT = 14;
 
+DELETE FROM birds;
 INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (1, 'Common Quail', 'Coturnix coturnix', 1),
 (2, 'Rock Partridge', 'Alectoris graeca', 1),
@@ -244,7 +246,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (153, 'Long-billed Dowitcher', 'Limnodromus scolopaceus', 26),
 (154, 'Eurasian Woodcock', 'Scolopax rusticola', 26),
 (155, 'Great Snipe', 'Gallinago media', 26),
-(154, 'Common Snipe', 'Gallinago gallinago', 26),
+(156, 'Common Snipe', 'Gallinago gallinago', 26),
 (157, 'Jack Snipe', 'Lymnocryptes minimus', 26),
 (158, 'Wilson''s Phalarope', 'Phalaropus tricolor', 26),
 (159, 'Red-necked Phalarope', 'Phalaropus lobatus', 26),
@@ -401,7 +403,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (310, 'Crested Lark', 'Galerida cristata', 46),
 (311, 'Bearded Reedling', 'Panurus biarmicus', 47),
 (312, 'Zitting Cisticola', 'Cisticola juncidis', 48),
-(413, 'Booted Warbler', 'Iduna caligata', 49),
+(313, 'Booted Warbler', 'Iduna caligata', 49),
 (314, 'Olivaceous Warbler', 'Iduna pallida', 49),
 (315, 'Isabelline Warbler', 'Iduna opaca', 49),
 (316, 'Olive-tree Warbler', 'Hippolais olivetorum', 49),
@@ -431,7 +433,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (340, 'Dusky Warbler', 'Phylloscopus fuscatus', 52),
 (341, 'Willow Warbler', 'Phylloscopus trochilus', 52),
 (342, 'Iberian Chiffchaff', 'Phylloscopus ibericus', 52),
-(243, 'Common Chiffchaff', 'Phylloscopus collybita', 52),
+(343, 'Common Chiffchaff', 'Phylloscopus collybita', 52),
 (344, 'Greenish Warbler', 'Phylloscopus nitidus', 52),
 (345, 'Arctic Warbler', 'Phylloscopus borealis', 52),
 (346, 'Cetti''s Warbler', 'Cettia cetti', 53),
@@ -453,7 +455,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (362, 'Eurasian Treecreeper', 'Certhia familiaris', 56),
 (363, 'Eurasian Nuthatch', 'Sitta europaea', 57),
 (364, 'Krueper''s Nuthatch', 'Sitta krueperi', 57),
-(364, 'Western Rock Nuthatch', 'Sitta neumayer', 57),
+(365, 'Western Rock Nuthatch', 'Sitta neumayer', 57),
 (366, 'Wallcreeper', 'Tichodroma muraria', 57),
 (367, 'Northern Wren', 'Troglodytes troglodytes', 58),
 (368, 'White-throated Dipper', 'Cinclus cinclus', 59),
@@ -471,7 +473,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (380, 'Rufous-tailed Scrub-robin', 'Cercotrichas galactotes', 62),
 (381, 'Asian Brown Flycatcher', 'Muscicapa dauurica', 62),
 (382, 'Spotted Flycatcher', 'Muscicapa striata', 62),
-(283, 'European Robin', 'Erithacus rubecula', 62),
+(383, 'European Robin', 'Erithacus rubecula', 62),
 (384, 'White-throated Robin', 'Irania gutturalis', 62),
 (385, 'Bluethroat', 'Luscinia svecica', 62),
 (386, 'Thrush Nightingale', 'Luscinia luscinia', 62),
@@ -548,7 +550,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (457, 'Yellow-breasted Bunting', 'Emberiza aureola', 70),
 (458, 'Rustic Bunting', 'Emberiza rustica', 70),
 (459, 'Little Bunting', 'Emberiza pusilla', 70);
-ALTER TABLE families AUTO_INCREMENT = 459;
+ALTER TABLE families AUTO_INCREMENT = 460;
 
 --Categories & data according to Chandrinos G. and Kastritis Th. (2009) BIRDS at:
 --Legakis, Α. & P. Maragkou (editors)
