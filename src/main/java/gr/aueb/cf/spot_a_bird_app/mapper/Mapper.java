@@ -155,4 +155,21 @@ public class Mapper {
             log.setQuantity(dto.getQuantity());
         }
     }
+
+    public FamilyReadOnlyDTO mapToFamilyReadOnlyDTO(Family family) {
+        return new FamilyReadOnlyDTO(
+                family.getId(),
+                family.getName()
+        );
+    }
+
+    public BirdReadOnlyDTO mapToBirdReadOnlyDTO(Bird bird) {
+        return new BirdReadOnlyDTO(
+                bird.getId(),
+                bird.getName(),
+                bird.getScientificName(),
+                bird.getFamily() != null ?
+                        mapToFamilyReadOnlyDTO(bird.getFamily()) : null
+        );
+    }
 }

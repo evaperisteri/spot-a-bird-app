@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -25,4 +26,8 @@ public class Bird {
 
     @OneToMany(mappedBy = "bird")
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    private Family family;
 }
