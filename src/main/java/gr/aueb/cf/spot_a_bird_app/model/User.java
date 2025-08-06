@@ -21,9 +21,6 @@ import java.util.Set;
 @Builder
 @Table(name="users")
 public class User extends AbstractEntity implements UserDetails  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(unique=true, nullable = false)
     private String username;

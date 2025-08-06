@@ -1,14 +1,12 @@
 package gr.aueb.cf.spot_a_bird_app.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,8 +15,8 @@ import java.util.Set;
 @Table(name="birds")
 public class Bird {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @Column(unique = true, nullable = false)
     private String name;
@@ -26,6 +24,7 @@ public class Bird {
     @Column(name = "scientific_name", nullable = false)
     private String scientificName;
 
+    @Builder.Default
     @OneToMany(mappedBy = "bird")
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();
 

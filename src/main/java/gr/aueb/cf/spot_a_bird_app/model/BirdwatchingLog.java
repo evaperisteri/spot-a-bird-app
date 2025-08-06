@@ -11,9 +11,6 @@ import lombok.*;
 @Builder
 @Table(name="birdwatching_logs")
 public class BirdwatchingLog extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private int quantity;
