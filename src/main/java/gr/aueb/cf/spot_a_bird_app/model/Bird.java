@@ -22,6 +22,7 @@ public class Bird {
     @Column(unique = true)
     private String name;
     @Column
+    @JoinColumn(name = "scientific_name")
     private String scientificName;
 
     @OneToMany(mappedBy = "bird")
