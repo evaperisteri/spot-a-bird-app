@@ -1,9 +1,3 @@
-DELETE FROM bird_watching_logs;
-DELETE FROM birds;
-DELETE FROM regions;
-DELETE FROM families;
-
---Insert fixed data
 INSERT INTO families (id, name) VALUES
 (1, 'Phasianidae'),
 (2, 'Anatidae'),
