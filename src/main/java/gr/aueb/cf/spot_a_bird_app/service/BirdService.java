@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,5 +56,19 @@ public class BirdService {
         return birdRepository.findByFamilyName(familyName).stream()
                 .map(mapper::mapToBirdReadOnlyDTO)
                 .toList();
+    }
+
+    public Bird findBirdByName(String name) throws AppObjectNotFoundException {
+        Optional<Bird> exactMatch = birdRepository.findByName(name);
+        if (exactMatch.isPresent()) {
+            return exactMatch.get();
+        }
+
+        List<Bird> partialMatches = birdRepository.findByNameContainingIgnoreCase(name);
+        if (!partialMatches.isEmpty()) {
+            return partialMatches.get(0); // Return first match
+        }
+
+        throw new AppObjectNotFoundException("Bird", "Bird not found with name: " + name);
     }
 }

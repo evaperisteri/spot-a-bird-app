@@ -40,13 +40,14 @@ import static gr.aueb.cf.spot_a_bird_app.core.specifications.BirdwatchingLogSpec
 @Service
 @RequiredArgsConstructor
 public class BirdwatchingLogService {
-    private final BirdwatchingLogRepository logRepository;
+
     private final UserRepository userRepository;
     private final AuthenticationService authService;
     private final BirdRepository birdRepository;
     private final RegionRepository regionRepository;
     private final BirdwatchingLogRepository bWLogRepository;
     private final Mapper mapper;
+    private final BirdService birdService;
 
 
     @Transactional
@@ -54,28 +55,28 @@ public class BirdwatchingLogService {
         validateLogDTO(dto);
         User spotter = getAuthenticatedUser();
 
-        Bird spottedBird = findBirdByName(dto.getBirdName());
+        Bird spottedBird = birdService.findBirdByName(dto.getBirdName());
         Region region = findRegionByName(dto.getRegionName());
 
         BirdwatchingLog log = buildLogEntity(dto, spotter, spottedBird, region);
-        logRepository.save(log);
+        bWLogRepository.save(log);
 
         return mapper.mapBWLToReadOnlyDTO(log);
     }
 
-    private Bird findBirdByName(String name) throws AppObjectNotFoundException {
-        Optional<Bird> exactMatch = birdRepository.findByName(name);
-        if (exactMatch.isPresent()) {
-            return exactMatch.get();
-        }
-
-        List<Bird> partialMatches = birdRepository.findByNameContainingIgnoreCase(name);
-        if (!partialMatches.isEmpty()) {
-            return partialMatches.get(0); // Return first match
-        }
-
-        throw new AppObjectNotFoundException("Bird", "Bird not found with name: " + name);
-    }
+//    private Bird findBirdByName(String name) throws AppObjectNotFoundException {
+//        Optional<Bird> exactMatch = birdRepository.findByName(name);
+//        if (exactMatch.isPresent()) {
+//            return exactMatch.get();
+//        }
+//
+//        List<Bird> partialMatches = birdRepository.findByNameContainingIgnoreCase(name);
+//        if (!partialMatches.isEmpty()) {
+//            return partialMatches.get(0); // Return first match
+//        }
+//
+//        throw new AppObjectNotFoundException("Bird", "Bird not found with name: " + name);
+//    }
 
     private Region findRegionByName(String name) throws AppObjectNotFoundException {
         return regionRepository.findByName(name)
@@ -117,9 +118,9 @@ public class BirdwatchingLogService {
                         bird.getId(),
                         bird.getName(),
                         bird.getScientificName(),
-                        bird.getFamily()
+                        bird.getFamily() != null ? mapper.mapToFamilyReadOnlyDTO(bird.getFamily()) : null
                 ))
-                .sorted(Comparator.comparing(BirdReadOnlyDTO::getName))
+                .sorted(Comparator.<BirdReadOnlyDTO, String>comparing(BirdReadOnlyDTO::getName))
                 .toList();
     }
 
@@ -134,7 +135,10 @@ public class BirdwatchingLogService {
     //dynamic sorting
     @Transactional
     public Page<BirdwatchingLogReadOnlyDTO> getLogsPaginatedAndSorted(int page, int size, String sortBy, String sortDirection){
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Sort.Direction direction = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return bWLogRepository.findAll(pageable).map(mapper::mapBWLToReadOnlyDTO);
     }
@@ -184,7 +188,11 @@ public class BirdwatchingLogService {
 
         Bird bird = null;
         if (updateDTO.getBirdName() != null) {
-            bird = findBirdByName(updateDTO.getBirdName());
+            bird = birdService.findBirdByName(updateDTO.getBirdName());
+        }
+
+        if (updateDTO.getQuantity() > 0) {
+            existingLog.setQuantity(updateDTO.getQuantity());
         }
 
         Region region = null;
