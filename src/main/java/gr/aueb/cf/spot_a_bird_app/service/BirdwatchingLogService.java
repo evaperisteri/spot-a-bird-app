@@ -116,7 +116,8 @@ public class BirdwatchingLogService {
                 .map(bird -> new BirdReadOnlyDTO(
                         bird.getId(),
                         bird.getName(),
-                        bird.getScientificName()
+                        bird.getScientificName(),
+                        bird.getFamily()
                 ))
                 .sorted(Comparator.comparing(BirdReadOnlyDTO::getName))
                 .toList();

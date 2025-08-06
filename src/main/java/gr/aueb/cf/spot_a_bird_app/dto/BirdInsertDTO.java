@@ -1,5 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.dto;
 
+import gr.aueb.cf.spot_a_bird_app.model.Family;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +14,5 @@ public class BirdInsertDTO {
 
     private String name;
     private String scientificName;
+    private Family family;
 }

@@ -20,4 +20,10 @@ public interface BirdRepository extends JpaRepository<Bird, Long>, JpaSpecificat
 
     @Query("SELECT b FROM Bird b JOIN b.birdwatchingLogSet s WHERE s.region.id = :regionId")
     List<Bird> findBirdsInRegion(@Param("regionId") Long regionId);
+
+    List<Bird> findByFamilyId(Long familyId);
+
+    @Query("SELECT b FROM Bird b JOIN b.family f WHERE f.name = :familyName")
+    List<Bird> findByFamilyName(String familyName);
+
 }
