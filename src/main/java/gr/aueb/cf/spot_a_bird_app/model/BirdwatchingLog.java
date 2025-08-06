@@ -23,7 +23,7 @@ public class BirdwatchingLog extends AbstractEntity {
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "bird_id")
     private Bird bird;
 }

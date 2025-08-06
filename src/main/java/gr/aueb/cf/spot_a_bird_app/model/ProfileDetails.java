@@ -14,9 +14,6 @@ import java.time.LocalDate;
 @Builder
 @Table(name="profile_details")
 public class ProfileDetails extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name="date_of_birth")
     private LocalDate dateOfBirth;
