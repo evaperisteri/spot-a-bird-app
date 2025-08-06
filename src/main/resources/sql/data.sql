@@ -555,3 +555,7 @@ INSERT INTO birds (id, name, scientific_name, family_id) VALUES
 (458, 'Rustic Bunting', 'Emberiza rustica', 70),
 (459, 'Little Bunting', 'Emberiza pusilla', 70);
 ALTER TABLE families AUTO_INCREMENT = 459;
+
+--Categories & data according to Chandrinos G. and Kastritis Th. (2009) BIRDS at:
+--Legakis, Α. & P. Maragkou (editors)
+--The Red Data Book of Endangered Animals of Greece. Hellenic Zoological Society, Athens
