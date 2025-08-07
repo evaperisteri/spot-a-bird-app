@@ -1,6 +1,7 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
 import gr.aueb.cf.spot_a_bird_app.model.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     //JpaSpecificationExecutor<User> μας δινει την find all αλλα με φιλτρα
     //JpaRepository<User, Long> μας δινει τισ CRUD μεθοδους & pagination
+    @EntityGraph(attributePaths = {"profileDetails"})
+    List<User> findAll();
 
     Optional<User> findByProfileDetailsId(Long id);
     Optional<User> findByUsername(String username);
