@@ -38,10 +38,13 @@ public class Mapper {
 
 
         ProfileDetailsInsertDTO profileDTO = userInsertDTO.getProfileDetailsInsertDTO();
-        ProfileDetails profileDetails = new ProfileDetails();
-        profileDetails.setGender(profileDTO.getGender());
-        profileDetails.setDateOfBirth(profileDTO.getDateOfBirth());
-        user.setProfileDetails(profileDetails);
+        if (profileDTO != null) {
+            ProfileDetails profileDetails = new ProfileDetails();
+            profileDetails.setGender(profileDTO.getGender());
+            profileDetails.setDateOfBirth(profileDTO.getDateOfBirth());
+            profileDetails.setUser(user);
+            user.setProfileDetails(profileDetails);
+        }
         return user;
     }
 
@@ -122,7 +125,12 @@ public class Mapper {
         }
 
         // Update profile details if present
-        if (dto.getProfileDetailsInsertDTO() != null && user.getProfileDetails() != null) {
+        if (dto.getProfileDetailsInsertDTO() != null) {
+            if (user.getProfileDetails() == null) {
+                ProfileDetails profileDetails = new ProfileDetails();
+                profileDetails.setUser(user);  // Establish the bidirectional link
+                user.setProfileDetails(profileDetails);
+            }
             updateProfileDetailsFromDto(dto.getProfileDetailsInsertDTO(), user.getProfileDetails());
         }
     }

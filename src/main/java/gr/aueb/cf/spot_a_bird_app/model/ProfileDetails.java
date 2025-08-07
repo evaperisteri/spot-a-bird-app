@@ -22,7 +22,6 @@ public class ProfileDetails extends AbstractEntity {
     @Column(nullable = false)
     private Gender gender;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @OneToOne(mappedBy= "profileDetails")
     private User user;
     }
