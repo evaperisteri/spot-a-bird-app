@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final Mapper mapper;
     private final ProfileDetailsRepository profileDetailsRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(rollbackFor = {AppObjectAlreadyExists.class, IOException.class})
     public UserReadOnlyDTO saveUser(UserInsertDTO userInsertDTO) throws AppObjectAlreadyExists, AppObjectInvalidArgumentException, IOException {
@@ -45,7 +47,12 @@ public class UserService {
             throw new AppObjectAlreadyExists("User", "user with email " + userInsertDTO.getEmail() + " already exists.");
         }
 
+        if (userInsertDTO.getPassword() == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
+
         User user = mapper.mapToUser(userInsertDTO);
+        user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
         User savedUser = userRepository.save(user); //this one has an id
 
         return mapper.mapToUserReadOnlyDTO(savedUser);
