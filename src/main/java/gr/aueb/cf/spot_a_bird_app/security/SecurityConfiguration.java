@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                 .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(myCustomAuthenticationEntryPoint()))
                 .authorizeHttpRequests(req -> req
                                 .requestMatchers("/api/users/save").permitAll()
-                                .requestMatchers("/api/auth/authenticate").permitAll()
+                                .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/users/**").hasAnyAuthority(Role.SPOTTER.name(), Role.ADMIN.name())
                                 .requestMatchers("/**").permitAll()
                         //.authenticated()
