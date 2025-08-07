@@ -15,7 +15,7 @@ public class Mapper {
         UserReadOnlyDTO userReadOnlyDTO = new UserReadOnlyDTO();
         userReadOnlyDTO.setId(user.getId());
         userReadOnlyDTO.setEmail(user.getEmail());
-        userReadOnlyDTO.setUsername(user.getEmail());
+        userReadOnlyDTO.setUsername(user.getUsername());
         userReadOnlyDTO.setFirstname(user.getFirstname());
         userReadOnlyDTO.setLastname(user.getLastname());
         userReadOnlyDTO.setRole(user.getRole());
