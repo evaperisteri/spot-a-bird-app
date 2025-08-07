@@ -117,7 +117,7 @@ public class UserService {
     }
 
     public List<UserReadOnlyDTO> getAllUsers() throws AppObjectNotAuthorizedException {
-        // Add role validation if needed
+
         return userRepository.findAll().stream()
                 .map(mapper::mapToUserReadOnlyDTO)
                 .toList();
