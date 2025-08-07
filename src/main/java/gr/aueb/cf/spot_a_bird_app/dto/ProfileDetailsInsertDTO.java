@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ProfileDetailsInsertDTO {
-    @NotEmpty(message = "Date of birth is required")
+    @NotNull(message = "Date of birth is required")
     private LocalDate dateOfBirth;
 
     @NotNull(message = "Gender is required")

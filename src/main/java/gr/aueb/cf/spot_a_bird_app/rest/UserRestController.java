@@ -26,7 +26,7 @@ public class UserRestController {
     private final UserService userService;
 
     @PostMapping("/users/save")
-    public ResponseEntity<UserReadOnlyDTO> saveUser(@Valid UserInsertDTO userInsertDTO,
+    public ResponseEntity<UserReadOnlyDTO> saveUser(@Valid @RequestBody UserInsertDTO userInsertDTO,
            BindingResult bindingResult)
             throws AppObjectInvalidArgumentException, ValidationException, AppObjectAlreadyExists, AppServerException, IOException {
         if(bindingResult.hasErrors()) {
