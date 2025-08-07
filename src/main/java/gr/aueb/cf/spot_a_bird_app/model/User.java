@@ -44,8 +44,7 @@ public class User extends AbstractEntity implements UserDetails  {
     @Column(name="is_active")
     private Boolean isActive;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="profile_details_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProfileDetails profileDetails;
 
     @OneToMany(mappedBy = "user")
