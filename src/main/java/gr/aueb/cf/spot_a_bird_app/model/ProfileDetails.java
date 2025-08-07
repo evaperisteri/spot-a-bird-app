@@ -13,7 +13,10 @@ import java.time.LocalDate;
 @Setter
 @Builder
 @Table(name="profile_details")
-public class ProfileDetails extends AbstractEntity {
+public class ProfileDetails{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name="date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
@@ -22,6 +25,7 @@ public class ProfileDetails extends AbstractEntity {
     @Column(nullable = false)
     private Gender gender;
 
-    @OneToOne(mappedBy= "profileDetails")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "profile_details_id")
     private User user;
     }

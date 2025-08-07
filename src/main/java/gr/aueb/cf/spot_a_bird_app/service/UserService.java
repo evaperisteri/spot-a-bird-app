@@ -10,6 +10,7 @@ import gr.aueb.cf.spot_a_bird_app.core.specifications.UserSpecification;
 import gr.aueb.cf.spot_a_bird_app.dto.UserInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
+import gr.aueb.cf.spot_a_bird_app.model.ProfileDetails;
 import gr.aueb.cf.spot_a_bird_app.model.User;
 import gr.aueb.cf.spot_a_bird_app.repository.ProfileDetailsRepository;
 import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
@@ -69,6 +70,15 @@ public class UserService {
 
         User user = mapper.mapToUser(userInsertDTO);
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
+
+        if (userInsertDTO.getProfileDetailsInsertDTO() != null) {
+            ProfileDetails profile = new ProfileDetails();
+            profile.setGender(userInsertDTO.getProfileDetailsInsertDTO().getGender());
+            profile.setDateOfBirth(userInsertDTO.getProfileDetailsInsertDTO().getDateOfBirth());
+
+            profile.setUser(user);  // This links ProfileDetails to User
+            user.setProfileDetails(profile);  // This links User to ProfileDetails
+        }
         User savedUser = userRepository.save(user); //this one has an id
 
         return mapper.mapToUserReadOnlyDTO(savedUser);
@@ -118,7 +128,7 @@ public class UserService {
 
     public List<UserReadOnlyDTO> getAllUsers() throws AppObjectNotAuthorizedException {
 
-        return userRepository.findAll().stream()
+        return userRepository.findAllWithProfileDetails().stream()
                 .map(mapper::mapToUserReadOnlyDTO)
                 .toList();
     }

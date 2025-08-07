@@ -12,18 +12,21 @@ public class Mapper {
     private final PasswordEncoder passwordEncoder;
 
     public UserReadOnlyDTO mapToUserReadOnlyDTO(User user) {
-        UserReadOnlyDTO userReadOnlyDTO = new UserReadOnlyDTO();
-        userReadOnlyDTO.setId(user.getId());
-        userReadOnlyDTO.setEmail(user.getEmail());
-        userReadOnlyDTO.setUsername(user.getUsername());
-        userReadOnlyDTO.setFirstname(user.getFirstname());
-        userReadOnlyDTO.setLastname(user.getLastname());
-        userReadOnlyDTO.setRole(user.getRole());
 
-        ProfileDetailsReadOnlyDTO profileDetailsReadOnlyDTO = new ProfileDetailsReadOnlyDTO();
-        profileDetailsReadOnlyDTO.setGender(user.getProfileDetails().getGender());
-        profileDetailsReadOnlyDTO.setDateOfBirth(user.getProfileDetails().getDateOfBirth());
-        return userReadOnlyDTO;
+        return UserReadOnlyDTO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .role(user.getRole())
+                .profileDetails(user.getProfileDetails() != null ?
+                        ProfileDetailsReadOnlyDTO.builder()
+                                .gender(user.getProfileDetails().getGender())
+                                .dateOfBirth(user.getProfileDetails().getDateOfBirth())
+                                .build()
+                        : null)
+                .build();
     }
 
     public User mapToUser(UserInsertDTO userInsertDTO) {

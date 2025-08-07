@@ -13,8 +13,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     //JpaSpecificationExecutor<User> μας δινει την find all αλλα με φιλτρα
     //JpaRepository<User, Long> μας δινει τισ CRUD μεθοδους & pagination
-    @EntityGraph(attributePaths = {"profileDetails"})
-    List<User> findAll();
 
     Optional<User> findByProfileDetailsId(Long id);
     Optional<User> findByUsername(String username);
@@ -38,4 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Optional<User> findByUsernameOrEmail(
             @Param("username") String username,
             @Param("email") String email);
+
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.profileDetails")
+    List<User> findAllWithProfileDetails();
 }
