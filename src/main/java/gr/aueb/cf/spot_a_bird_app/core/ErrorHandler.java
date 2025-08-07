@@ -51,4 +51,13 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ResponseMessageDTO> handleConstraintViolationException(AppServerException e) {
         return new ResponseEntity<>(new ResponseMessageDTO(e.getCode(), e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseMessageDTO> handleAllExceptions(Exception e) {
+        logger.error("Server error occurred", e);
+        return new ResponseEntity<>(
+                new ResponseMessageDTO("SERVER_ERROR", "An unexpected error occurred"),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
 }
