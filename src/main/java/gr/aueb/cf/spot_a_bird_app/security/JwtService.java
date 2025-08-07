@@ -33,7 +33,17 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token) {
+        try {
+            return !isTokenExpired(token) &&
+                    extractSubject(token) != null &&
+                    getStringClaim(token, "role") != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isTokenValidForUser(String token, UserDetails userDetails) {
         final String subject = extractSubject(token);
         return (subject.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
