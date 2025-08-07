@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> req
                                 .requestMatchers("/api/users/save").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/users/**").hasAnyAuthority(Role.SPOTTER.name(), Role.ADMIN.name())
+                                .requestMatchers("/api/users/**").hasAnyAuthority(Role.ADMIN.name())
                                 .requestMatchers("/**").permitAll()
                         //.authenticated()
                 )
