@@ -40,14 +40,14 @@ public class Mapper {
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
 
 
-//        ProfileDetailsInsertDTO profileDTO = userInsertDTO.getProfileDetailsInsertDTO();
-//        if (profileDTO != null) {
-//            ProfileDetails profileDetails = new ProfileDetails();
-//            profileDetails.setGender(profileDTO.getGender());
-//            profileDetails.setDateOfBirth(profileDTO.getDateOfBirth());
-//            profileDetails.setUser(user);
-//            user.setProfileDetails(profileDetails);
-//        }
+        ProfileDetailsInsertDTO profileDTO = userInsertDTO.getProfileDetailsInsertDTO();
+        if (profileDTO != null) {
+            ProfileDetails profileDetails = new ProfileDetails();
+            profileDetails.setGender(profileDTO.getGender());
+            profileDetails.setDateOfBirth(profileDTO.getDateOfBirth());
+            profileDetails.setUser(user);
+            user.setProfileDetails(profileDetails);
+        }
         return user;
     }
 
