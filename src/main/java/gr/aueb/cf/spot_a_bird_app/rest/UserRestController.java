@@ -36,6 +36,12 @@ public class UserRestController {
             return new ResponseEntity<>(userReadOnlyDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<UserReadOnlyDTO>> getAllUsers()
+            throws AppObjectNotAuthorizedException {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
     @GetMapping("/users/paginated")
     public ResponseEntity<Page<UserReadOnlyDTO>> getPaginatedUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         Page<UserReadOnlyDTO> usersPage = userService.getPaginatedUsers(page, size);

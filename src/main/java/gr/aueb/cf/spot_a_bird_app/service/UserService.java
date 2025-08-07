@@ -2,6 +2,7 @@ package gr.aueb.cf.spot_a_bird_app.service;
 
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectAlreadyExists;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectInvalidArgumentException;
+import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotAuthorizedException;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.core.filters.Paginated;
 import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
@@ -113,6 +114,13 @@ public class UserService {
             throw new AppObjectNotFoundException("User", "User not found with id: " + id);
         }
         userRepository.deleteById(id);
+    }
+
+    public List<UserReadOnlyDTO> getAllUsers() throws AppObjectNotAuthorizedException {
+        // Add role validation if needed
+        return userRepository.findAll().stream()
+                .map(mapper::mapToUserReadOnlyDTO)
+                .toList();
     }
 
     //fixed sorting
