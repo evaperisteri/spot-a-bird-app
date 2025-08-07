@@ -29,4 +29,10 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     // Find users who spotted a specific bird
     @Query("SELECT DISTINCT u FROM User u JOIN u.birdwatchingLogSet b WHERE b.bird.id = :birdId")
     List<User> findBySpottedBird(@Param("birdId") Long birdId);
+
+    //Find users by username or email
+    @Query("SELECT u FROM User u WHERE u.username = :username OR u.email = :email")
+    Optional<User> findByUsernameOrEmail(
+            @Param("username") String username,
+            @Param("email") String email);
 }

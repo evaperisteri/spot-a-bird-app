@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,17 +40,31 @@ public class UserService {
 
     @Transactional(rollbackFor = {AppObjectAlreadyExists.class, IOException.class})
     public UserReadOnlyDTO saveUser(UserInsertDTO userInsertDTO) throws AppObjectAlreadyExists, AppObjectInvalidArgumentException, IOException {
-        if (userRepository.findByUsername(userInsertDTO.getUsername()).isPresent()) {
-            throw new AppObjectAlreadyExists("User", "user with username " + userInsertDTO.getUsername() + " already exists.");
+        // 1. Validate input
+        if (userInsertDTO == null) {
+            throw new AppObjectInvalidArgumentException("User", "User data cannot be null");
         }
 
-        if (userRepository.findByEmail(userInsertDTO.getEmail()).isPresent()) {
-            throw new AppObjectAlreadyExists("User", "user with email " + userInsertDTO.getEmail() + " already exists.");
+        if (userInsertDTO.getPassword() == null || userInsertDTO.getPassword().trim().isEmpty()) {
+            throw new AppObjectInvalidArgumentException("User", "Password cannot be null or empty");
         }
 
-        if (userInsertDTO.getPassword() == null) {
-            throw new IllegalArgumentException("Password cannot be null");
+        // 2. Check for existing users (single query optimization)
+        Optional<User> existingUser = userRepository.findByUsernameOrEmail(
+                userInsertDTO.getUsername(),
+                userInsertDTO.getEmail()
+        );
+
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            if (user.getUsername().equals(userInsertDTO.getUsername())) {
+                throw new AppObjectAlreadyExists("User", "Username already exists");
+            } else {
+                throw new AppObjectAlreadyExists("User", "Email already exists");
+            }
         }
+
+        // 3. Create and save new user
 
         User user = mapper.mapToUser(userInsertDTO);
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
