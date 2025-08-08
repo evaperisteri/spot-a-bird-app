@@ -151,7 +151,10 @@ public class UserService {
 
     @Transactional
     public List<UserReadOnlyDTO> getUsersFiltered (UserFilters filters) {
-        return userRepository.findAll(getSpecsFromFilters(filters)).stream().map(mapper::mapToUserReadOnlyDTO).collect(Collectors.toList());
+        return userRepository.findAll(getSpecsFromFilters(filters))
+                .stream()
+                .map(mapper::mapToUserReadOnlyDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -162,7 +165,7 @@ public class UserService {
     //integrated specifications
     private Specification<User> getSpecsFromFilters(UserFilters userFilters) {
         return Specification
-                .where(UserSpecification.userIdIs(userFilters.getId()))
+                .where(UserSpecification.userIds(userFilters.getId()))
                 .and(UserSpecification.userGenderIs(userFilters.getGender()))
                 .and(UserSpecification.userDateOfBirthIs(userFilters.getDateOfBirth()));
     }

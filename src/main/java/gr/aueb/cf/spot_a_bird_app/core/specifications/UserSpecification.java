@@ -28,7 +28,7 @@ public class UserSpecification {
     }
 
     //value.trim().isEmpty() = value.isBlank()
-    public static Specification<User> userIdIs(long id) {
+    public static Specification<User> userIds(long id) {
         return((root, query, criteriaBuilder)->{
             if(id < 0) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
             Join<User, ProfileDetails> userProfile = root.join("profileDetails");
