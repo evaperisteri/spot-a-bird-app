@@ -42,6 +42,7 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
+
             throw new AppObjectNotFoundException("User", "No authenticated user found");
         }
         return authentication.getName(); // Works because JwtAuthenticationToken.getName() returns the subject
