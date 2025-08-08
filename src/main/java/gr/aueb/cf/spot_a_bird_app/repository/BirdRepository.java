@@ -26,4 +26,14 @@ public interface BirdRepository extends JpaRepository<Bird, Long>, JpaSpecificat
     @Query("SELECT b FROM Bird b JOIN b.family f WHERE f.name = :familyName")
     List<Bird> findByFamilyName(String familyName);
 
+    @Query(value = "SELECT * FROM birds ORDER BY RAND() LIMIT :limit",
+            nativeQuery = true)
+    List<Bird> findRandomBirds(@Param("limit") int limit);
+
+    @Query("SELECT b FROM Bird b WHERE " +
+            "LOWER(b.name) LIKE LOWER(CONCAT('%',:query,'%')) OR " +
+            "LOWER(b.scientificName) LIKE LOWER(CONCAT('%',:query,'%'))")
+    List<Bird> findByNameOrScientificNameContaining(
+            @Param("query") String query,
+            Pageable pageable);
 }
