@@ -7,6 +7,7 @@ import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.service.BirdwatchingLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +18,34 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/bwlogs")
 @RequiredArgsConstructor
 public class BirdwatchingLogRestController {
 
+    private final Logger LOGGER;
     private final BirdwatchingLogService bwlService;
 
     @PostMapping("/save")
-    public ResponseEntity<BirdwatchingLogReadOnlyDTO> saveBWLog(@Valid BirdwatchingLogInsertDTO bwlInsertDTO,
-                                                                            BindingResult bindingResult)
-            throws AppObjectInvalidArgumentException, ValidationException, AppObjectAlreadyExists, AppServerException, IOException, AppObjectNotFoundException {
-        if(bindingResult.hasErrors()) {
+    public ResponseEntity<BirdwatchingLogReadOnlyDTO> saveBWLog(
+            @Valid @RequestBody BirdwatchingLogInsertDTO bwlInsertDTO,
+            BindingResult bindingResult)
+            throws ValidationException, AppObjectNotFoundException {
+
+        // Validating the input
+        if (bindingResult.hasErrors()) {
+            LOGGER.warn("Validation errors: {}", bindingResult.getAllErrors());
             throw new ValidationException(bindingResult);
         }
-        BirdwatchingLogReadOnlyDTO bwLogReadOnlyDTO = bwlService.saveLog(bwlInsertDTO);
-        return new ResponseEntity<>(bwLogReadOnlyDTO, HttpStatus.OK);
+
+        try {
+            BirdwatchingLogReadOnlyDTO savedLog = bwlService.saveLog(bwlInsertDTO);
+            return ResponseEntity.ok(savedLog);
+        } catch (AppObjectNotFoundException e) {
+            LOGGER.error("Failed to save log: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @GetMapping("/{id}")
