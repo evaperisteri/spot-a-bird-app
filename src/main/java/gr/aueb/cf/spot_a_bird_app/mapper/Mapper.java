@@ -174,6 +174,13 @@ public class Mapper {
         );
     }
 
+    public RegionReadOnlyDTO mapToRegionReadOnlyDTO(Region region) {
+        return new RegionReadOnlyDTO(
+                region.getId(),
+                region.getName()
+        );
+    }
+
     public BirdReadOnlyDTO mapToBirdReadOnlyDTO(Bird bird) {
         return new BirdReadOnlyDTO(
                 bird.getId(),
