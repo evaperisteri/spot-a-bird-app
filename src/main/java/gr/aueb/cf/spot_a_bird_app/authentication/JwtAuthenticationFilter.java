@@ -39,16 +39,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter  {
             return;
         }
         final String jwt = authHeader.substring(7);
+        LOGGER.info("JWT: {}", jwt);
         try{
             //token validation
             if(!jwtService.isTokenValid(jwt)){
                 throw new SecurityException("invalid token");
             }
             final String username = jwtService.extractUsername(jwt);
+            LOGGER.info("Extracted username from JWT: {}", username);
             final String userRole = jwtService.getStringClaim(jwt, "role");
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                LOGGER.info("UserDetails loaded: {}", userDetails.getUsername());
 
                 //token matches user details?
                 if (jwtService.isTokenValidForUser(jwt, userDetails)) {
