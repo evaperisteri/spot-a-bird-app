@@ -12,19 +12,19 @@ public class UserSpecification {
     //private constructor για να μην μπορεί να γίνει instantiate, only public static methods
     private UserSpecification(){}
     public static Specification<User> userGenderIs(Gender gender) {
-        return((root, query, criteriaBuilder)->{
-            if(gender == null) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
-            Join<User, ProfileDetails> userProfile = root.join("profileDetails");
-            return criteriaBuilder.equal(userProfile.get("gender"), gender);
-        });
+        return (root, query, cb) -> {
+            if (gender == null) return cb.conjunction(); // cleaner and semantically clear
+            Join<User, ProfileDetails> profileJoin = root.join("profileDetails");
+            return cb.equal(profileJoin.get("gender"), gender);
+        };
     }
 
     public static Specification<User> userDateOfBirthIs(LocalDate dateOfBirth) {
-        return((root, query, criteriaBuilder)->{
-            if(dateOfBirth == null) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
-            Join<User, ProfileDetails> userProfile = root.join("profileDetails");
-            return criteriaBuilder.equal(userProfile.get("dateOfBirth"), dateOfBirth);
-        });
+        return (root, query, cb) -> {
+            if (dateOfBirth == null) return cb.conjunction();
+            Join<User, ProfileDetails> profileJoin = root.join("profileDetails");
+            return cb.equal(profileJoin.get("dateOfBirth"), dateOfBirth);
+        };
     }
 
     //value.trim().isEmpty() = value.isBlank()
