@@ -8,6 +8,7 @@ import gr.aueb.cf.spot_a_bird_app.service.BirdwatchingLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BirdwatchingLogRestController {
 
-    private final Logger LOGGER;
+    private final Logger LOGGER = LoggerFactory.getLogger(BirdwatchingLogRestController.class);
     private final BirdwatchingLogService bwlService;
 
     @PostMapping("/save")
