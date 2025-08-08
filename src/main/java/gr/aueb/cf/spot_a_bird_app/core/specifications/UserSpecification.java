@@ -28,11 +28,11 @@ public class UserSpecification {
     }
 
     //value.trim().isEmpty() = value.isBlank()
-    public static Specification<User> userIds(long id) {
+    public static Specification<User> userProfileDetailsIdIs(Long profileDetailsId) {
         return((root, query, criteriaBuilder)->{
-            if(id < 0) return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+            if(profileDetailsId == null || profileDetailsId < 0) return criteriaBuilder.conjunction();
             Join<User, ProfileDetails> userProfile = root.join("profileDetails");
-            return criteriaBuilder.equal(userProfile.get("id"), id);
+            return criteriaBuilder.equal(userProfile.get("id"), profileDetailsId);
         });
     }
 }

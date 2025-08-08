@@ -165,7 +165,7 @@ public class UserService {
     //integrated specifications
     private Specification<User> getSpecsFromFilters(UserFilters userFilters) {
         return Specification
-                .where(UserSpecification.userIds(userFilters.getId()))
+                .where(UserSpecification.userProfileDetailsIdIs(userFilters.getId()))
                 .and(UserSpecification.userGenderIs(userFilters.getGender()))
                 .and(UserSpecification.userDateOfBirthIs(userFilters.getDateOfBirth()));
     }
