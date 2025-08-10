@@ -69,13 +69,11 @@ public class UserRestController {
     }
 
     @GetMapping("/my-info")
-    @PreAuthorize("hasRole('SPOTTER') or hasRole('ADMIN')")
     public ResponseEntity<UserReadOnlyDTO> getCurrentUserInfo() throws AppObjectNotFoundException {
         return ResponseEntity.ok(userService.getCurrentUserInfo());
     }
 
     @PutMapping("/users/update-user")
-    @PreAuthorize("hasRole('SPOTTER') or hasRole('ADMIN')")
     public ResponseEntity<UserReadOnlyDTO> updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO,
                                                       BindingResult bindingResult)
             throws AppObjectInvalidArgumentException, ValidationException, AppObjectNotFoundException, AppServerException, AppObjectAlreadyExists {

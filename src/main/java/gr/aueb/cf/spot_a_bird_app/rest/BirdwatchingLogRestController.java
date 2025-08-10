@@ -112,7 +112,6 @@ public class BirdwatchingLogRestController {
     }
 
     @GetMapping("/my-logs")
-    @PreAuthorize("hasRole('SPOTTER') or hasRole('ADMIN')")  // Requires authentication
     public ResponseEntity<Page<BirdwatchingLogReadOnlyDTO>> getMyLogs(
             @PageableDefault(sort = "observationDate", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
         return ResponseEntity.ok(bwlService.getLogsForCurrentUser(pageable));
