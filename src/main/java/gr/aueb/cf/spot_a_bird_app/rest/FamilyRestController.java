@@ -4,9 +4,10 @@ import gr.aueb.cf.spot_a_bird_app.dto.FamilyReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
 import gr.aueb.cf.spot_a_bird_app.repository.FamilyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +24,20 @@ public class FamilyRestController {
         return familyRepository.findAll().stream()
                 .map(mapper::mapToFamilyReadOnlyDTO)
                 .toList();
+    }
+    @GetMapping("/paginated")
+    public Page<FamilyReadOnlyDTO> getAllFamilies(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return familyRepository.findAll(PageRequest.of(page, size))
+                .map(mapper::mapToFamilyReadOnlyDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FamilyReadOnlyDTO> getFamilyById(@PathVariable Long id) {
+        return familyRepository.findById(id)
+                .map(mapper::mapToFamilyReadOnlyDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
