@@ -170,7 +170,9 @@ public class BirdwatchingLogService {
                 .and(regionIdEquals(filters.getRegionId()))
                 .and(usernameContains(filters.getUsername()))
                 .and(userIdEquals(filters.getUserId()))
-                .and(dateEquals(filters.getDate()));
+                .and(dateEquals(filters.getDate()))
+                .and(familyNameContains(filters.getFamilyName()))
+                .and(familyIdEquals(filters.getFamilyId()));
     }
 
     @Transactional(readOnly = true)

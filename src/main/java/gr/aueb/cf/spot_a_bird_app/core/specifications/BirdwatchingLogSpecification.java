@@ -41,6 +41,24 @@ public class BirdwatchingLogSpecification {
         };
     }
 
+    public static Specification<BirdwatchingLog> familyNameContains(String familyName) {
+        return (root, query, cb) ->
+                familyName == null ? null :
+                        cb.like(
+                                cb.lower(root.get("bird").get("family").get("name")),
+                                "%" + familyName.toLowerCase() + "%"
+                        );
+    }
+
+    public static Specification<BirdwatchingLog> familyIdEquals(Long familyId) {
+        return (root, query, cb) ->
+                familyId == null ? null :
+                        cb.equal(
+                                root.get("bird").get("family").get("id"),
+        familyId
+            );
+    }
+
     public static Specification<BirdwatchingLog> regionNameContains(String regionName) {
         return (root, query, cb) -> {
             if (regionName == null || regionName.isBlank())

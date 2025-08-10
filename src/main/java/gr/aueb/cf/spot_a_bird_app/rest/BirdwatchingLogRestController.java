@@ -83,7 +83,7 @@ public class BirdwatchingLogRestController {
 
     @PostMapping("/filtered")
     public ResponseEntity<List<BirdwatchingLogReadOnlyDTO>> getFilteredLogs(@Nullable @RequestBody BirdWatchingLogFilters filters) throws AppObjectNotAuthorizedException {
-        if (filters==null) BirdWatchingLogFilters.builder().build();
+        if (filters==null)filters = BirdWatchingLogFilters.builder().build();
         return ResponseEntity.ok(bwlService.getLogsFiltered(filters));
     }
 
@@ -94,7 +94,7 @@ public class BirdwatchingLogRestController {
              @RequestParam(defaultValue = "10") int size,
              @RequestParam(defaultValue = "observationDate") String sortBy,
              @RequestParam(defaultValue = "ASC") String sortDirection) throws AppObjectNotAuthorizedException {
-        if (filters==null) BirdWatchingLogFilters.builder().build();
+        if (filters==null) filters = BirdWatchingLogFilters.builder().build();
         return ResponseEntity.ok(bwlService.getLogsFilteredAndPaginated(filters, page, size, sortBy, sortDirection));
     }
 }

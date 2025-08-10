@@ -23,6 +23,8 @@ public class BirdWatchingLogFilters extends GenericFilters {
     private String username;
     private Long userId;
 
+    private String familyName;
+    private Long familyId;
 
     private LocalDateTime date;
 }
