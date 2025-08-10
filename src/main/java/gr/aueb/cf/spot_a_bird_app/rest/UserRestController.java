@@ -38,6 +38,12 @@ public class UserRestController {
             return new ResponseEntity<>(userReadOnlyDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserReadOnlyDTO> getUserById(@PathVariable Long id)
+            throws AppObjectNotFoundException {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<UserReadOnlyDTO>> getAllUsers()
             throws AppObjectNotAuthorizedException {
