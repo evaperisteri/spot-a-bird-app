@@ -213,4 +213,29 @@ public class BirdwatchingLogService {
         }
         bWLogRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public Page<BirdwatchingLogReadOnlyDTO> getLogsForCurrentUser(Pageable pageable) throws AppObjectNotFoundException {
+        String username = authService.getAuthenticatedUsername();
+        Specification<BirdwatchingLog> spec = (root, query, cb) ->
+                cb.equal(root.get("user").get("username"), username);
+
+        return bWLogRepository.findAll(spec, pageable)
+                .map(mapper::mapBWLToReadOnlyDTO);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<BirdwatchingLogReadOnlyDTO> getMyLogsFiltered(
+            BirdWatchingLogFilters filters,
+            Pageable pageable) throws AppObjectNotFoundException {
+
+        String username = authService.getAuthenticatedUsername();
+        Specification<BirdwatchingLog> userSpec = (root, query, cb) ->
+                cb.equal(root.get("user").get("username"), username);
+
+        return bWLogRepository.findAll(
+                userSpec.and(getSpecsFromFilters(filters)),
+                pageable
+        ).map(mapper::mapBWLToReadOnlyDTO);
+    }
 }

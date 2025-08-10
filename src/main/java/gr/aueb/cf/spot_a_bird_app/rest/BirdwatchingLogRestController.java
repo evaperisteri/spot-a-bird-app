@@ -1,18 +1,27 @@
 package gr.aueb.cf.spot_a_bird_app.rest;
 
+import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.*;
 import gr.aueb.cf.spot_a_bird_app.core.filters.BirdWatchingLogFilters;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogReadOnlyDTO;
+import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
+import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
+import gr.aueb.cf.spot_a_bird_app.repository.BirdwatchingLogRepository;
 import gr.aueb.cf.spot_a_bird_app.service.BirdwatchingLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +36,10 @@ public class BirdwatchingLogRestController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(BirdwatchingLogRestController.class);
     private final BirdwatchingLogService bwlService;
+    private final AuthenticationService authService;
+    private final BirdwatchingLogRepository bWLogRepository;
+    private final Mapper mapper;
+
 
     @PostMapping("/save")
     public ResponseEntity<BirdwatchingLogReadOnlyDTO> saveBWLog(
@@ -96,5 +109,25 @@ public class BirdwatchingLogRestController {
              @RequestParam(defaultValue = "ASC") String sortDirection) throws AppObjectNotAuthorizedException {
         if (filters==null) filters = BirdWatchingLogFilters.builder().build();
         return ResponseEntity.ok(bwlService.getLogsFilteredAndPaginated(filters, page, size, sortBy, sortDirection));
+    }
+
+    @GetMapping("/my-logs")
+    @PreAuthorize("hasRole('SPOTTER')")  // Requires authentication
+    public ResponseEntity<Page<BirdwatchingLogReadOnlyDTO>> getMyLogs(
+            @PageableDefault(sort = "observationDate", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
+        return ResponseEntity.ok(bwlService.getLogsForCurrentUser(pageable));
+    }
+
+    @PostMapping("/my-logs/filtered")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Page<BirdwatchingLogReadOnlyDTO>> getMyFilteredLogs(
+            @RequestBody(required = false) BirdWatchingLogFilters filters,
+            @PageableDefault(sort = "observationDate", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
+
+        if (filters == null) {
+            filters = new BirdWatchingLogFilters(); // Initialize empty filters
+        }
+
+        return ResponseEntity.ok(bwlService.getMyLogsFiltered(filters, pageable));
     }
 }
