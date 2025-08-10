@@ -50,6 +50,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/users/**").hasAnyAuthority(Role.ADMIN.name())
                                 .requestMatchers("/api/bwlogs/**").authenticated()
+                                .requestMatchers("/bwlogs/my-logs").hasAnyAuthority(Role.ADMIN.name(), Role.SPOTTER.name())
+                                .requestMatchers("/my-info").hasAnyAuthority(Role.ADMIN.name(), Role.SPOTTER.name())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

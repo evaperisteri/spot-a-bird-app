@@ -61,8 +61,8 @@ public class UserRestController {
         return ResponseEntity.ok(userService.getUsersFilteredPaginated(filters));
     }
 
-    @GetMapping("/profile")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @GetMapping("/my-info")
+    @PreAuthorize("hasRole('SPOTTER') or hasRole('ADMIN')")
     public ResponseEntity<UserReadOnlyDTO> getCurrentUserInfo() throws AppObjectNotFoundException {
         return ResponseEntity.ok(userService.getCurrentUserInfo());
     }
