@@ -38,7 +38,7 @@ public class UserRestController {
             return new ResponseEntity<>(userReadOnlyDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<UserReadOnlyDTO> getUserById(@PathVariable Long id)
             throws AppObjectNotFoundException {
         return ResponseEntity.ok(userService.getUserById(id));
