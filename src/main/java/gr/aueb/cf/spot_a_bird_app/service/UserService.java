@@ -10,6 +10,7 @@ import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
 import gr.aueb.cf.spot_a_bird_app.core.specifications.UserSpecification;
 import gr.aueb.cf.spot_a_bird_app.dto.UserInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
+import gr.aueb.cf.spot_a_bird_app.dto.UserUpdateDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
 import gr.aueb.cf.spot_a_bird_app.model.ProfileDetails;
 import gr.aueb.cf.spot_a_bird_app.model.User;
@@ -94,28 +95,31 @@ public class UserService {
     }
 
     @Transactional
-    public UserReadOnlyDTO updateUser(Long id, UserInsertDTO updateDTO)
+    public UserReadOnlyDTO updateUser(UserUpdateDTO updateDTO)
             throws AppObjectNotFoundException, AppObjectAlreadyExists {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with id: " + id));
+        String username = authService.getAuthenticatedUsername();
+        User existingUser = userRepository.findByUsernameWithProfileDetails(username)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User with id: " + id + username +" not found."));
 
         // Check for duplicate username/email if changing those fields
-        if (updateDTO.getUsername() != null && !updateDTO.getUsername().equals(existingUser.getUsername())) {
-            if (userRepository.findByUsername(updateDTO.getUsername()).isPresent()) {
-                throw new AppObjectAlreadyExists("User", "Username already exists");
-            }
-            existingUser.setUsername(updateDTO.getUsername());
-        }
-
-        if (updateDTO.getEmail() != null && !updateDTO.getEmail().equals(existingUser.getEmail())) {
+        if (!updateDTO.getEmail().equals(existingUser.getEmail())) {
             if (userRepository.findByEmail(updateDTO.getEmail()).isPresent()) {
-                throw new AppObjectAlreadyExists("User", "Email already exists");
+                throw new AppObjectAlreadyExists("User", "User with Email: " + updateDTO.getEmail() +" already exists");
             }
             existingUser.setEmail(updateDTO.getEmail());
         }
 
-        // Update other fields
-        mapper.updateUserFromDto(updateDTO, existingUser);
+        // Update basic info
+        existingUser.setFirstname(updateDTO.getFirstName());
+        existingUser.setLastname(updateDTO.getLastName());
+
+        // Handle profile details
+        if (existingUser.getProfileDetails() == null) {
+            existingUser.setProfileDetails(new ProfileDetails());
+        }
+        existingUser.getProfileDetails().setDateOfBirth(updateDTO.getDateOfBirth());
+        existingUser.getProfileDetails().setGender(updateDTO.getGender());
+
         User updatedUser = userRepository.save(existingUser);
         return mapper.mapToUserReadOnlyDTO(updatedUser);
     }

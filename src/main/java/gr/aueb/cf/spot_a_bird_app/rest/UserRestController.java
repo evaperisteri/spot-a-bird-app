@@ -5,6 +5,7 @@ import gr.aueb.cf.spot_a_bird_app.core.filters.Paginated;
 import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
 import gr.aueb.cf.spot_a_bird_app.dto.UserInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
+import gr.aueb.cf.spot_a_bird_app.dto.UserUpdateDTO;
 import gr.aueb.cf.spot_a_bird_app.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -65,5 +66,17 @@ public class UserRestController {
     @PreAuthorize("hasRole('SPOTTER') or hasRole('ADMIN')")
     public ResponseEntity<UserReadOnlyDTO> getCurrentUserInfo() throws AppObjectNotFoundException {
         return ResponseEntity.ok(userService.getCurrentUserInfo());
+    }
+
+    @PutMapping("/users/update-user")
+    @PreAuthorize("hasRole('SPOTTER') or hasRole('ADMIN')")
+    public ResponseEntity<UserReadOnlyDTO> updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO,
+                                                      BindingResult bindingResult)
+            throws AppObjectInvalidArgumentException, ValidationException, AppObjectNotFoundException, AppServerException, AppObjectAlreadyExists {
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult);
+        }
+
+        return ResponseEntity.ok(userService.updateUser(userUpdateDTO));
     }
 }
