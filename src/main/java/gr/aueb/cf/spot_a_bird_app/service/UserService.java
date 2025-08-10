@@ -99,7 +99,7 @@ public class UserService {
             throws AppObjectNotFoundException, AppObjectAlreadyExists {
         String username = authService.getAuthenticatedUsername();
         User existingUser = userRepository.findByUsernameWithProfileDetails(username)
-                .orElseThrow(() -> new AppObjectNotFoundException("User", "User with id: " + id + username +" not found."));
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User with username: " + username +" not found."));
 
         // Check for duplicate username/email if changing those fields
         if (!updateDTO.getEmail().equals(existingUser.getEmail())) {
