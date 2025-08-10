@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -69,15 +66,17 @@ public class BirdRestController {
         return ResponseEntity.ok(results);
     }
 
-//    public record BirdSearchResultDTO(
-//            Long id,
-//            String commonName,
-//            String scientificName
-//    ) {
-//        public String getDisplayText() {
-//            return String.format("%s (%s)", commonName, scientificName);
-//        }
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<BirdFullDetailsDTO> getBirdById(@PathVariable Long id) {
+        return birdRepository.findById(id)
+                .map(b -> new BirdFullDetailsDTO(
+                        b.getId(),
+                        b.getName(),
+                        b.getScientificName(),
+                        b.getFamily().getName()))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
 
 
