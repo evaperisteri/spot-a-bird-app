@@ -15,7 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     //JpaRepository<User, Long> μας δινει τισ CRUD μεθοδους & pagination
 
     Optional<User> findByProfileDetailsId(Long id);
-    Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
     List<User> findByLastnameOrderByFirstnameAsc(String lastname);
     List<User> findByIsActiveTrue();
@@ -42,5 +41,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
 
     @EntityGraph(attributePaths = {"profileDetails"})
-    Optional<User> findByUsernameWithProfileDetails(String username);
+    @Query("SELECT u FROM User u WHERE u.username = :username")
+    Optional<User> findByUsername(@Param("username") String username);
 }

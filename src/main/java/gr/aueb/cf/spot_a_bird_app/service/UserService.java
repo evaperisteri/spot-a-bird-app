@@ -98,7 +98,7 @@ public class UserService {
     public UserReadOnlyDTO updateUser(UserUpdateDTO updateDTO)
             throws AppObjectNotFoundException, AppObjectAlreadyExists {
         String username = authService.getAuthenticatedUsername();
-        User existingUser = userRepository.findByUsernameWithProfileDetails(username)
+        User existingUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppObjectNotFoundException("User", "User with username: " + username +" not found."));
 
         // Check for duplicate username/email if changing those fields
@@ -179,7 +179,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserReadOnlyDTO getCurrentUserInfo() throws AppObjectNotFoundException {
         String username = authService.getAuthenticatedUsername();
-        User user = userRepository.findByUsernameWithProfileDetails(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with username: " + username));
         return mapper.mapToUserReadOnlyDTO(user);
     }
