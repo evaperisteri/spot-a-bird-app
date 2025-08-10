@@ -16,6 +16,7 @@ public interface RegionRepository  extends JpaRepository<Region, Long>, JpaSpeci
     Optional<Region> findByName(String name);
     List<Region> findByNameContainingIgnoreCase(String namePart);
     Page<Region> findByNameContainingIgnoreCase(String namePart, Pageable pageable);
+
     @Query("SELECT DISTINCT r FROM Region r JOIN r.birdwatchingLogSet l WHERE l.bird.id = :birdId")
     List<Region> findRegionsWithBirdSightings(@Param("birdId") Long birdId);
 }
