@@ -1,5 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.service;
 
+import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectAlreadyExists;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectInvalidArgumentException;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotAuthorizedException;
@@ -39,6 +40,7 @@ public class UserService {
     private final Mapper mapper;
     private final ProfileDetailsRepository profileDetailsRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationService authService;
 
     @Transactional(rollbackFor = {AppObjectAlreadyExists.class, IOException.class})
     public UserReadOnlyDTO saveUser(UserInsertDTO userInsertDTO) throws AppObjectAlreadyExists, AppObjectInvalidArgumentException, IOException {
@@ -168,5 +170,13 @@ public class UserService {
                 .where(UserSpecification.userProfileDetailsIdIs(userFilters.getId()))
                 .and(UserSpecification.userGenderIs(userFilters.getGender()))
                 .and(UserSpecification.userDateOfBirthIs(userFilters.getDateOfBirth()));
+    }
+
+    @Transactional(readOnly = true)
+    public UserReadOnlyDTO getCurrentUserInfo() throws AppObjectNotFoundException {
+        String username = authService.getAuthenticatedUsername();
+        User user = userRepository.findByUsernameWithProfileDetails(username)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with username: " + username));
+        return mapper.mapToUserReadOnlyDTO(user);
     }
 }

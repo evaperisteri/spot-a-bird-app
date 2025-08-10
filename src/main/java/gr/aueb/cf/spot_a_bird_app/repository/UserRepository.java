@@ -39,4 +39,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.profileDetails")
     List<User> findAllWithProfileDetails();
+
+
+    @EntityGraph(attributePaths = {"profileDetails"})
+    Optional<User> findByUsernameWithProfileDetails(String username);
 }

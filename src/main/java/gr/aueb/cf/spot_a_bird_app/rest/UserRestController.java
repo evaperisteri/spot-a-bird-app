@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,5 +59,11 @@ public class UserRestController {
     public ResponseEntity<Paginated<UserReadOnlyDTO>> getFilteredPaginatedUsers (@Nullable @RequestBody UserFilters filters) throws AppObjectNotAuthorizedException {
         if (filters==null) filters = UserFilters.builder().build();
         return ResponseEntity.ok(userService.getUsersFilteredPaginated(filters));
+    }
+
+    @GetMapping("/profile")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<UserReadOnlyDTO> getCurrentUserInfo() throws AppObjectNotFoundException {
+        return ResponseEntity.ok(userService.getCurrentUserInfo());
     }
 }
