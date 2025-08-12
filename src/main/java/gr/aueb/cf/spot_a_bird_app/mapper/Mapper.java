@@ -54,15 +54,23 @@ public class Mapper {
     public BirdwatchingLogReadOnlyDTO mapBWLToReadOnlyDTO(BirdwatchingLog bwlog) {
         if (bwlog == null) return null;
 
-        // 1. Handle nested Bird mapping
+        // 1. Bird mapping
         BirdReadOnlyDTO birdDTO = null;
         if (bwlog.getBird() != null) {
             birdDTO = new BirdReadOnlyDTO();
             birdDTO.setId(bwlog.getBird().getId());
             birdDTO.setName(bwlog.getBird().getName());
+            birdDTO.setScientificName(bwlog.getBird().getScientificName());
+
+            if (bwlog.getBird().getFamily() != null) {
+                birdDTO.setFamily(new FamilyReadOnlyDTO(
+                        bwlog.getBird().getFamily().getId(),
+                        bwlog.getBird().getFamily().getName()
+                ));
+            }
         }
 
-        // 2. Handle nested Region mapping
+        // 2. Region mapping
         RegionReadOnlyDTO regionDTO = null;
         if (bwlog.getRegion() != null) {
             regionDTO = new RegionReadOnlyDTO();
@@ -83,6 +91,7 @@ public class Mapper {
             userDTO = new UserReadOnlyDTO();
             userDTO.setId(bwlog.getUser().getId());
             userDTO.setUsername(bwlog.getUser().getUsername());
+            userDTO.setEmail(bwlog.getUser().getEmail());
             userDTO.setFirstname(bwlog.getUser().getFirstname());
             userDTO.setLastname(bwlog.getUser().getLastname());
             userDTO.setRole(bwlog.getUser().getRole());
@@ -96,8 +105,8 @@ public class Mapper {
                 .quantity(bwlog.getQuantity())
                 .region(regionDTO)
                 .user(userDTO)
-                .createdAt(bwlog.getUpdatedAt())
-                .updatedAt(bwlog.getCreatedAt())
+                .createdAt(bwlog.getCreatedAt())
+                .updatedAt(bwlog.getUpdatedAt())
                 .build();
     }
 
