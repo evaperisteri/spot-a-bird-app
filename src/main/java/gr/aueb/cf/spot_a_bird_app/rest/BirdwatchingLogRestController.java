@@ -113,15 +113,14 @@ public class BirdwatchingLogRestController {
 
     @GetMapping("/my-logs")
     public ResponseEntity<Page<BirdwatchingLogReadOnlyDTO>> getMyLogs(
-            @PageableDefault(sort = "observationDate", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
         return ResponseEntity.ok(bwlService.getLogsForCurrentUser(pageable));
     }
 
     @PostMapping("/my-logs/filtered")
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<BirdwatchingLogReadOnlyDTO>> getMyFilteredLogs(
             @RequestBody(required = false) BirdWatchingLogFilters filters,
-            @PageableDefault(sort = "observationDate", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) throws AppObjectNotFoundException {
 
         if (filters == null) {
             filters = new BirdWatchingLogFilters(); // Initialize empty filters

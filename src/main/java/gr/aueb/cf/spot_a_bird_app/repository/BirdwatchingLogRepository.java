@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog, Long>, JpaSpecificationExecutor<BirdwatchingLog> {
 
@@ -17,7 +18,13 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
 
     Page<BirdwatchingLog> findByUser(User user, Pageable pageable);
 
-
+    @Query("SELECT b FROM BirdwatchingLog b " +
+            "LEFT JOIN FETCH b.bird " +
+            "LEFT JOIN FETCH b.bird.family " +  // Ensure Bird's family is loaded
+            "LEFT JOIN FETCH b.user " +
+            "LEFT JOIN FETCH b.user.profileDetails " +  // Ensure User's profile is loaded
+            "WHERE b.id = :id")
+    Optional<BirdwatchingLog> findByIdWithDetails(@Param("id") Long id);
 
     //retrieve all birdwatching logs made by a specific user in a specific region
     @Query("SELECT b FROM BirdwatchingLog b WHERE b.user.id = :userId AND b.region.id = :regionId")

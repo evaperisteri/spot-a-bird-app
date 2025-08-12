@@ -177,9 +177,9 @@ public class BirdwatchingLogService {
 
     @Transactional(readOnly = true)
     public BirdwatchingLogReadOnlyDTO getLogById(Long id) throws AppObjectNotFoundException {
-        return bWLogRepository.findById(id)
+        return bWLogRepository.findByIdWithDetails(id)
                 .map(mapper::mapBWLToReadOnlyDTO)
-                .orElseThrow(() -> new AppObjectNotFoundException("Bwl", "Birdwatching log not found with id: " + id));
+                .orElseThrow(() -> new AppObjectNotFoundException("Bwl", "Log not found"));
     }
 
     @Transactional
