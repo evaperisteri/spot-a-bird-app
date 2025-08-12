@@ -27,4 +27,22 @@ public interface FamilyRepository extends JpaRepository<Family, Long>, JpaSpecif
             "GROUP BY f.id " +
             "ORDER BY observationCount DESC")
     List<FamilyCountDTO> findTopFamiliesWithCounts(Pageable pageable);
+
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyStatisticsDTO$FamilyWithStatsDTO(" +
+            "f.id, f.name, COUNT(DISTINCT b.id), COUNT(l.id)) " +
+            "FROM Family f " +
+            "LEFT JOIN f.birds b " +
+            "LEFT JOIN BirdwatchingLog l ON l.bird = b " +
+            "GROUP BY f.id " +
+            "ORDER BY COUNT(DISTINCT b.id) DESC")
+    List<FamilyCountDTO> findFamiliesBySpeciesCount(Pageable pageable);
+
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyStatisticsDTO$FamilyWithStatsDTO(" +
+            "f.id, f.name, COUNT(DISTINCT b.id), COUNT(l.id)) " +
+            "FROM Family f " +
+            "LEFT JOIN f.birds b " +
+            "LEFT JOIN BirdwatchingLog l ON l.bird = b " +
+            "GROUP BY f.id " +
+            "ORDER BY COUNT(l.id) DESC")
+    List<FamilyCountDTO> findFamiliesByObservationCount(Pageable pageable);
 }

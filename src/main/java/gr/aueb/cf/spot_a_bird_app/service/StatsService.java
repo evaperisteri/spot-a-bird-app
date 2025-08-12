@@ -2,18 +2,19 @@ package gr.aueb.cf.spot_a_bird_app.service;
 
 import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
-import gr.aueb.cf.spot_a_bird_app.dto.stats.BirdCountDTO;
-import gr.aueb.cf.spot_a_bird_app.dto.stats.BirdStatisticsDTO;
-import gr.aueb.cf.spot_a_bird_app.dto.stats.UserLogStatisticsDTO;
+import gr.aueb.cf.spot_a_bird_app.dto.stats.*;
 import gr.aueb.cf.spot_a_bird_app.repository.BirdRepository;
 import gr.aueb.cf.spot_a_bird_app.repository.BirdwatchingLogRepository;
 import gr.aueb.cf.spot_a_bird_app.repository.FamilyRepository;
+import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class StatsService {
     private final BirdwatchingLogRepository logRepository;
     private final FamilyRepository familyRepository;
     private final AuthenticationService authService;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public BirdStatisticsDTO getBirdStatistics() {
@@ -50,5 +52,39 @@ public class StatsService {
                 .totalRegionsVisited(totalRegions)
                 .mostSpottedBirds(topBirds)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<RegionCountDTO> getRegionStatistics() {
+        return logRepository.findTopRegionsByObservations(PageRequest.of(0, 5));
+    }
+
+    @Transactional(readOnly = true)
+    public UserActivityStatsDTO getUserActivityStats() {
+        return UserActivityStatsDTO.builder()
+                .totalUsers(userRepository.countTotalUsers())
+                .activeUsers(userRepository.countActiveUsers())
+                .mostActiveUsers(userRepository.findMostActiveUsers(PageRequest.of(0, 5)))
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public FamilyStatisticsDTO getFamilyStats() {
+        return FamilyStatisticsDTO.builder()
+                .totalFamilies(familyRepository.count())
+                .familiesWithMostSpecies(
+                        familyRepository.findFamiliesBySpeciesCount(PageRequest.of(0, 3)))
+                .familiesWithMostObservations(
+                        familyRepository.findFamiliesByObservationCount(PageRequest.of(0, 3)))
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Long> getSpeciesDistribution() {
+        return birdRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        bird -> bird.getFamily() != null ? bird.getFamily().getName() : "Unknown",
+                        Collectors.counting()
+                ));
     }
 }

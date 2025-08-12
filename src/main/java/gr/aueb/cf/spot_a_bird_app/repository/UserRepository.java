@@ -1,6 +1,8 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
+import gr.aueb.cf.spot_a_bird_app.dto.stats.UserActivityDTO;
 import gr.aueb.cf.spot_a_bird_app.model.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -43,4 +45,18 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @EntityGraph(attributePaths = {"profileDetails"})
     @Query("SELECT u FROM User u WHERE u.username = :username")
     Optional<User> findByUsername(@Param("username") String username);
+
+    @Query("SELECT COUNT(u) FROM User u")
+    long countTotalUsers();
+
+    @Query("SELECT COUNT(DISTINCT l.user.id) FROM BirdwatchingLog l")
+    long countActiveUsers();
+
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.UserActivityStatsDTO$UserActivityDTO(" +
+            "u.id, u.username, COUNT(l.id), MAX(l.observationDate)) " +
+            "FROM User u LEFT JOIN BirdwatchingLog l ON l.user = u " +
+            "GROUP BY u.id " +
+            "ORDER BY COUNT(l.id) DESC")
+    List<UserActivityDTO> findMostActiveUsers(Pageable pageable);
 }
+
