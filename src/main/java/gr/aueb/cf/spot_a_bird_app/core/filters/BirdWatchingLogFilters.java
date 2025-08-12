@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class BirdWatchingLogFilters extends GenericFilters {
 
-    private String name;
+    private String birdName;
     private String scientificName;
     private Long birdId;
 
