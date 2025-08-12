@@ -53,7 +53,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     long countActiveUsers();
 
     @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.UserActivityStatsDTO$UserActivityDTO(" +
-            "u.id, u.username, COUNT(l.id), MAX(l.observationDate)) " +
+            "u.id, u.username, COUNT(l.id), MAX(l.createdAt)) " +
             "FROM User u LEFT JOIN BirdwatchingLog l ON l.user = u " +
             "GROUP BY u.id " +
             "ORDER BY COUNT(l.id) DESC")
