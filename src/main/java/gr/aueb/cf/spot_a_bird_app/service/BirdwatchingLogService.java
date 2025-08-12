@@ -230,12 +230,12 @@ public class BirdwatchingLogService {
             Pageable pageable) throws AppObjectNotFoundException {
 
         String username = authService.getAuthenticatedUsername();
-        Specification<BirdwatchingLog> userSpec = (root, query, cb) ->
-                cb.equal(root.get("user").get("username"), username);
+        Specification<BirdwatchingLog> spec = Specification.where(
+                BirdwatchingLogSpecification.usernameContains(username)
+        ).and(
+                getSpecsFromFilters(filters)
+        );
 
-        return bWLogRepository.findAll(
-                userSpec.and(getSpecsFromFilters(filters)),
-                pageable
-        ).map(mapper::mapBWLToReadOnlyDTO);
+        return bWLogRepository.findAll(spec, pageable).map(mapper::mapBWLToReadOnlyDTO);
     }
 }
