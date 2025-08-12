@@ -1,6 +1,7 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
 import gr.aueb.cf.spot_a_bird_app.dto.stats.BirdCountDTO;
+import gr.aueb.cf.spot_a_bird_app.dto.stats.RegionCountDTO;
 import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
 import gr.aueb.cf.spot_a_bird_app.model.User;
 import org.springframework.data.domain.Page;
@@ -52,4 +53,23 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
             "GROUP BY b.id " +
             "ORDER BY observationCount DESC")
     List<BirdCountDTO> findTopBirdsByUser(String username, Pageable pageable);
+
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.RegionObservationCountDTO(" +
+            "r.id, r.name, COUNT(l.id)) " +
+            "FROM BirdwatchingLog l " +
+            "JOIN l.region r " +
+            "GROUP BY r.id " +
+            "ORDER BY COUNT(l.id) DESC")
+    List<RegionCountDTO> findTopRegionsByObservations(Pageable pageable);
+
+    // Count all logs for a specific user
+    long countByUserUsername(String username);
+
+    // Count distinct birds observed by a user
+    @Query("SELECT COUNT(DISTINCT l.bird.id) FROM BirdwatchingLog l WHERE l.user.username = :username")
+    long countDistinctBirdsByUser(@Param("username") String username);
+
+    // Count distinct regions visited by a user
+    @Query("SELECT COUNT(DISTINCT l.region.id) FROM BirdwatchingLog l WHERE l.user.username = :username")
+    long countDistinctRegionsByUser(@Param("username") String username);
 }
