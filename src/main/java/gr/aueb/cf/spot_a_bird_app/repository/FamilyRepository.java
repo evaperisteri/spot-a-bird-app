@@ -1,6 +1,8 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
+import gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyCountDTO;
 import gr.aueb.cf.spot_a_bird_app.model.Family;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +17,14 @@ public interface FamilyRepository extends JpaRepository<Family, Long>, JpaSpecif
     List<Family> findByNameContainingIgnoreCase(String name);
     @Query("SELECT f FROM Family f JOIN f.birds b WHERE b.id = :birdId")
     Optional<Family> findByBirdId(@Param("birdId") Long birdId);
+
+    @Query("SELECT f.id as familyId, f.name as familyName, " +
+            "COUNT(DISTINCT b.id) as birdCount, " +
+            "COUNT(l.id) as observationCount " +
+            "FROM Family f " +
+            "LEFT JOIN f.birds b " +
+            "LEFT JOIN BirdwatchingLog l ON l.bird.id = b.id " +
+            "GROUP BY f.id " +
+            "ORDER BY observationCount DESC")
+    List<FamilyCountDTO> findTopFamiliesWithCounts(Pageable pageable);
 }

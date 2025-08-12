@@ -1,5 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
+import gr.aueb.cf.spot_a_bird_app.dto.stats.BirdCountDTO;
 import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
 import gr.aueb.cf.spot_a_bird_app.model.User;
 import org.springframework.data.domain.Page;
@@ -43,4 +44,12 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
     List<BirdwatchingLog> findFilteredLogs(
             @Param("birdName") String birdName,
             @Param("userId") Long userId);
+
+    @Query("SELECT b.id as birdId, b.name as birdName, COUNT(l.id) as observationCount " +
+            "FROM BirdwatchingLog l " +
+            "JOIN l.bird b " +
+            "WHERE l.user.username = :username " +
+            "GROUP BY b.id " +
+            "ORDER BY observationCount DESC")
+    List<BirdCountDTO> findTopBirdsByUser(String username, Pageable pageable);
 }
