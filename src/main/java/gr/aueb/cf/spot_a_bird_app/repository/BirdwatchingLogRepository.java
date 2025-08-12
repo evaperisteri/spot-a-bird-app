@@ -35,4 +35,9 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
 
     @Query("SELECT b.bird.name, COUNT(b) FROM BirdwatchingLog b WHERE b.user.id = :userId GROUP BY b.bird.name")
     List<Object[]> countSightingsPerBirdByUser(@Param("userId") Long userId);
+
+    @Query("SELECT l FROM BirdwatchingLog l JOIN l.bird b WHERE (:birdName IS NULL OR LOWER(b.name) LIKE LOWER(CONCAT('%', :birdName, '%')) AND l.user.id = :userId")
+    List<BirdwatchingLog> findFilteredLogs(
+            @Param("birdName") String birdName,
+            @Param("userId") Long userId);
 }
