@@ -238,4 +238,17 @@ public class BirdwatchingLogService {
 
         return bWLogRepository.findAll(spec, pageable).map(mapper::mapBWLToReadOnlyDTO);
     }
+
+    @Transactional(readOnly = true)
+    public List<BirdwatchingLogReadOnlyDTO> filterBwLogs(BirdWatchingLogFilters filters, Long userId) {
+        Specification<BirdwatchingLog> spec = Specification.where(
+                BirdwatchingLogSpecification.userIdEquals(userId)
+        ).and(
+                BirdwatchingLogSpecification.birdNameContains(filters.getBirdName())
+        );
+
+        return bWLogRepository.findAll(spec).stream()
+                .map(mapper::mapBWLToReadOnlyDTO)
+                .collect(Collectors.toList());
+    }
 }
