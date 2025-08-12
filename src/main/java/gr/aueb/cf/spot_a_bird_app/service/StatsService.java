@@ -4,7 +4,6 @@ import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.dto.stats.BirdCountDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.stats.BirdStatisticsDTO;
-import gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyCountDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.stats.UserLogStatisticsDTO;
 import gr.aueb.cf.spot_a_bird_app.repository.BirdRepository;
 import gr.aueb.cf.spot_a_bird_app.repository.BirdwatchingLogRepository;
@@ -26,17 +25,13 @@ public class StatsService {
 
     @Transactional(readOnly = true)
     public BirdStatisticsDTO getBirdStatistics() {
-        long totalSpecies = birdRepository.count();
-        long totalObservations = logRepository.count();
-        long totalFamilies = familyRepository.count();
-
-        List<FamilyCountDTO> topFamilies = familyRepository.findTopFamiliesWithCounts(PageRequest.of(0, 5));
-
         return BirdStatisticsDTO.builder()
-                .totalSpecies(totalSpecies)
-                .totalObservations(totalObservations)
-                .totalFamilies(totalFamilies)
-                .topFamilies(topFamilies)
+                .totalSpecies(birdRepository.count())
+                .totalObservations(logRepository.count())
+                .totalFamilies(familyRepository.count())
+                .topFamilies(familyRepository.findTopFamiliesWithCounts(PageRequest.of(0, 5)))
+                .regionsWithMostObservations(
+                        logRepository.findTopRegionsByObservations(PageRequest.of(0, 3)))
                 .build();
     }
 
