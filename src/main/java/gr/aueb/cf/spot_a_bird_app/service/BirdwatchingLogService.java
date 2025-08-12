@@ -163,7 +163,7 @@ public class BirdwatchingLogService {
 
     public Specification<BirdwatchingLog> getSpecsFromFilters(BirdWatchingLogFilters filters) {
         return Specification
-                .where(birdNameContains(filters.getName()))
+                .where(birdNameContains(filters.getBirdName()))
                 .and(birdScientificNameContains(filters.getScientificName()))
                 .and(birdIdEquals(filters.getBirdId()))
                 .and(regionNameContains(filters.getRegionName()))
