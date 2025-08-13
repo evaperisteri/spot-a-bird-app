@@ -163,17 +163,20 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Paginated<UserReadOnlyDTO> getUsersFilteredPaginated(UserFilters filters) {
         var filtered = userRepository.findAll(getSpecsFromFilters(filters), filters.getPageable());
         return new Paginated<> (filtered.map(mapper::mapToUserReadOnlyDTO));
     }
     //integrated specifications
-    private Specification<User> getSpecsFromFilters(UserFilters userFilters) {
-        return Specification
-                .where(UserSpecification.userProfileDetailsIdIs(userFilters.getId()))
-                .and(UserSpecification.userGenderIs(userFilters.getGender()))
-                .and(UserSpecification.userDateOfBirthIs(userFilters.getDateOfBirth()));
+    private Specification<User> getSpecsFromFilters(UserFilters filters) {
+        return Specification.where(
+                    UserSpecification.userIdIs(filters.getId()))
+                .and(UserSpecification.usernameContains(filters.getUsername()))
+                .and(UserSpecification.emailContains(filters.getEmail()))
+                .and(UserSpecification.roleIs(filters.getRole()))
+                .and(UserSpecification.isActive(filters.getIsActive()))
+                .and(UserSpecification.genderIs(filters.getGender()));
     }
 
     @Transactional(readOnly = true)

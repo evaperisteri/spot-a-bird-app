@@ -63,8 +63,9 @@ public class UserRestController {
     }
 
     @PostMapping("/users/filtered/paginated")
-    public ResponseEntity<Paginated<UserReadOnlyDTO>> getFilteredPaginatedUsers (@Nullable @RequestBody UserFilters filters) throws AppObjectNotAuthorizedException {
-        if (filters==null) filters = UserFilters.builder().build();
+    public ResponseEntity<Paginated<UserReadOnlyDTO>> getFilteredPaginatedUsers
+            (@RequestBody(required = false) UserFilters filters) throws AppObjectNotAuthorizedException {
+        filters = filters != null ? filters : new UserFilters();
         return ResponseEntity.ok(userService.getUsersFilteredPaginated(filters));
     }
 
