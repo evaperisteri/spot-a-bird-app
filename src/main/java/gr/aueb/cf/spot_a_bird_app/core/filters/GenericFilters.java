@@ -25,24 +25,22 @@ public abstract class GenericFilters {
     }
 
     public int getPageSize() {
-        return pageSize<0 ? DEFAULT_PAGE_SIZE :pageSize;
+        return pageSize <= 0 ? DEFAULT_PAGE_SIZE : pageSize;
     }
 
     public Sort.Direction getSortDirection() {
-        if(sortDirection == null) return DEFAULT_SORT_DIRECTION;
-        return sortDirection;
+        return sortDirection != null ? sortDirection : DEFAULT_SORT_DIRECTION;
     }
 
     public String getSortBy() {
-        if(sortBy==null || sortBy.isBlank()) return DEFAULT_SORT_COLUMN;
-        return sortBy;
+        return (sortBy == null || sortBy.isBlank()) ? DEFAULT_SORT_COLUMN : sortBy;
     }
 
     public Sort getSort() {
         return Sort.by(getSortDirection(), getSortBy());
     }
 
-    public Pageable getPageable(){
+    public Pageable getPageable() {
         return PageRequest.of(getPage(), getPageSize(), getSort());
     }
 }
