@@ -52,11 +52,11 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query("SELECT COUNT(DISTINCT l.user.id) FROM BirdwatchingLog l")
     long countActiveUsers();
 
-    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.UserActivityStatsDTO$UserActivityDTO(" +
-            "u.id, u.username, COUNT(l.id), MAX(l.createdAt)) " +
-            "FROM User u LEFT JOIN BirdwatchingLog l ON l.user = u " +
-            "GROUP BY u.id " +
-            "ORDER BY COUNT(l.id) DESC")
-    List<UserActivityDTO> findMostActiveUsers(Pageable pageable);
+//    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.UserActivityStatsDTO$UserActivityDTO(" +
+//            "u.id, u.username, COUNT(l.id), MAX(l.createdAt)) " +
+//            "FROM User u LEFT JOIN u.birdwatchingLogSet l " +  // Changed to match your Set field name
+//            "GROUP BY u.id, u.username " +
+//            "ORDER BY COUNT(l.id) DESC")
+//    List<UserActivityDTO> findMostActiveUsers(Pageable pageable);
 }
 

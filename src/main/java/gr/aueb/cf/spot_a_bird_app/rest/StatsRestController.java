@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,14 +33,14 @@ public class StatsRestController {
         return ResponseEntity.ok(statsService.getBirdStatistics().getRegionsWithMostObservations());
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<UserActivityStatsDTO> getUserActivityStats() {
-        return ResponseEntity.ok(statsService.getUserActivityStats());
-    }
+//    @GetMapping("/users")
+//    public ResponseEntity<UserActivityStatsDTO> getUserActivityStats() {
+//        return ResponseEntity.ok(statsService.getUserActivityStats());
+//    }
 
     @GetMapping("/families")
-    public ResponseEntity<FamilyStatisticsDTO> getFamilyStats() {
-        return ResponseEntity.ok(statsService.getFamilyStats());
+    public ResponseEntity<FamilyStatisticsDTO> getFamilyStats(@RequestParam(defaultValue = "3") int topCount) {
+        return ResponseEntity.ok(statsService.getFamilyStats(topCount));
     }
 
     @GetMapping("/species-distribution")

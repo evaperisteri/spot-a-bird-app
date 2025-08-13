@@ -54,7 +54,7 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
             "ORDER BY observationCount DESC")
     List<BirdCountDTO> findTopBirdsByUser(String username, Pageable pageable);
 
-    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.RegionObservationCountDTO(" +
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.RegionCountDTO(" +
             "r.id, r.name, COUNT(l.id)) " +
             "FROM BirdwatchingLog l " +
             "JOIN l.region r " +

@@ -12,8 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,23 +61,23 @@ public class StatsService {
         return logRepository.findTopRegionsByObservations(PageRequest.of(0, 5));
     }
 
-    @Transactional(readOnly = true)
-    public UserActivityStatsDTO getUserActivityStats() {
-        return UserActivityStatsDTO.builder()
-                .totalUsers(userRepository.countTotalUsers())
-                .activeUsers(userRepository.countActiveUsers())
-                .mostActiveUsers(userRepository.findMostActiveUsers(PageRequest.of(0, 5)))
-                .build();
-    }
+//    @Transactional(readOnly = true)
+//    public UserActivityStatsDTO getUserActivityStats() {
+//        return UserActivityStatsDTO.builder()
+//                .totalUsers(userRepository.countTotalUsers())
+//                .activeUsers(userRepository.countActiveUsers())
+//                .mostActiveUsers(userRepository.findMostActiveUsers(PageRequest.of(0, 5)))
+//                .build();
+//    }
 
     @Transactional(readOnly = true)
-    public FamilyStatisticsDTO getFamilyStats() {
+    public FamilyStatisticsDTO getFamilyStats(int topCount) {
+        PageRequest page = PageRequest.of(0, topCount);
+
         return FamilyStatisticsDTO.builder()
                 .totalFamilies(familyRepository.count())
-                .familiesWithMostSpecies(
-                        familyRepository.findFamiliesBySpeciesCount(PageRequest.of(0, 3)))
-                .familiesWithMostObservations(
-                        familyRepository.findFamiliesByObservationCount(PageRequest.of(0, 3)))
+                .familiesWithMostSpecies(familyRepository.findFamiliesBySpeciesCount(page))
+                .familiesWithMostObservations(familyRepository.findFamiliesByObservationCount(page))
                 .build();
     }
 
