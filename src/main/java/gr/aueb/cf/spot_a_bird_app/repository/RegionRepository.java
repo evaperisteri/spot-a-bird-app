@@ -20,7 +20,8 @@ public interface RegionRepository  extends JpaRepository<Region, Long>, JpaSpeci
     @Query("SELECT DISTINCT r FROM Region r JOIN r.birdwatchingLogSet l WHERE l.bird.id = :birdId")
     List<Region> findRegionsWithBirdSightings(@Param("birdId") Long birdId);
 
-    //Long countDistinctByBirdwatchingLogsNotEmpty();
-    @Query("SELECT COUNT(DISTINCT r) FROM Region r WHERE SIZE(r.birdwatchingLogs) > 0")
+    @Query(value = "SELECT COUNT(DISTINCT r.id) FROM regions r " +
+            "WHERE EXISTS (SELECT 1 FROM birdwatching_logs b WHERE b.region_id = r.id)",
+            nativeQuery = true)
     Long countDistinctRegionsWithLogs();
 }

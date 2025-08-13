@@ -24,6 +24,6 @@ public class Region {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region", fetch = FetchType.LAZY)
     private Set<BirdwatchingLog> birdwatchingLogSet = new HashSet<>();
 }
