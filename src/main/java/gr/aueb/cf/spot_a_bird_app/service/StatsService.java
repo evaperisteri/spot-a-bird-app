@@ -3,10 +3,7 @@ package gr.aueb.cf.spot_a_bird_app.service;
 import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.dto.stats.*;
-import gr.aueb.cf.spot_a_bird_app.repository.BirdRepository;
-import gr.aueb.cf.spot_a_bird_app.repository.BirdwatchingLogRepository;
-import gr.aueb.cf.spot_a_bird_app.repository.FamilyRepository;
-import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
+import gr.aueb.cf.spot_a_bird_app.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,6 +22,7 @@ public class StatsService {
     private final BirdRepository birdRepository;
     private final BirdwatchingLogRepository logRepository;
     private final FamilyRepository familyRepository;
+    private final RegionRepository regionRepository;
     private final AuthenticationService authService;
     private final UserRepository userRepository;
 
@@ -41,19 +39,12 @@ public class StatsService {
     }
 
     @Transactional(readOnly = true)
-    public UserLogStatisticsDTO getUserLogStatistics() throws AppObjectNotFoundException {
-        String username = authService.getAuthenticatedUsername();
-        long totalLogs = logRepository.countByUserUsername(username);
-        long totalSpecies = logRepository.countDistinctBirdsByUser(username);
-        long totalRegions = logRepository.countDistinctRegionsByUser(username);
-
-        List<BirdCountDTO> topBirds = logRepository.findTopBirdsByUser(username, PageRequest.of(0, 3));
-
+    public UserLogStatisticsDTO getUserLogStatistics() {
         return UserLogStatisticsDTO.builder()
-                .totalLogs(totalLogs)
-                .totalSpeciesObserved(totalSpecies)
-                .totalRegionsVisited(totalRegions)
-                .mostSpottedBirds(topBirds)
+                .totalLogs(logRepository.count())
+                .totalSpeciesObserved(birdRepository.countDistinctBirdsWithLogs())
+                .totalRegionsVisited(regionRepository.countDistinctRegionsWithLogs())
+                .mostSpottedBirds(birdRepository.findMostSpottedBirds(PageRequest.of(0, 5)))
                 .build();
     }
 

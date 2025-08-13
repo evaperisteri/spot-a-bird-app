@@ -49,10 +49,22 @@ public interface BirdRepository extends JpaRepository<Bird, Long>, JpaSpecificat
     List<FamilyCountDTO> findTopFamiliesWithCounts(Pageable pageable);
 
     @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.BirdCountDTO(" +
-            "b.id, b.name, COUNT(bwl)) " +
+            "b.id, b.name, COUNT(l)) " +
             "FROM Bird b " +
-            "LEFT JOIN b.birdwatchingLogSet bwl " +
+            "LEFT JOIN b.birdwatchingLogSet l " +
             "GROUP BY b.id, b.name " +
-            "ORDER BY COUNT(bwl) DESC")
+            "ORDER BY COUNT(l) DESC")
     List<BirdCountDTO> findTopBirdsByObservations(Pageable pageable);
+
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.BirdCountDTO(" +
+            "b.id, b.name, COUNT(l)) " +
+            "FROM Bird b " +
+            "LEFT JOIN b.birdwatchingLogSet l " +
+            "GROUP BY b.id, b.name " +
+            "ORDER BY COUNT(l) DESC")
+    List<BirdCountDTO> findMostSpottedBirds(Pageable pageable);
+
+    @Query("SELECT COUNT(DISTINCT b) FROM Bird b WHERE SIZE(b.birdwatchingLogSet) > 0")
+    Long countDistinctBirdsWithLogs();
+
 }

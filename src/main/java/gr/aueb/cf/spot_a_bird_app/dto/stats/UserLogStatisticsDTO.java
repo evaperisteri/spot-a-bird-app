@@ -7,8 +7,8 @@ import java.util.List;
 @Data
 @Builder
 public class UserLogStatisticsDTO {
-    private long totalLogs;
-    private long totalSpeciesObserved;
-    private long totalRegionsVisited;
+    private Long totalLogs;
+    private Long totalSpeciesObserved;
+    private Long totalRegionsVisited;
     private List<BirdCountDTO> mostSpottedBirds;
 }
