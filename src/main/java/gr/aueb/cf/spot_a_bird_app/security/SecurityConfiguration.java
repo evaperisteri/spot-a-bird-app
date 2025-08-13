@@ -38,21 +38,26 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChainOld(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling((exceptions) -> exceptions
-                        .accessDeniedHandler(myCustomAccessDeniedHandler()))
-                .exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(myCustomAuthenticationEntryPoint()))
+                .exceptionHandling(exceptions -> exceptions
+                        .accessDeniedHandler(myCustomAccessDeniedHandler())
+                        .authenticationEntryPoint(myCustomAuthenticationEntryPoint())
+                )
                 .authorizeHttpRequests(req -> req
-                                .requestMatchers("/api/users/save").permitAll()
-                                .requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/users/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers("/api/bwlogs/**").authenticated()
-                                .requestMatchers("/api/bwlogs/my-logs").authenticated()
-                                .requestMatchers("/api/my-info").authenticated()
-                                .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/users/save",
+                                "/api/stats/families",
+                                "/api/stats/families/**",
+                                "/api/stats/regions",
+                                "/api/stats/birds",
+                                "/api/stats/species-distribution"
+                        ).permitAll()
+                        .requestMatchers("/api/users/**").hasAnyAuthority(Role.ADMIN.name())
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
@@ -60,7 +65,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -90,7 +94,6 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
-        //return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean

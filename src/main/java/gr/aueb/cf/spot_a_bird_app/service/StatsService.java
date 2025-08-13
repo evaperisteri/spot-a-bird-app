@@ -9,6 +9,7 @@ import gr.aueb.cf.spot_a_bird_app.repository.FamilyRepository;
 import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,5 +89,12 @@ public class StatsService {
                         bird -> bird.getFamily() != null ? bird.getFamily().getName() : "Unknown",
                         Collectors.counting()
                 ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<BirdCountDTO> getTopObservedBirds(int count) {
+        return birdRepository.findTopBirdsByObservations(
+                PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "observationCount"))
+        );
     }
 }

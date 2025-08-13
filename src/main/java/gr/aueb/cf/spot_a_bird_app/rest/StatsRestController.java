@@ -43,6 +43,7 @@ public class StatsRestController {
         return ResponseEntity.ok(statsService.getFamilyStats(topCount));
     }
 
+    //how many species in a family
     @GetMapping("/species-distribution")
     public ResponseEntity<Map<String, Long>> getSpeciesDistribution() {
         return ResponseEntity.ok(statsService.getSpeciesDistribution());
