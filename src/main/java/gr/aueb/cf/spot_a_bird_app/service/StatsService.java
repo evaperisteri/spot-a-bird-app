@@ -33,7 +33,7 @@ public class StatsService {
                 .totalSpecies(birdRepository.count())
                 .totalObservations(logRepository.count())
                 .totalFamilies(familyRepository.count())
-                .topFamilies(familyRepository.findTopFamiliesWithCounts(PageRequest.of(0, 5)))
+                .topFamilies(birdRepository.findTopFamiliesWithCounts(PageRequest.of(0, 5)))
                 .regionsWithMostObservations(
                         logRepository.findTopRegionsByObservations(PageRequest.of(0, 3)))
                 .build();

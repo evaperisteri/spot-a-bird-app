@@ -1,5 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.repository;
 
+import gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyCountDTO;
 import gr.aueb.cf.spot_a_bird_app.model.Bird;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,13 @@ public interface BirdRepository extends JpaRepository<Bird, Long>, JpaSpecificat
     List<Bird> findByNameOrScientificNameContaining(
             @Param("query") String query,
             Pageable pageable);
+
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyCountDTO(" +
+            "f.id, f.name, COUNT(DISTINCT b.id), COUNT(l.id)) " +
+            "FROM Bird b " +
+            "JOIN b.family f " +
+            "LEFT JOIN BirdwatchingLog l ON l.bird = b " +
+            "GROUP BY f.id, f.name " +
+            "ORDER BY COUNT(l.id) DESC")
+    List<FamilyCountDTO> findTopFamiliesWithCounts(Pageable pageable);
 }

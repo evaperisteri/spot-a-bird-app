@@ -18,14 +18,13 @@ public interface FamilyRepository extends JpaRepository<Family, Long>, JpaSpecif
     @Query("SELECT f FROM Family f JOIN f.birds b WHERE b.id = :birdId")
     Optional<Family> findByBirdId(@Param("birdId") Long birdId);
 
-    @Query("SELECT f.id as familyId, f.name as familyName, " +
-            "COUNT(DISTINCT b.id) as birdCount, " +
-            "COUNT(l.id) as observationCount " +
+    @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyCountDTO(" +
+            "f.id, f.name, COUNT(DISTINCT b.id), COUNT(l.id)) " +
             "FROM Family f " +
             "LEFT JOIN f.birds b " +
-            "LEFT JOIN BirdwatchingLog l ON l.bird.id = b.id " +
-            "GROUP BY f.id " +
-            "ORDER BY observationCount DESC")
+            "LEFT JOIN BirdwatchingLog l ON l.bird = b " +
+            "GROUP BY f.id, f.name " +
+            "ORDER BY COUNT(l.id) DESC")
     List<FamilyCountDTO> findTopFamiliesWithCounts(Pageable pageable);
 
     @Query("SELECT NEW gr.aueb.cf.spot_a_bird_app.dto.stats.FamilyCountDTO(" +
