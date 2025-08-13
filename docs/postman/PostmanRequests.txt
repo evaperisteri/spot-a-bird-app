@@ -1,0 +1,152 @@
+# Spot-A-Bird API Cheat Sheet
+# Last Updated: 2024-06-20
+
+=== AUTHENTICATION ===
+
+[POST] Login
+{{base_url}}/api/auth/login
+Body:
+{
+  "username": "admin",
+  "password": "12345"
+}
+
+=== USER MANAGEMENT ===
+
+[POST] Create User (Admin)
+{{base_url}}/api/users/save
+Body:
+{
+  "username": "admin",
+  "password": "12345",
+  "email": "admin@email.com",
+  "firstname": "Admin",
+  "lastname": "Userlast",
+  "role": "ADMIN",
+  "isActive": true,
+  "profileDetailsInsertDTO": {
+    "dateOfBirth": "1988-10-04",
+    "gender": "FEMALE"
+  }
+}
+
+[GET] Get All Users
+{{base_url}}/api/users
+
+[GET] Get User by ID
+{{base_url}}/api/users/{id}
+
+[GET] Get Users (Paginated)
+{{base_url}}/api/users/paginated
+
+[POST] Filter Users
+{{base_url}}/api/users/filtered
+Body (examples):
+{ "role": "SPOTTER" }
+--- OR ---
+{
+  "page": 0,
+  "pageSize": 10,
+  "sortDirection": "ASC",
+  "sortBy": "username"
+}
+
+=== BIRD MANAGEMENT ===
+
+[GET] Get All Birds (Paginated)
+{{base_url}}/api/birds?page=0&size=10
+
+[GET] Get Bird by ID
+{{base_url}}/api/birds/1
+
+[GET] Search Birds
+{{base_url}}/api/birds/search?query=rud&limit=5
+(Other query examples: "parrot", "Psittacula", "par")
+
+=== FAMILY MANAGEMENT ===
+
+[GET] Get All Families
+{{base_url}}/api/families
+
+[GET] Get Family by ID
+{{base_url}}/api/families/1
+
+[GET] Get Families (Paginated)
+{{base_url}}/api/families/paginated?page=0&size=5
+
+=== REGION MANAGEMENT ===
+
+[GET] Get All Regions
+{{base_url}}/api/regions
+
+[GET] Get Region by ID
+{{base_url}}/api/regions/1
+
+[GET] Filter Regions by Name
+{{base_url}}/api/regions/filter?name=Att
+
+=== BIRD WATCHING LOGS ===
+
+[POST] Create Log
+{{base_url}}/api/bwlogs/save
+Body:
+{
+  "birdName": "Rock Partridge",
+  "regionName": "Attica",
+  "quantity": "2"
+}
+
+[GET] Get User's Logs
+{{base_url}}/api/bwlogs/my-logs
+
+[GET] Get Log by ID
+{{base_url}}/api/bwlogs/1
+
+[PUT] Update Log
+{{base_url}}/api/bwlogs/update/1
+Body:
+{
+  "birdName": "European Robin",
+  "regionName": "Attica",
+  "quantity": 3
+}
+
+[POST] Filter Logs
+{{base_url}}/api/bwlogs/my-logs/filtered
+Body (examples):
+{ "birdName": "Robin" }
+--- OR ---
+{ "familyName": "Anatidae" }
+
+=== USER PROFILE ===
+
+[GET] Get Current User Profile
+{{base_url}}/api/my-info
+
+[PUT] Update Profile
+{{base_url}}/api/users/update-user
+Body:
+{
+  "firstName": "NewFirstName",
+  "lastName": "NewLastName",
+  "email": "new@email.com",
+  "dateOfBirth": "1990-01-01",
+  "gender": "MALE"
+}
+
+=== STATISTICS ===
+
+[GET] Bird Statistics
+{{base_url}}/api/stats/birds
+
+[GET] User Observation Stats
+{{base_url}}/api/stats/user-logs
+
+[GET] Family Statistics
+{{base_url}}/api/stats/families
+
+[GET] Region Statistics
+{{base_url}}/api/stats/regions
+
+[GET] Species Distribution in Family
+{{base_url}}/api/stats/species-distribution
