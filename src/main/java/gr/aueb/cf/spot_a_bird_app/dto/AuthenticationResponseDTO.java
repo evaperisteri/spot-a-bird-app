@@ -10,4 +10,7 @@ public class AuthenticationResponseDTO {
     private String firstname;
     private String lastname;
     private String token;
+    private Long userId;
+    private String username;
+    private String role;
 }

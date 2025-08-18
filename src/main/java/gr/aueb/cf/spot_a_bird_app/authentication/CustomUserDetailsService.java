@@ -1,5 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.authentication;
 
+import gr.aueb.cf.spot_a_bird_app.model.User;
 import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +15,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(
-                ()->new UsernameNotFoundException("User with username "+ username + " not found.")
-        );
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new CustomUserDetails(user);
     }
 }

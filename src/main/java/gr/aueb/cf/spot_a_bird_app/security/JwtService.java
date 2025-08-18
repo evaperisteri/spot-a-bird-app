@@ -1,5 +1,7 @@
 package gr.aueb.cf.spot_a_bird_app.security;
 
+import gr.aueb.cf.spot_a_bird_app.authentication.CustomUserDetails;
+import gr.aueb.cf.spot_a_bird_app.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class JwtService {
@@ -19,15 +22,35 @@ public class JwtService {
     private String secretKey = "5ce98d378ec88ea09ba8bcd511ef23645f04cc8e70b9134b98723a53c275bbc5";
     private long jwtExpiration = 10800000;  // 3 hours in milliseconds
 
-    public String generateToken(String username, String role) {
-        var claims = new HashMap<String, Object>();
+    // Method for authentication service
+    public String generateToken(Long userId, String username, String role) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);  // Now stores Long directly
+        claims.put("username", username);
         claims.put("role", role);
-        return Jwts
-                .builder()
+
+        return buildToken(claims, username);
+    }
+
+    // Method for UserDetails remains the same
+    public String generateToken(UserDetails userDetails) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+        User user = customUserDetails.getUser();
+        return generateToken(user.getId(), user.getUsername(), user.getRole().name());
+    }
+
+    // Add method to extract userId
+    public Long extractUserId(String token) {
+        return extractAllClaims(token).get("userId", Long.class);
+    }
+
+
+    private String buildToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder()
                 .setIssuer("self")
                 .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(subject)
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
