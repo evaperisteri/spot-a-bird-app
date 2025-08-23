@@ -105,7 +105,7 @@ public class BirdwatchingLogRestController {
             (@Nullable @RequestBody BirdWatchingLogFilters filters,
              @RequestParam(defaultValue = "0") int page,
              @RequestParam(defaultValue = "10") int size,
-             @RequestParam(defaultValue = "observationDate") String sortBy,
+             @RequestParam(defaultValue = "createdAt") String sortBy,
              @RequestParam(defaultValue = "ASC") String sortDirection) throws AppObjectNotAuthorizedException {
         if (filters==null) filters = BirdWatchingLogFilters.builder().build();
         return ResponseEntity.ok(bwlService.getLogsFilteredAndPaginated(filters, page, size, sortBy, sortDirection));
