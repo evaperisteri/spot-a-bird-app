@@ -27,4 +27,5 @@ public class BirdWatchingLogFilters extends GenericFilters {
     private Long familyId;
 
     private LocalDateTime date;
+    private String searchTerm;
 }

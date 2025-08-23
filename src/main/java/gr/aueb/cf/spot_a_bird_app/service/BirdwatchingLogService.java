@@ -155,9 +155,28 @@ public class BirdwatchingLogService {
             int size,
             String sortBy,
             String sortDirection) {
+
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
-        return bWLogRepository.findAll(getSpecsFromFilters(filters), pageable)
+
+        Specification<BirdwatchingLog> spec = Specification.where(null);
+
+        // 🔍 Apply the OR-based search term if it's provided
+        if (filters.getSearchTerm() != null && !filters.getSearchTerm().isBlank()) {
+            spec = spec.and(BirdwatchingLogSpecification.searchByTerm(filters.getSearchTerm()));
+        }
+
+        // ✅ Combine with other optional filters (these use AND logic)
+        spec = spec
+                .and(birdIdEquals(filters.getBirdId()))
+                .and(regionIdEquals(filters.getRegionId()))
+                .and(usernameContains(filters.getUsername()))
+                .and(userIdEquals(filters.getUserId()))
+                .and(dateEquals(filters.getDate()))
+                .and(familyNameContains(filters.getFamilyName()))
+                .and(familyIdEquals(filters.getFamilyId()));
+
+        return bWLogRepository.findAll(spec, pageable)
                 .map(mapper::mapBWLToReadOnlyDTO);
     }
 

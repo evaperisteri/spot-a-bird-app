@@ -1,6 +1,5 @@
 package gr.aueb.cf.spot_a_bird_app.core.specifications;
 
-import gr.aueb.cf.spot_a_bird_app.core.filters.BirdWatchingLogFilters;
 import gr.aueb.cf.spot_a_bird_app.model.Bird;
 import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
 import gr.aueb.cf.spot_a_bird_app.model.Region;
@@ -106,4 +105,22 @@ public class BirdwatchingLogSpecification {
         };
     }
 
+    public static Specification<BirdwatchingLog> searchByTerm(String term) {
+        return (root, query, cb) -> {
+            if (term == null || term.isBlank()) {
+                return cb.isTrue(cb.literal(true)); // no filtering
+            }
+
+            String likePattern = "%" + term.toLowerCase() + "%";
+
+            Join<BirdwatchingLog, Bird> birdJoin = root.join("bird");
+            Join<BirdwatchingLog, Region> regionJoin = root.join("region");
+
+            Predicate birdNamePredicate = cb.like(cb.lower(birdJoin.get("name")), likePattern);
+            Predicate scientificNamePredicate = cb.like(cb.lower(birdJoin.get("scientificName")), likePattern);
+            Predicate regionNamePredicate = cb.like(cb.lower(regionJoin.get("name")), likePattern);
+
+            return cb.or(birdNamePredicate, scientificNamePredicate, regionNamePredicate);
+        };
+    }
 }
