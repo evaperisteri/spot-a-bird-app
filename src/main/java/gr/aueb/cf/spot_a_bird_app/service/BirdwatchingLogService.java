@@ -64,20 +64,6 @@ public class BirdwatchingLogService {
         return mapper.mapBWLToReadOnlyDTO(log);
     }
 
-//    private Bird findBirdByName(String name) throws AppObjectNotFoundException {
-//        Optional<Bird> exactMatch = birdRepository.findByName(name);
-//        if (exactMatch.isPresent()) {
-//            return exactMatch.get();
-//        }
-//
-//        List<Bird> partialMatches = birdRepository.findByNameContainingIgnoreCase(name);
-//        if (!partialMatches.isEmpty()) {
-//            return partialMatches.get(0); // Return first match
-//        }
-//
-//        throw new AppObjectNotFoundException("Bird", "Bird not found with name: " + name);
-//    }
-
     private Region findRegionByName(String name) throws AppObjectNotFoundException {
         return regionRepository.findByName(name)
                 .orElseThrow(() -> new AppObjectNotFoundException("Region not found: ", name));
@@ -161,12 +147,12 @@ public class BirdwatchingLogService {
 
         Specification<BirdwatchingLog> spec = Specification.where(null);
 
-        // 🔍 Apply the OR-based search term if it's provided
+        //OR-based search term
         if (filters.getSearchTerm() != null && !filters.getSearchTerm().isBlank()) {
             spec = spec.and(BirdwatchingLogSpecification.searchByTerm(filters.getSearchTerm()));
         }
 
-        // ✅ Combine with other optional filters (these use AND logic)
+        // Combine with other optional filters (these use AND logic)
         spec = spec
                 .and(birdIdEquals(filters.getBirdId()))
                 .and(regionIdEquals(filters.getRegionId()))
@@ -209,7 +195,8 @@ public class BirdwatchingLogService {
 
         Bird bird = null;
         if (updateDTO.getBirdName() != null) {
-            bird = birdService.findBirdByName(updateDTO.getBirdName());
+            Bird newBird = birdService.findBirdByName(updateDTO.getBirdName());
+            existingLog.setBird(newBird); // Setting a new bird on the existing log
         }
 
         if (updateDTO.getQuantity() > 0) {
