@@ -14,4 +14,5 @@ public class BirdReadOnlyDTO {
     private String name;
     private String scientificName;
     private FamilyReadOnlyDTO family;
+    private String imageUrl;
 }

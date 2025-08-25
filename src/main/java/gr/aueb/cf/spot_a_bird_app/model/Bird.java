@@ -32,4 +32,7 @@ public class Bird {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id", nullable = false)
     private Family family;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

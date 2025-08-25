@@ -67,4 +67,6 @@ public interface BirdRepository extends JpaRepository<Bird, Long>, JpaSpecificat
     @Query("SELECT COUNT(DISTINCT b) FROM Bird b WHERE SIZE(b.birdwatchingLogSet) > 0")
     Long countDistinctBirdsWithLogs();
 
+    @Query("SELECT b FROM Bird b WHERE b.family.id = :familyId")
+    List<Bird> findByFamilyIdWithImages(Long familyId);
 }

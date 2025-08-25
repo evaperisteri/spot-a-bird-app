@@ -11,9 +11,10 @@ import lombok.Setter;
 @Setter
 public class BirdFullDetailsDTO {
     Long id;
-    String commonName;  // Previously 'name' in Bird entity
+    String commonName;
     String scientificName;
-    String familyName; // Added for combo box display
+    String familyName;
+    String imageUrl;
 
         // Combo box display format
         public String getDisplayText() {

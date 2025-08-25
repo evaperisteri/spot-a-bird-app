@@ -29,7 +29,8 @@ public class BirdRestController {
                 b.getId(),
                 b.getName(),
                 b.getScientificName(),
-                b.getFamily().getName()));
+                b.getFamily().getName(),
+                b.getImageUrl()));
 
         return ResponseEntity.ok(dtos);
     }
@@ -60,7 +61,8 @@ public class BirdRestController {
                         b.getId(),
                         b.getName(),
                         b.getScientificName(),
-                        b.getFamily().getName()))
+                        b.getFamily().getName(),
+                        b.getImageUrl()))
                 .toList();
 
         return ResponseEntity.ok(results);
@@ -73,7 +75,8 @@ public class BirdRestController {
                         b.getId(),
                         b.getName(),
                         b.getScientificName(),
-                        b.getFamily().getName()))
+                        b.getFamily().getName(),
+                        b.getImageUrl()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

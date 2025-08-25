@@ -26,7 +26,7 @@ public class BirdService {
     // Get all birds
     public List<BirdReadOnlyDTO> getAllBirds() {
         return birdRepository.findAll().stream()
-                .map(bird -> new BirdReadOnlyDTO(bird.getId(), bird.getName(), bird.getScientificName(), mapper.mapToFamilyReadOnlyDTO(bird.getFamily())))
+                .map(bird -> new BirdReadOnlyDTO(bird.getId(), bird.getName(), bird.getScientificName(), mapper.mapToFamilyReadOnlyDTO(bird.getFamily()), bird.getImageUrl()))
                 .sorted(Comparator.comparing(BirdReadOnlyDTO::getName))
                 .toList();
     }
