@@ -104,9 +104,12 @@ public class BirdwatchingLogService {
                         bird.getId(),
                         bird.getName(),
                         bird.getScientificName(),
-                        bird.getFamily() != null ? mapper.mapToFamilyReadOnlyDTO(bird.getFamily()) : null
+                        bird.getFamily() != null ? mapper.mapToFamilyReadOnlyDTO(bird.getFamily()) : null,
+                        bird.getImageUrl()
                 ))
-                .sorted(Comparator.<BirdReadOnlyDTO, String>comparing(BirdReadOnlyDTO::getName))
+//                .sorted(Comparator.<BirdReadOnlyDTO, String>comparing(BirdReadOnlyDTO::getName))
+//                .sorted(Comparator.comparing((BirdReadOnlyDTO bird) -> bird.getName()))
+                .sorted(Comparator.comparing(BirdReadOnlyDTO::getName))
                 .toList();
     }
 

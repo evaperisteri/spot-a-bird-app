@@ -195,8 +195,8 @@ public class Mapper {
                 bird.getId(),
                 bird.getName(),
                 bird.getScientificName(),
-                bird.getFamily() != null ?
-                        mapToFamilyReadOnlyDTO(bird.getFamily()) : null
+                bird.getFamily() != null ? mapToFamilyReadOnlyDTO(bird.getFamily()) : null,
+                bird.getImageUrl()
         );
     }
 }
