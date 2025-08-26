@@ -61,6 +61,7 @@ public class Mapper {
             birdDTO.setId(bwlog.getBird().getId());
             birdDTO.setName(bwlog.getBird().getName());
             birdDTO.setScientificName(bwlog.getBird().getScientificName());
+            birdDTO.setImageUrl(bwlog.getBird().getImageUrl());
 
             if (bwlog.getBird().getFamily() != null) {
                 birdDTO.setFamily(new FamilyReadOnlyDTO(
