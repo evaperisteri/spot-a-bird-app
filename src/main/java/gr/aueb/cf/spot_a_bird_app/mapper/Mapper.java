@@ -35,7 +35,7 @@ public class Mapper {
         user.setLastname(userInsertDTO.getLastname());
         user.setEmail(userInsertDTO.getEmail());
         user.setRole(userInsertDTO.getRole());
-        user.setIsActive(userInsertDTO.getIsActive());
+        user.setIsActive(userInsertDTO.getIsActive()!= null ? userInsertDTO.getIsActive() : true);
         user.setUsername(userInsertDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
 

@@ -25,7 +25,7 @@ public class UserInsertDTO {
     private String lastname;
     @NotNull(message = "role is required")
     private Role role;
-    @NotNull(message = "isActive field is required")
+
     private Boolean isActive;
     @NotNull(message = "Profile details are required")
     private ProfileDetailsInsertDTO profileDetailsInsertDTO;

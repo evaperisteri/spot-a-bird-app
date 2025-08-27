@@ -40,9 +40,9 @@ public class User extends AbstractEntity implements UserDetails  {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ColumnDefault("true")
+    //@ColumnDefault("true") only affects schema generation, not runtime Java defaults
     @Column(name="is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProfileDetails profileDetails;
