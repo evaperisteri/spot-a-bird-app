@@ -1,11 +1,14 @@
 package gr.aueb.cf.spot_a_bird_app.rest;
 
+import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.*;
 import gr.aueb.cf.spot_a_bird_app.core.filters.Paginated;
 import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
 import gr.aueb.cf.spot_a_bird_app.dto.UserInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.UserUpdateDTO;
+import gr.aueb.cf.spot_a_bird_app.model.User;
+import gr.aueb.cf.spot_a_bird_app.repository.UserRepository;
 import gr.aueb.cf.spot_a_bird_app.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,8 @@ import java.util.List;
 public class UserRestController {
 
     private final UserService userService;
+    private final AuthenticationService authService;
+    private final UserRepository userRepository;
 
     @PostMapping("/users/save")
     public ResponseEntity<UserReadOnlyDTO> saveUser(@Valid @RequestBody UserInsertDTO userInsertDTO,
@@ -74,6 +79,25 @@ public class UserRestController {
         return ResponseEntity.ok(userService.getCurrentUserInfo());
     }
 
+    @PutMapping("/update-user")
+    public ResponseEntity<UserReadOnlyDTO> updateCurrentUser(
+            @Valid @RequestBody UserUpdateDTO userUpdateDTO,
+            BindingResult bindingResult)
+            throws AppObjectInvalidArgumentException, ValidationException, AppObjectNotFoundException, AppServerException, AppObjectAlreadyExists {
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult);
+        }
+
+        // Get the current user's ID from authentication
+        String username = authService.getAuthenticatedUsername();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found"));
+
+        return ResponseEntity.ok(userService.updateUser(currentUser.getId(), userUpdateDTO));
+    }
+
+
     @PutMapping("/users/{id}")
     public ResponseEntity<UserReadOnlyDTO> updateUser(@PathVariable Long id,
                                                       @Valid @RequestBody UserUpdateDTO userUpdateDTO,
@@ -91,4 +115,15 @@ public class UserRestController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/my-info/delete")
+    public ResponseEntity<String> deleteCurrentUser() throws AppObjectNotFoundException {
+        String username = authService.getAuthenticatedUsername();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found"));
+
+        userService.deleteUser(currentUser.getId());
+        return ResponseEntity.ok("User account deleted successfully");
+    }
+
 }

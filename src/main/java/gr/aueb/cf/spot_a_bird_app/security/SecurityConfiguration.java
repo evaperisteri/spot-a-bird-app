@@ -56,6 +56,11 @@ public class SecurityConfiguration {
                                 "/api/stats/birds",
                                 "/api/stats/species-distribution"
                         ).permitAll()
+                // Allow authenticated users to access their own profile endpoints
+                        .requestMatchers("/api/my-info").authenticated()
+                        .requestMatchers("/api/update-user").authenticated()
+                        .requestMatchers("/api/my-info/delete").authenticated()
+                // Only ADMIN can access other user management endpoints
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
