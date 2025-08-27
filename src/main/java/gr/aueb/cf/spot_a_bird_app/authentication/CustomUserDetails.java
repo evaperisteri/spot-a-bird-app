@@ -3,9 +3,11 @@ package gr.aueb.cf.spot_a_bird_app.authentication;
 import gr.aueb.cf.spot_a_bird_app.model.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 public class CustomUserDetails implements UserDetails {
@@ -17,7 +19,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getAuthorities();
+        String roleName = "ROLE_" + user.getRole().name();
+        return List.of(new SimpleGrantedAuthority(roleName));
     }
 
     @Override
