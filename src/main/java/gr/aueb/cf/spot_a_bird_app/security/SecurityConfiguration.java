@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                                 "/api/stats/birds",
                                 "/api/stats/species-distribution"
                         ).permitAll()
-                        .requestMatchers("/api/users/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

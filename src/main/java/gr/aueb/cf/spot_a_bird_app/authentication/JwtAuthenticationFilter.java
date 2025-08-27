@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -47,7 +48,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter  {
             }
             final String username = jwtService.extractUsername(jwt);
             LOGGER.info("Extracted username from JWT: {}", username);
-            final String userRole = jwtService.getStringClaim(jwt, "role");
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -55,7 +55,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter  {
 
                 //token matches user details?
                 if (jwtService.isTokenValidForUser(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    String role = jwtService.getStringClaim(jwt, "role"); // "ADMIN"
+                    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role); // ROLE_ADMIN
+                    LOGGER.info("Authorities set in context: {}", authority);
+
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } else {
