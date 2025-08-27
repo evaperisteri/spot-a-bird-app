@@ -74,7 +74,7 @@ public class UserRestController {
         return ResponseEntity.ok(userService.getCurrentUserInfo());
     }
 
-    @PutMapping("/users/{id")
+    @PutMapping("/users/{id}")
     public ResponseEntity<UserReadOnlyDTO> updateUser(@PathVariable Long id,
                                                       @Valid @RequestBody UserUpdateDTO userUpdateDTO,
                                                       BindingResult bindingResult)
