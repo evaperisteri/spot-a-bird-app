@@ -109,8 +109,8 @@ public class UserService {
         }
 
         // Update basic info
-        existingUser.setFirstname(updateDTO.getFirstName());
-        existingUser.setLastname(updateDTO.getLastName());
+        existingUser.setFirstname(updateDTO.getFirstname());
+        existingUser.setLastname(updateDTO.getLastname());
 
         // Handle profile details
         if (existingUser.getProfileDetails() == null) {

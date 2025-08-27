@@ -16,10 +16,10 @@ import java.time.LocalDate;
 @Data
 public class UserUpdateDTO {
     @NotBlank(message = "First name is required")
-    private String firstName;
+    private String firstname;
 
     @NotBlank(message = "Last name is required")
-    private String lastName;
+    private String lastname;
 
     @Email(message = "Enter a correct email")
     @NotBlank(message = "Email is required")
