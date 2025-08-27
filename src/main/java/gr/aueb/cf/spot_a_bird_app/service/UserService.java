@@ -112,6 +112,10 @@ public class UserService {
         existingUser.setFirstname(updateDTO.getFirstname());
         existingUser.setLastname(updateDTO.getLastname());
 
+        if (updateDTO.getIsActive() != null) {
+            existingUser.setIsActive(updateDTO.getIsActive());
+        }
+
         // Handle profile details
         if (existingUser.getProfileDetails() == null) {
             existingUser.setProfileDetails(new ProfileDetails());
@@ -184,5 +188,32 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with username: " + username));
         return mapper.mapToUserReadOnlyDTO(user);
+    }
+
+    public UserReadOnlyDTO updateCurrentUser(UserUpdateDTO updateDTO)
+            throws AppObjectNotFoundException, AppObjectAlreadyExists {
+
+        String username = authService.getAuthenticatedUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found with username: " + username));
+
+        if (!updateDTO.getEmail().equals(user.getEmail())) {
+            if (userRepository.findByEmail(updateDTO.getEmail()).isPresent()) {
+                throw new AppObjectAlreadyExists("User", "User with Email: " + updateDTO.getEmail() + " already exists");
+            }
+            user.setEmail(updateDTO.getEmail());
+        }
+
+        user.setFirstname(updateDTO.getFirstname());
+        user.setLastname(updateDTO.getLastname());
+
+        if (user.getProfileDetails() == null) {
+            user.setProfileDetails(new ProfileDetails());
+        }
+        user.getProfileDetails().setDateOfBirth(updateDTO.getDateOfBirth());
+        user.getProfileDetails().setGender(updateDTO.getGender());
+
+        User updatedUser = userRepository.save(user);
+        return mapper.mapToUserReadOnlyDTO(updatedUser);
     }
 }

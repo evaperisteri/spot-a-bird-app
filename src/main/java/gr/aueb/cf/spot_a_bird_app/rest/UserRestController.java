@@ -94,7 +94,7 @@ public class UserRestController {
         User currentUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found"));
 
-        return ResponseEntity.ok(userService.updateUser(currentUser.getId(), userUpdateDTO));
+        return ResponseEntity.ok(userService.updateCurrentUser(userUpdateDTO));
     }
 
 

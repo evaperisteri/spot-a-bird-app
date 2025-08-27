@@ -25,6 +25,8 @@ public class UserUpdateDTO {
     @NotBlank(message = "Email is required")
     private String email;
 
+    private Boolean isActive;
+
     @Past(message = "Date of birth must be in the past")
     private LocalDate dateOfBirth;
 

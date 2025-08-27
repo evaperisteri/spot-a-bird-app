@@ -15,5 +15,6 @@ public class UserReadOnlyDTO {
     private String firstname;
     private String lastname;
     private Role role;
+    private Boolean isActive;
     private ProfileDetailsReadOnlyDTO profileDetails;
 }
