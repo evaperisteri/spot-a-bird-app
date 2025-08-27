@@ -89,11 +89,6 @@ public class UserRestController {
             throw new ValidationException(bindingResult);
         }
 
-        // Get the current user's ID from authentication
-        String username = authService.getAuthenticatedUsername();
-        User currentUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppObjectNotFoundException("User", "User not found"));
-
         return ResponseEntity.ok(userService.updateCurrentUser(userUpdateDTO));
     }
 
