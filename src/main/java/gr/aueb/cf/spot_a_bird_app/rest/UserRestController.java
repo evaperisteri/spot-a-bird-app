@@ -85,4 +85,10 @@ public class UserRestController {
 
         return ResponseEntity.ok(userService.updateUser(id, userUpdateDTO));
     }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws AppObjectNotFoundException {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }
