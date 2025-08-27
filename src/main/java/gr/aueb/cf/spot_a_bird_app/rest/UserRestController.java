@@ -74,14 +74,15 @@ public class UserRestController {
         return ResponseEntity.ok(userService.getCurrentUserInfo());
     }
 
-    @PutMapping("/users/update-user")
-    public ResponseEntity<UserReadOnlyDTO> updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO,
+    @PutMapping("/users/{id")
+    public ResponseEntity<UserReadOnlyDTO> updateUser(@PathVariable Long id,
+                                                      @Valid @RequestBody UserUpdateDTO userUpdateDTO,
                                                       BindingResult bindingResult)
             throws AppObjectInvalidArgumentException, ValidationException, AppObjectNotFoundException, AppServerException, AppObjectAlreadyExists {
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult);
         }
 
-        return ResponseEntity.ok(userService.updateUser(userUpdateDTO));
+        return ResponseEntity.ok(userService.updateUser(id, userUpdateDTO));
     }
 }

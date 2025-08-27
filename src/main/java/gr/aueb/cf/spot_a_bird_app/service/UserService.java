@@ -95,11 +95,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserReadOnlyDTO updateUser(UserUpdateDTO updateDTO)
+    public UserReadOnlyDTO updateUser(Long id, UserUpdateDTO updateDTO)
             throws AppObjectNotFoundException, AppObjectAlreadyExists {
-        String username = authService.getAuthenticatedUsername();
-        User existingUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppObjectNotFoundException("User", "User with username: " + username +" not found."));
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new AppObjectNotFoundException("User", "User with id: " + id +" not found."));
 
         // Check for duplicate username/email if changing those fields
         if (!updateDTO.getEmail().equals(existingUser.getEmail())) {
