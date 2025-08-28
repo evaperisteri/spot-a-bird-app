@@ -19,9 +19,10 @@ ________________________________________
 ________________________________________
 🔧 Backend Setup
 1.	Clone the backend repository:
-2.	```git clone https://github.com/evaperisteri/spot-a-bird-app```
-3.	```cd spot-a-bird-app```
-4.	First build (creates the tables):
+
+```git clone https://github.com/evaperisteri/spot-a-bird-app 
+cd spot-a-bird-app```
+2.	First build (creates the tables):
   -	Open src/main/resources/application.properties
   -	Uncomment the lines under:
     ===== HIBERNATE (Initial, comment out after first build) =====
@@ -30,7 +31,7 @@ ________________________________________
   - Then run:
     ```./gradlew clean build```
     ```./gradlew bootRun```
-5.	Subsequent builds (when tables already exist):
+3.	Subsequent builds (when tables already exist):
   -	Reverse the above comments:
   	Comment out the Initial Hibernate lines
   	Uncomment the Ongoing Hibernate lines
