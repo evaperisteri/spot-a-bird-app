@@ -118,13 +118,28 @@ Body (examples):
 --- OR ---
 { "familyName": "Anatidae" }
 
+[DELETE] Delete Log
+{{base_url}}/api/bwlogs/{id}
+
 === USER PROFILE ===
 
 [GET] Get Current User Profile
 {{base_url}}/api/my-info
 
-[PUT] Update Profile
-{{base_url}}/api/users/update-user
+[PUT] Update Profile --ADMIN ONLY
+{{base_url}}/api/users/{id}
+Body:
+{
+  "firstName": "NewFirstName",
+  "lastName": "NewLastName",
+  "email": "new@email.com",
+  "isActive": true,
+  "dateOfBirth": "1990-01-01",
+  "gender": "MALE"
+}
+
+[PUT] Update currentl loggedin user
+{{base_url}}/api/update-user
 Body:
 {
   "firstName": "NewFirstName",
