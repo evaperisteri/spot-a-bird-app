@@ -3,7 +3,6 @@ package gr.aueb.cf.spot_a_bird_app.model;
 import gr.aueb.cf.spot_a_bird_app.core.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
