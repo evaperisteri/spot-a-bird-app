@@ -1,11 +1,14 @@
-Spot-A-Bird Application Setup Guide
-Complete instructions to set up the backend and frontend
+#Spot-A-Bird Application Setup Guide#
+
+##Complete instructions to set up the backend and frontend##
+
 This project has two parts:
 •	Backend (Spring Boot + Gradle): https://github.com/evaperisteri/spot-a-bird-app
 •	Frontend (React + Vite): https://github.com/evaperisteri/spot-a-bird-react
 Follow the steps below to get everything running locally.
 ________________________________________
-📦 Prerequisites
+📦 **Prerequisites**
+
 Make sure you have these installed on your system:
 
 ☕ Java JDK 17
@@ -16,23 +19,33 @@ Make sure you have these installed on your system:
 
 🌱 Git
 ________________________________________
-🗄️ Database Setup
+🗄️ **Database Setup**
 1.	Open MySQL and run the following commands:
-    ```CREATE DATABASE spot_a_bird_db;
-     CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';
-     GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';
-     FLUSH PRIVILEGES;```
-     (Alternatively, you can use a MySQL client such as MySQL Workbench.)
+    ```CREATE DATABASE spot_a_bird_db;```
+    
+    ```CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';```
+         
+    ```GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';```
+         
+    ```FLUSH PRIVILEGES;```
+     
+(Alternatively, you can use a MySQL client such as MySQL Workbench.)
+
 2.	Verify that the backend’s src/main/resources/application.properties file is pointing to the same database name, user, and password.
-    ```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC
-    spring.datasource.username=spotter
-    spring.datasource.password=12345```
+    
+```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC```
+
+    ```spring.datasource.username=spotter```
+
+    ```spring.datasource.password=12345```
 ________________________________________
-🔧 Backend Setup
+🔧 **Backend Setup**
 1.	Clone the backend repository:
 
 ```git clone https://github.com/evaperisteri/spot-a-bird-app```
+
 ```cd spot-a-bird-app```
+
 2.	First build (creates the tables):
   -	Open src/main/resources/application.properties
   -	Uncomment the lines under:
@@ -43,16 +56,18 @@ ________________________________________
 
     ```./gradlew clean build```
     ```./gradlew bootRun```
+
 3.	Subsequent builds (when tables already exist):
   -	Reverse the above comments:
   	Comment out the Initial Hibernate lines
   	Uncomment the Ongoing Hibernate lines
   -	Run again:
-  - 
+
      ```./gradlew bootRun```
+
 ✅ The backend should now be running on http://localhost:8080.
 ________________________________________
-🎨 Frontend Setup
+🎨 **Frontend Setup**
 1.	Clone the frontend repository:
 
       ```git clone https://github.com/evaperisteri/spot-a-bird-react```
@@ -66,9 +81,9 @@ ________________________________________
       ```npm run dev```
 ✅ The frontend will be available at http://localhost:5173.
 ________________________________________
-🚀 Usage
+🚀 **Usage**
 •	Open http://localhost:5173 in your browser.
 •	The frontend will communicate with the backend running on http://localhost:8080.
 ________________________________________
-📖 Additional Docs
+📖 **Additional Docs**
 •	Postman Collection Import Guide: https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md
