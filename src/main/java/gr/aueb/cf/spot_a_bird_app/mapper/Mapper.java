@@ -20,6 +20,7 @@ public class Mapper {
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .role(user.getRole())
+                .isActive(user.getIsActive())
                 .profileDetails(user.getProfileDetails() != null ?
                         ProfileDetailsReadOnlyDTO.builder()
                                 .gender(user.getProfileDetails().getGender())
