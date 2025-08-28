@@ -54,7 +54,7 @@ public class UserService {
             throw new AppObjectInvalidArgumentException("User", "Password cannot be null or empty");
         }
 
-        // 2. Check for existing users (single query optimization)
+        // 2. Check for existing users
         Optional<User> existingUser = userRepository.findByUsernameOrEmail(
                 userInsertDTO.getUsername(),
                 userInsertDTO.getEmail()
@@ -70,20 +70,26 @@ public class UserService {
         }
 
         // 3. Create and save new user
-
         User user = mapper.mapToUser(userInsertDTO);
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
+
+        // FIX: Ensure user is active by default
+        if (userInsertDTO.getIsActive() == null) {
+            user.setIsActive(true);
+        } else {
+            user.setIsActive(userInsertDTO.getIsActive());
+        }
 
         if (userInsertDTO.getProfileDetailsInsertDTO() != null) {
             ProfileDetails profile = new ProfileDetails();
             profile.setGender(userInsertDTO.getProfileDetailsInsertDTO().getGender());
             profile.setDateOfBirth(userInsertDTO.getProfileDetailsInsertDTO().getDateOfBirth());
 
-            profile.setUser(user);  // This links ProfileDetails to User
-            user.setProfileDetails(profile);  // This links User to ProfileDetails
+            profile.setUser(user);
+            user.setProfileDetails(profile);
         }
-        User savedUser = userRepository.save(user); //this one has an id
 
+        User savedUser = userRepository.save(user);
         return mapper.mapToUserReadOnlyDTO(savedUser);
     }
 
