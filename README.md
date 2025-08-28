@@ -20,8 +20,7 @@ ________________________________________
 🔧 Backend Setup
 1.	Clone the backend repository:
 
-```git clone https://github.com/evaperisteri/spot-a-bird-app 
-cd spot-a-bird-app```
+```git clone https://github.com/evaperisteri/spot-a-bird-app cd spot-a-bird-app```
 2.	First build (creates the tables):
   -	Open src/main/resources/application.properties
   -	Uncomment the lines under:
