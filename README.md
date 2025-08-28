@@ -1,3 +1,5 @@
+Spot-A-Bird Application Setup Guide
+Complete instructions to set up the backend and frontend
 This project has two parts:
 •	Backend (Spring Boot + Gradle): https://github.com/evaperisteri/spot-a-bird-app
 •	Frontend (React + Vite): https://github.com/evaperisteri/spot-a-bird-react
@@ -5,9 +7,14 @@ Follow the steps below to get everything running locally.
 ________________________________________
 📦 Prerequisites
 Make sure you have these installed on your system:
-•	MySQL (v8.x recommended)
-•	Java JDK (v17 recommended)
-•	Node.js & npm (Node v18+ recommended)
+
+☕ Java JDK 17
+
+🐬 MySQL Server
+
+🌐 Node.js 18+ & npm
+
+🌱 Git
 ________________________________________
 🗄️ Database Setup
 1.	Open MySQL and run the following commands:
@@ -15,12 +22,17 @@ ________________________________________
      CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';
      GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';
      FLUSH PRIVILEGES;```
+     (Alternatively, you can use a MySQL client such as MySQL Workbench.)
 2.	Verify that the backend’s src/main/resources/application.properties file is pointing to the same database name, user, and password.
+    ```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC
+    spring.datasource.username=spotter
+    spring.datasource.password=12345```
 ________________________________________
 🔧 Backend Setup
 1.	Clone the backend repository:
 
-```git clone https://github.com/evaperisteri/spot-a-bird-app cd spot-a-bird-app```
+```git clone https://github.com/evaperisteri/spot-a-bird-app```
+```cd spot-a-bird-app```
 2.	First build (creates the tables):
   -	Open src/main/resources/application.properties
   -	Uncomment the lines under:
@@ -28,6 +40,7 @@ ________________________________________
   -	Comment out the lines under:
  	==== HIBERNATE (Ongoing, tables are already created and filled) ====
   - Then run:
+
     ```./gradlew clean build```
     ```./gradlew bootRun```
 3.	Subsequent builds (when tables already exist):
@@ -35,16 +48,21 @@ ________________________________________
   	Comment out the Initial Hibernate lines
   	Uncomment the Ongoing Hibernate lines
   -	Run again:
+  - 
      ```./gradlew bootRun```
 ✅ The backend should now be running on http://localhost:8080.
 ________________________________________
 🎨 Frontend Setup
 1.	Clone the frontend repository:
+
       ```git clone https://github.com/evaperisteri/spot-a-bird-react```
+
 	```cd spot-a-bird-react```
 2.	Install dependencies:
+
       ```npm install```
 3.	Run the development server:
+
       ```npm run dev```
 ✅ The frontend will be available at http://localhost:5173.
 ________________________________________
