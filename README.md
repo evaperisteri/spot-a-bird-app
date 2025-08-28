@@ -1,4 +1,4 @@
-#Spot-A-Bird Application Setup Guide#
+**Spot-A-Bird Application Setup Guide**
 
 ##Complete instructions to set up the backend and frontend##
 
@@ -21,6 +21,7 @@ Make sure you have these installed on your system:
 ________________________________________
 🗄️ **Database Setup**
 1.	Open MySQL and run the following commands:
+
     ```CREATE DATABASE spot_a_bird_db;```
     
     ```CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';```
@@ -28,25 +29,29 @@ ________________________________________
     ```GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';```
          
     ```FLUSH PRIVILEGES;```
-     
-(Alternatively, you can use a MySQL client such as MySQL Workbench.)
+
+
+   (Alternatively, you can use a MySQL client such as MySQL Workbench.)
 
 2.	Verify that the backend’s src/main/resources/application.properties file is pointing to the same database name, user, and password.
     
-```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC```
+    ```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC```
 
     ```spring.datasource.username=spotter```
 
     ```spring.datasource.password=12345```
 ________________________________________
 🔧 **Backend Setup**
+
 1.	Clone the backend repository:
 
 ```git clone https://github.com/evaperisteri/spot-a-bird-app```
 
 ```cd spot-a-bird-app```
 
+
 2.	First build (creates the tables):
+
   -	Open src/main/resources/application.properties
   -	Uncomment the lines under:
     ===== HIBERNATE (Initial, comment out after first build) =====
@@ -55,6 +60,7 @@ ________________________________________
   - Then run:
 
     ```./gradlew clean build```
+
     ```./gradlew bootRun```
 
 3.	Subsequent builds (when tables already exist):
@@ -79,11 +85,15 @@ ________________________________________
 3.	Run the development server:
 
       ```npm run dev```
+
 ✅ The frontend will be available at http://localhost:5173.
 ________________________________________
 🚀 **Usage**
+
 •	Open http://localhost:5173 in your browser.
+
 •	The frontend will communicate with the backend running on http://localhost:8080.
 ________________________________________
 📖 **Additional Docs**
+
 •	Postman Collection Import Guide: https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md
