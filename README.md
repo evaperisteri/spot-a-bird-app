@@ -2,25 +2,25 @@
 
 ##Complete instructions to set up the backend and frontend##
 
-        This project has two parts:
-        
-        •	Backend (Spring Boot + Gradle): https://github.com/evaperisteri/spot-a-bird-app
-        
-        •	Frontend (React + Vite): https://github.com/evaperisteri/spot-a-bird-react
-        
-        Follow the steps below to get everything running locally.
-        ________________________________________
-        📦 **Prerequisites**
-        
-        Make sure you have these installed on your system:
-        
-        ☕ Java JDK 17
-        
-        🐬 MySQL Server
-        
-        🌐 Node.js 18+ & npm
-        
-        🌱 Git
+This project has two parts:
+
+•	Backend (Spring Boot + Gradle): https://github.com/evaperisteri/spot-a-bird-app
+
+•	Frontend (React + Vite): https://github.com/evaperisteri/spot-a-bird-react
+
+Follow the steps below to get everything running locally.
+________________________________________
+📦 **Prerequisites**
+
+Make sure you have these installed on your system:
+
+☕ Java JDK 17
+
+🐬 MySQL Server
+
+🌐 Node.js 18+ & npm
+
+🌱 Git
 ________________________________________
 🗄️ **Database Setup**
 1.	Open MySQL and run the following commands:
@@ -72,7 +72,7 @@ ________________________________________
    	Uncomment the Ongoing Hibernate lines
      -	Run again:
 
-     ```./gradlew bootRun```
+        ```./gradlew bootRun```
 
 ✅ The backend should now be running on http://localhost:8080.
 ________________________________________
