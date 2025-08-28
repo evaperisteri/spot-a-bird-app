@@ -42,6 +42,7 @@ public class User extends AbstractEntity implements UserDetails  {
 
     //@ColumnDefault("true") only affects schema generation, not runtime Java defaults
     @Column(name="is_active")
+    @Builder.Default    //αυτό προστέθηκε γιατί ο lombok αγνοεί το =true αν δεν είναι final
     private Boolean isActive = true;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
