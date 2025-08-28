@@ -11,16 +11,16 @@ Make sure you have these installed on your system:
 ________________________________________
 🗄️ Database Setup
 1.	Open MySQL and run the following commands:
-    <pre>```CREATE DATABASE spot_a_bird_db;
+    ```CREATE DATABASE spot_a_bird_db;
      CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';
      GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';
-     FLUSH PRIVILEGES;```</pre>
+     FLUSH PRIVILEGES;```
 2.	Verify that the backend’s src/main/resources/application.properties file is pointing to the same database name, user, and password.
 ________________________________________
 🔧 Backend Setup
 1.	Clone the backend repository:
-2.	<pre>```git clone https://github.com/evaperisteri/spot-a-bird-app```</pre>
-3.	<pre>```cd spot-a-bird-app```</pre>
+2.	```git clone https://github.com/evaperisteri/spot-a-bird-app```
+3.	```cd spot-a-bird-app```
 4.	First build (creates the tables):
   -	Open src/main/resources/application.properties
   -	Uncomment the lines under:
@@ -28,24 +28,24 @@ ________________________________________
   -	Comment out the lines under:
  	==== HIBERNATE (Ongoing, tables are already created and filled) ====
   - Then run:
-    <pre>```./gradlew clean build
-    ./gradlew bootRun```</pre>
+    ```./gradlew clean build```
+    ```./gradlew bootRun```
 5.	Subsequent builds (when tables already exist):
   -	Reverse the above comments:
   	Comment out the Initial Hibernate lines
   	Uncomment the Ongoing Hibernate lines
   -	Run again:
-     <pre>```./gradlew bootRun```</pre>
+     ```./gradlew bootRun```
 ✅ The backend should now be running on http://localhost:8080.
 ________________________________________
 🎨 Frontend Setup
 1.	Clone the frontend repository:
-      <pre>```git clone https://github.com/evaperisteri/spot-a-bird-react```</pre>
-	<pre>```cd spot-a-bird-react```</pre>
+      ```git clone https://github.com/evaperisteri/spot-a-bird-react```
+	```cd spot-a-bird-react```
 2.	Install dependencies:
-      <pre>```npm install```</pre>
+      ```npm install```
 3.	Run the development server:
-      <pre>```npm run dev```</pre>
+      ```npm run dev```
 ✅ The frontend will be available at http://localhost:5173.
 ________________________________________
 🚀 Usage
