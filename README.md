@@ -88,10 +88,13 @@ ________________________________________
        ```gradlew.bat bootRun```
 
 3.	Subsequent builds (when tables already exist):
-   -	Reverse the above comments:
-   	Comment out the Initial Hibernate lines
-   	Uncomment the Ongoing Hibernate lines
-     -	Run again:
+      -	Reverse the above comments:
+      
+           •	Comment out the Initial Hibernate lines
+      
+           •	Uncomment the Ongoing Hibernate lines
+      
+      -	Run again:
 
         ```./gradlew bootRun``` or ```gradlew.bat bootRun```
 
@@ -116,8 +119,10 @@ ________________________________________
 
 •	Open http://localhost:5173 in your browser.
 
-•	The frontend will communicate with the backend running on http://localhost:8080.
+   (The frontend will communicate with the backend running on http://localhost:8080.)
 ________________________________________
 🔸 **Additional Docs**
 
-•	Postman Collection Import Guide: https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md
+•	Postman Collection Import Guide:
+
+https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md
