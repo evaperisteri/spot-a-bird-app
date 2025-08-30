@@ -9,7 +9,7 @@ This project has two parts:
 
 ---
 
-## 🛠️ Tools & Frameworks
+## 🔸 Tools & Frameworks
 
 ### Backend:
 - Java 17, Spring Boot, Gradle
@@ -25,18 +25,18 @@ Follow the steps below to get everything running locally.
 
 ---
 
-## 📋 Prerequisites
+## 🔸 Prerequisites
 
 Make sure you have these installed on your system:
 
-- Java JDK 17
-- MySQL Server
-- Node.js 18+ & npm
-- Git
+🔹 Java JDK 17
+🔹 MySQL Server
+🔹 Node.js 18+ & npm
+🔹 Git
 
 ---
 
-## 🗄️ Database Setup
+## 🔸️ Database Setup
 
 1. Open MySQL and run the following commands:
 
@@ -55,7 +55,7 @@ spring.datasource.username=spotter
 spring.datasource.password=12345
 ```
 ________________________________________
-🔸 **Backend Setup**
+## 🔸 Backend Setup
 
 1.	Clone the backend repository:
 ```bash
@@ -71,19 +71,19 @@ cd spot-a-bird-app
         ==== HIBERNATE (Ongoing, tables are already created and filled) ====
      - Then run:
 
-# Gitbash/Linux/Mac
+**Gitbash/Linux/Mac**
 ```bash
 ./gradlew clean build
 ./gradlew bootRun
 ```
 
-# Windows Command Prompt
+**Windows Command Prompt**
 ```cmd
 gradlew.bat clean build
 gradlew.bat bootRun
 ```
 
-# PowerShell
+**PowerShell**
 ```powershell
 .\gradlew.bat clean build
 .\gradlew.bat bootRun
@@ -108,7 +108,7 @@ or
 
 ✅ The backend should now be running on http://localhost:8080.
 ________________________________________
-🔸 **Frontend Setup**
+## 🔸 Frontend Setup
 1.	Clone the frontend repository:
 
 ```bash
@@ -129,13 +129,13 @@ npm run dev
 
 ✅ The frontend will be available at http://localhost:5173.
 ________________________________________
-🔸 **Usage**
+## 🔸 Usage
 
 •	Open http://localhost:5173 in your browser.
 
    (The frontend will communicate with the backend running on http://localhost:8080.)
 ________________________________________
-🔸 **Additional Docs**
+## 🔸 Additional Docs
 
 •	Postman Collection Import Guide:
 
