@@ -38,32 +38,32 @@ ________________________________________
 🔸 **Database Setup**
 1.	Open MySQL and run the following commands:
 
-            ```CREATE DATABASE spot_a_bird_db;```
-            
-            ```CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';```
-                 
-            ```GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';```
-                 
-            ```FLUSH PRIVILEGES;```
+        ```CREATE DATABASE spot_a_bird_db;```
+        
+        ```CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';```
+             
+        ```GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';```
+             
+        ```FLUSH PRIVILEGES;```
 
 
    (Alternatively, you can use a MySQL client such as MySQL Workbench.)
 
 2.	Verify that the backend’s src/main/resources/application.properties file is pointing to the same database name, user, and password.
     
-            ```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC```
-        
-            ```spring.datasource.username=spotter```
-        
-            ```spring.datasource.password=12345```
+        ```spring.datasource.url=jdbc:mysql://localhost:3306/spot_a_bird_db?serverTimezone=UTC```
+    
+        ```spring.datasource.username=spotter```
+    
+        ```spring.datasource.password=12345```
 ________________________________________
 🔸 **Backend Setup**
 
 1.	Clone the backend repository:
 
-            ```git clone https://github.com/evaperisteri/spot-a-bird-app```
-            
-            ```cd spot-a-bird-app```
+        ```git clone https://github.com/evaperisteri/spot-a-bird-app```
+                    
+        ```cd spot-a-bird-app```
 
 
 2.	First build (creates the tables):
@@ -75,17 +75,17 @@ ________________________________________
         ==== HIBERNATE (Ongoing, tables are already created and filled) ====
      - Then run:
      
-     On Git Bash (or WSL / Linux / macOS):
-
-            ```./gradlew clean build```
+        On Git Bash (or WSL / Linux / macOS):
+        
+        ```./gradlew clean build```
+                    
+        ```./gradlew bootRun```
+        
+        On Windows Command Prompt / PowerShell:
+        
+        ```gradlew.bat clean build```
             
-            ```./gradlew bootRun```
-
-     On Windows Command Prompt / PowerShell:
-
-           ```gradlew.bat clean build```
-    
-           ```gradlew.bat bootRun```
+        ```gradlew.bat bootRun```
 
 3.	Subsequent builds (when tables already exist):
       -	Reverse the above comments:
@@ -96,23 +96,22 @@ ________________________________________
       
       -	Run again:
 
-
-        ```./gradlew bootRun``` or ```gradlew.bat bootRun```
+      ```./gradlew bootRun``` or ```gradlew.bat bootRun```
 
 ✅ The backend should now be running on http://localhost:8080.
 ________________________________________
 🔸 **Frontend Setup**
 1.	Clone the frontend repository:
 
-          ```git clone https://github.com/evaperisteri/spot-a-bird-react```
-
-          ```cd spot-a-bird-react```
+        ```git clone https://github.com/evaperisteri/spot-a-bird-react```
+        
+        ```cd spot-a-bird-react```
 2.	Install dependencies:
 
-          ```npm install```
+        ```npm install```
 3.	Run the development server:
 
-          ```npm run dev```
+        ```npm run dev```
 
 ✅ The frontend will be available at http://localhost:5173.
 ________________________________________
