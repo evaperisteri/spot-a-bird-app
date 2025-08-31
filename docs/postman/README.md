@@ -3,10 +3,10 @@
 This project includes a comprehensive Postman collection for testing all API endpoints.
 
 ## Postman Requests
-- **Collection file**: SpotABirdApp.postman_collection.json
-- **Notes**: PostmanRequests.txt (human-readable request notes)
-- **Environment file**: SpotABirdApp.postman_environment.json
-- **Collection file without testing**: SpotABirdApp.postman_collection_before_tests.json
+- **Collection file**: `SpotABirdApp.postman_collection.json`
+- **Notes**: `PostmanRequests.txt` (human-readable request notes)
+- **Environment file**: `SpotABirdApp.postman_environment.json`
+- **Collection file without testing**: `SpotABirdApp.postman_collection_before_tests.json`
 
 ## Using These Requests
 1. Install Postman
