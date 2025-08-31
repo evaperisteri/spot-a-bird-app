@@ -19,11 +19,12 @@ public interface ProfileDetailsRepository extends JpaRepository<ProfileDetails, 
     Optional<ProfileDetails> findByUserId(Long userId);
     List<ProfileDetails> findByGender(Gender gender);
     Page<ProfileDetails> findByGender(Gender gender, Pageable pageable);
-    // Find profiles born between dates
+    // profiles born between dates
     List<ProfileDetails> findByDateOfBirthBetween(LocalDate start, LocalDate end);
+
     @Query("SELECT pd.gender, COUNT(pd) FROM ProfileDetails pd GROUP BY pd.gender")
     List<Object[]> countProfilesByGender();
-    // Update query example
+
     @Modifying
     @Transactional
     @Query("UPDATE ProfileDetails pd SET pd.dateOfBirth = :dob WHERE pd.user.id = :userId")

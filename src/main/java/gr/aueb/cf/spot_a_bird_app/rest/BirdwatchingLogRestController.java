@@ -6,7 +6,6 @@ import gr.aueb.cf.spot_a_bird_app.core.filters.BirdWatchingLogFilters;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
-import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
 import gr.aueb.cf.spot_a_bird_app.repository.BirdwatchingLogRepository;
 import gr.aueb.cf.spot_a_bird_app.service.BirdwatchingLogService;
 import jakarta.validation.Valid;
@@ -16,16 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 import java.util.List;
 
 
@@ -86,7 +81,6 @@ public class BirdwatchingLogRestController {
         }
         return ResponseEntity.ok(bwlService.updateLog(id, updateDTO));
     }
-
 
     @GetMapping("/paginated")
     public ResponseEntity<Page<BirdwatchingLogReadOnlyDTO>> getPaginatedLogs(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {

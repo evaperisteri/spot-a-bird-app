@@ -1,7 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.service;
 
 import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
-import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.dto.stats.*;
 import gr.aueb.cf.spot_a_bird_app.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,15 +48,6 @@ public class StatsService {
     public List<RegionCountDTO> getRegionStatistics() {
         return logRepository.findTopRegionsByObservations(PageRequest.of(0, 5));
     }
-
-//    @Transactional(readOnly = true)
-//    public UserActivityStatsDTO getUserActivityStats() {
-//        return UserActivityStatsDTO.builder()
-//                .totalUsers(userRepository.countTotalUsers())
-//                .activeUsers(userRepository.countActiveUsers())
-//                .mostActiveUsers(userRepository.findMostActiveUsers(PageRequest.of(0, 5)))
-//                .build();
-//    }
 
     @Transactional(readOnly = true)
     public FamilyStatisticsDTO getFamilyStats(int topCount) {

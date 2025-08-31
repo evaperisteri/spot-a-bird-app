@@ -1,6 +1,0 @@
-package gr.aueb.cf.spot_a_bird_app.dto;
-
-public class FamilyInsertDTO {
-
-    String name;
-}

@@ -27,7 +27,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -73,7 +72,7 @@ public class UserService {
         User user = mapper.mapToUser(userInsertDTO);
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
 
-        // FIX: Ensure user is active by default
+        // Ensure user is active by default
         if (userInsertDTO.getIsActive() == null) {
             user.setIsActive(true);
         } else {
@@ -106,7 +105,7 @@ public class UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new AppObjectNotFoundException("User", "User with id: " + id +" not found."));
 
-        // Check for duplicate username/email if changing those fields
+        // check for duplicate username/email if changing those fields
         if (!updateDTO.getEmail().equals(existingUser.getEmail())) {
             if (userRepository.findByEmail(updateDTO.getEmail()).isPresent()) {
                 throw new AppObjectAlreadyExists("User", "User with Email: " + updateDTO.getEmail() +" already exists");
@@ -114,7 +113,7 @@ public class UserService {
             existingUser.setEmail(updateDTO.getEmail());
         }
 
-        // Update basic info
+        // update basic info
         existingUser.setFirstname(updateDTO.getFirstname());
         existingUser.setLastname(updateDTO.getLastname());
 
@@ -122,7 +121,7 @@ public class UserService {
             existingUser.setIsActive(updateDTO.getIsActive());
         }
 
-        // Handle profile details
+        // handle profile details
         if (existingUser.getProfileDetails() == null) {
             existingUser.setProfileDetails(new ProfileDetails());
         }

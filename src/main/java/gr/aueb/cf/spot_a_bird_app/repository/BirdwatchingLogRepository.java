@@ -22,9 +22,9 @@ public interface BirdwatchingLogRepository extends JpaRepository<BirdwatchingLog
 
     @Query("SELECT b FROM BirdwatchingLog b " +
             "LEFT JOIN FETCH b.bird " +
-            "LEFT JOIN FETCH b.bird.family " +  // Ensure Bird's family is loaded
+            "LEFT JOIN FETCH b.bird.family " +
             "LEFT JOIN FETCH b.user " +
-            "LEFT JOIN FETCH b.user.profileDetails " +  // Ensure User's profile is loaded
+            "LEFT JOIN FETCH b.user.profileDetails " +
             "WHERE b.id = :id")
     Optional<BirdwatchingLog> findByIdWithDetails(@Param("id") Long id);
 

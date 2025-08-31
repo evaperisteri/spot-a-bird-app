@@ -23,10 +23,6 @@ public class StatsRestController {
         return ResponseEntity.ok(statsService.getBirdStatistics());
     }
 
-    @GetMapping("/top-birds")
-    public ResponseEntity<List<BirdCountDTO>> GetTopObservedBirds(@RequestParam(defaultValue = "5") int count){
-        return ResponseEntity.ok(statsService.getTopObservedBirds(count));
-    }
     @GetMapping("/user-logs")
     public ResponseEntity<UserLogStatisticsDTO> getUserLogStatistics() throws AppObjectNotFoundException {
         return ResponseEntity.ok(statsService.getUserLogStatistics());

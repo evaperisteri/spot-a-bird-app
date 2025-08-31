@@ -12,10 +12,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        // Set the response status to 401 Unauthorized
+
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        // Write a custom error message or JSON structure
+        // custom error message or JSON structure
         //String json = String.format("{\"message\": \"%s\", \"error\": \"Unauthorized\"}", authException.getMessage());
         String json = "{\"code\": \"userNotAuthenticated\", \"description\": \"User needs to authenticate in order to access this route\"}";
         response.setContentType("application/json");

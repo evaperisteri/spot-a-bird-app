@@ -22,7 +22,6 @@ public class JwtService {
     private String secretKey = "5ce98d378ec88ea09ba8bcd511ef23645f04cc8e70b9134b98723a53c275bbc5";
     private long jwtExpiration = 10800000;  // 3 hours in milliseconds
 
-    // Method for authentication service
     public String generateToken(Long userId, String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);  // Now stores Long directly
@@ -32,18 +31,15 @@ public class JwtService {
         return buildToken(claims, username);
     }
 
-    // Method for UserDetails remains the same
     public String generateToken(UserDetails userDetails) {
         CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
         User user = customUserDetails.getUser();
         return generateToken(user.getId(), user.getUsername(), user.getRole().name());
     }
 
-    // Add method to extract userId
     public Long extractUserId(String token) {
         return extractAllClaims(token).get("userId", Long.class);
     }
-
 
     private String buildToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()

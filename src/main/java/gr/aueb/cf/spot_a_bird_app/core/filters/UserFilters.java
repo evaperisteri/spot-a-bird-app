@@ -5,7 +5,6 @@ import gr.aueb.cf.spot_a_bird_app.core.enums.Role;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -25,9 +24,4 @@ public class UserFilters extends GenericFilters {
 
     @Nullable
     private Gender gender;
-
-//    @Nullable
-//    private LocalDate dateOfBirth;
-
-
 }

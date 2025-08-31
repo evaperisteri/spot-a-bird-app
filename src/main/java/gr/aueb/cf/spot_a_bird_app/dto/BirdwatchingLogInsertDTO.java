@@ -1,10 +1,6 @@
 package gr.aueb.cf.spot_a_bird_app.dto;
 
-import gr.aueb.cf.spot_a_bird_app.model.Bird;
-import gr.aueb.cf.spot_a_bird_app.model.Region;
-import gr.aueb.cf.spot_a_bird_app.model.User;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

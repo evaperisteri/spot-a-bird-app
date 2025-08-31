@@ -3,13 +3,10 @@ package gr.aueb.cf.spot_a_bird_app.service;
 import gr.aueb.cf.spot_a_bird_app.authentication.AuthenticationService;
 import gr.aueb.cf.spot_a_bird_app.core.exceptions.AppObjectNotFoundException;
 import gr.aueb.cf.spot_a_bird_app.core.filters.BirdWatchingLogFilters;
-import gr.aueb.cf.spot_a_bird_app.core.filters.UserFilters;
 import gr.aueb.cf.spot_a_bird_app.core.specifications.BirdwatchingLogSpecification;
-import gr.aueb.cf.spot_a_bird_app.core.specifications.UserSpecification;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogInsertDTO;
 import gr.aueb.cf.spot_a_bird_app.dto.BirdwatchingLogReadOnlyDTO;
-import gr.aueb.cf.spot_a_bird_app.dto.UserReadOnlyDTO;
 import gr.aueb.cf.spot_a_bird_app.mapper.Mapper;
 import gr.aueb.cf.spot_a_bird_app.model.Bird;
 import gr.aueb.cf.spot_a_bird_app.model.BirdwatchingLog;
@@ -28,12 +25,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
 import static gr.aueb.cf.spot_a_bird_app.core.specifications.BirdwatchingLogSpecification.*;
 
 @Slf4j
@@ -150,7 +144,7 @@ public class BirdwatchingLogService {
 
         Specification<BirdwatchingLog> spec = Specification.where(null);
 
-        //OR-based search term
+        //OR-based logic in search term
         if (filters.getSearchTerm() != null && !filters.getSearchTerm().isBlank()) {
             spec = spec.and(BirdwatchingLogSpecification.searchByTerm(filters.getSearchTerm()));
         }
@@ -213,7 +207,7 @@ public class BirdwatchingLogService {
             existingLog.setRegion(newRegion);
         }
 
-        // Save and return
+        // Save
         return mapper.mapBWLToReadOnlyDTO(bWLogRepository.save(existingLog));
     }
 
