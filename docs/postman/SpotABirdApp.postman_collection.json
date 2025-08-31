@@ -58,7 +58,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"maraki\",\r\n    \"password\": \"12345\",\r\n    \"email\": \"maraki@email.com\",\r\n    \"firstname\": \"Maria\",\r\n    \"lastname\": \"Peristeri\",\r\n    \"role\": \"ADMIN\",\r\n    \"isActive\": true,\r\n    \"profileDetailsInsertDTO\": {\r\n        \"dateOfBirth\": \"1994-11-19\",\r\n        \"gender\": \"FEMALE\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"username\": \"maritsa\",\r\n    \"password\": \"12345\",\r\n    \"email\": \"maritsa@email.com\",\r\n    \"firstname\": \"Maria\",\r\n    \"lastname\": \"Peristeri\",\r\n    \"role\": \"ADMIN\",\r\n    \"isActive\": true,\r\n    \"profileDetailsInsertDTO\": {\r\n        \"dateOfBirth\": \"1994-11-19\",\r\n        \"gender\": \"FEMALE\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -100,7 +100,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"kat\",\r\n    \"password\": \"12345\",\r\n    \"email\": \"katerina@email.com\",\r\n    \"firstname\": \"Katerina\",\r\n    \"lastname\": \"Kouka\",\r\n    \"role\": \"SPOTTER\",\r\n    \"isActive\": true,\r\n    \"profileDetailsInsertDTO\": {\r\n        \"dateOfBirth\": \"1988-10-03\",\r\n        \"gender\": \"FEMALE\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"username\": \"bob\",\r\n    \"password\": \"12345\",\r\n    \"email\": \"bob@email.com\",\r\n    \"firstname\": \"Bob\",\r\n    \"lastname\": \"Squarepants\",\r\n    \"role\": \"SPOTTER\",\r\n    \"isActive\": true,\r\n    \"profileDetailsInsertDTO\": {\r\n        \"dateOfBirth\": \"1988-10-03\",\r\n        \"gender\": \"MALE\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1251,7 +1251,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"birdName\": \"Robin\",\r\n  \"regionName\": \"Attica\"\r\n}",
+					"raw": "{\r\n  \"birdName\": \"Robin\",\r\n  \"regionName\": \"\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1420,7 +1420,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Eva\",\r\n    \"lastName\": \"Peristeri\",\r\n    \"email\": \"eva@gmail.com\",\r\n    \"dateOfBirth\": \"1988-10-04\",\r\n    \"gender\": \"FEMALE\"\r\n}",
+					"raw": "{\r\n    \"firstname\": \"Evangelia\",\r\n    \"lastname\": \"peristeri\",\r\n    \"email\": \"evaki@gmail.com\",\r\n    \"dateOfBirth\": \"1988-10-04\",\r\n    \"gender\": \"FEMALE\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1428,13 +1428,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/api/users/update-user",
+					"raw": "{{base_url}}/api/update-user",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
-						"users",
 						"update-user"
 					]
 				}
@@ -1611,6 +1610,96 @@
 						"api",
 						"stats",
 						"user-logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update any user (admin)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstname\": \"bob\",\r\n  \"lastname\": \"squarepants\",\r\n  \"email\": \"new@email.com\",\r\n  \"isActive\": true,\r\n  \"dateOfBirth\": \"1990-01-01\",\r\n  \"gender\": \"MALE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/27",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"27"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Family stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/stats/families?topCount=3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stats",
+						"families"
+					],
+					"query": [
+						{
+							"key": "topCount",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "species in a Family",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/stats/species-distribution",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stats",
+						"species-distribution"
 					]
 				}
 			},

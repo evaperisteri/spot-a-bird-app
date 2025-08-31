@@ -58,8 +58,8 @@ Headers:
   Content-Type: application/json
 Body:
 {
-  "firstName": "NewFirstName",
-  "lastName": "NewLastName",
+  "firstname": "NewFirstName",
+  "lastname": "NewLastName",
   "email": "new@email.com",
   "dateOfBirth": "1990-01-01",
   "gender": "MALE"
@@ -72,8 +72,8 @@ Headers:
   Content-Type: application/json
 Body:
 {
-  "firstName": "NewFirstName",
-  "lastName": "NewLastName",
+  "firstname": "NewFirstName",
+  "lastname": "NewLastName",
   "email": "new@email.com",
   "isActive": true,
   "dateOfBirth": "1990-01-01",
@@ -171,11 +171,6 @@ Body:
 
 [GET] Family Statistics
 {{base_url}}/api/stats/families?topCount=3
-Parameters: topCount (default: 3)
-
-[GET] Top Observed Birds
-{{base_url}}/api/stats/top-birds?count=5
-Parameters: count (default: 5)
 
 [GET] Region Statistics
 {{base_url}}/api/stats/regions
