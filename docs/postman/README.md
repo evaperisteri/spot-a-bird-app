@@ -1,13 +1,15 @@
 # API Testing Documentation
 
 ## Postman Requests
-- Requests available in PostmanRequests.txt
-- Import instructions below...
+- Collection file:SpotABirdApp.postman_collection.json
+- Notes: PostmanRequests.txt (human-readable request notes)
+- Environment file: SpotABirdApp.postman_environment.json
 
 ## Using These Requests
 1. Install Postman
 2. Create new collection
-3. Use "Import" > "Raw Text"
+**Recommended**: Use Import → File and select PostmanRequests.postman_collection.json.
+**Alternative**: Open the JSON file in a text editor, copy its contents, then use Import → Raw Text in Postman.
 
 ## Required Environment Variables
 - `base_url`: Your API base URL
