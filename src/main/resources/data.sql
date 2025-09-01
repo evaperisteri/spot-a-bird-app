@@ -1,4 +1,7 @@
+DELETE FROM birds;
+DELETE FROM families;
 DELETE FROM regions;
+
 INSERT INTO regions (id, name) VALUES
 (1,'Eastern Macedonia & Thrace'),
 (2,'Attica'),
@@ -15,7 +18,6 @@ INSERT INTO regions (id, name) VALUES
 (13,'Central Greece');
 ALTER TABLE regions AUTO_INCREMENT = 14;
 
-DELETE FROM families;
 INSERT INTO families (id, name) VALUES
 (1, 'Phasianidae'),
 (2, 'Anatidae'),
@@ -89,7 +91,6 @@ INSERT INTO families (id, name) VALUES
 (70, 'Emberizidae');
 ALTER TABLE families AUTO_INCREMENT = 71;
 
-DELETE FROM birds;
 INSERT INTO birds (id, name, scientific_name, family_id, image_url) VALUES
 (1,'Common Quail','Coturnix coturnix',1,'https://upload.wikimedia.org/wikipedia/commons/e/e2/A_common_quail_in_Lebanon%2C_crop.jpg'),
 (2,'Rock Partridge','Alectoris graeca',1,'https://upload.wikimedia.org/wikipedia/commons/c/c9/Steinhuhn.jpg'),
@@ -550,7 +551,6 @@ INSERT INTO birds (id, name, scientific_name, family_id, image_url) VALUES
 (457,'Yellow-breasted Bunting','Emberiza aureola',70,'https://upload.wikimedia.org/wikipedia/commons/1/10/Yellow-breasted_bunting_in_Nepal_02_-Cropped.jpg'),
 (458,'Rustic Bunting','Emberiza rustica',70,'https://upload.wikimedia.org/wikipedia/commons/c/c6/Kashiradaka-01.jpg'),
 (459,'Little Bunting','Emberiza pusilla',70,'https://upload.wikimedia.org/wikipedia/commons/4/4f/Little_Bunting.jpg');
-
 ALTER TABLE birds AUTO_INCREMENT = 460;
 
 --Categories & data according to Chandrinos G. and Kastritis Th. (2009) BIRDS at:
