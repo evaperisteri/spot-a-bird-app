@@ -464,7 +464,7 @@ This educational application uses bird images from Wikimedia Commons. All images
 |456       |Andreas Trepte                  |CC BY-SA 2.5           | https://commons.wikimedia.org/wiki/File:Common_reed_bunting_(emberiza_schoeniclus)_f.jpg                                                                                             |
 |457       |Koshy Koshy                     |CC BY 2.0              | https://commons.wikimedia.org/wiki/File:Yellow-breasted_bunting_in_Nepal_02_-Cropped.jpg                                                                                             |
 |458       |Masaaki Ikeda                   |CC BY-SA 4.0           | https://commons.wikimedia.org/wiki/File:Kashiradaka-01.jpg                                                                                                                           |
-|459       |J.M. Garg                       |CC BY-SA 3.0           | https://commons.wikimedia.org/wiki/File:Little_Bunting.jpg                                                                                                                           
+|459       |J.M. Garg                       |CC BY-SA 3.0           | https://commons.wikimedia.org/wiki/File:Little_Bunting.jpg                                                                                                                           |
 
 
 ## License Information
