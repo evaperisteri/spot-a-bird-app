@@ -46,7 +46,7 @@ CREATE USER 'spotter'@'localhost' IDENTIFIED BY '12345';
 GRANT ALL PRIVILEGES ON spot_a_bird_db.* TO 'spotter'@'localhost';
 FLUSH PRIVILEGES;
 ```
-(Alternatively, you can use a MySQL client such as MySQL Workbench.)
+(Or, you can use a MySQL client such as MySQL Workbench.)
 
 2.	Verify that the backend’s src/main/resources/application.properties file is pointing to the same database name, user, and password.
 ```text
