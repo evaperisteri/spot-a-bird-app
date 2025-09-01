@@ -139,7 +139,7 @@ ________________________________________
 
 •	Postman Collection Import Guide:
 
-https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md
+[View Postman Collection here](https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md)
 
 A complete Postman collection is included to test the backend API endpoints independently of the frontend.
 
