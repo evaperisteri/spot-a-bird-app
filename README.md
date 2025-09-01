@@ -135,8 +135,32 @@ ________________________________________
 
    (The frontend will communicate with the backend running on http://localhost:8080.)
 ________________________________________
-## 🔸 Additional Docs
+## 🔸 API Testing with Postman
 
 •	Postman Collection Import Guide:
 
 https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md
+
+A complete Postman collection is included to test the backend API endpoints independently of the frontend.
+
+# Quick Start
+1.  **Import the Collection & Environment:**
+    *   In Postman, click **Import** and select both files:
+        *   `docs/postman/SpotABirdApp.postman_collection.json`
+        *   `docs/postman/SpotABirdApp.postman_environment.json`
+2.  **Select Environment:** In the top-right corner of Postman, select the **"SpotABirdApp"** environment.
+3.  **Get an Auth Token:** Run the `Login User` request first to authenticate and automatically save the JWT token to your environment variables.
+4.  **Test APIs:** You can now run any other request (e.g., `Get All Families`, `Create Observation`).
+
+The collection includes automated tests for validating responses. For more details, see the [full Postman documentation](./docs/postman/README.md).
+
+________________________________________
+## 🔸 Data Sources & Attribution
+
+### Bird Species Data
+The taxonomic data and species information for birds of Greece is sourced from:
+> Chandrinos G. and Kastritis Th. (2009). *BIRDS*. In: Legakis, Α. & P. Maragkou (editors). *The Red Data Book of Endangered Animals of Greece*. Hellenic Zoological Society, Athens.
+
+### Images
+Bird species images are sourced from Wikipedia and are used under the terms of their respective licenses (typically Creative Commons Attribution-ShareAlike or Public Domain).
+
