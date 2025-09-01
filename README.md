@@ -139,8 +139,6 @@ ________________________________________
 
 •	Postman Collection Import Guide:
 
-[View Postman Collection here](https://github.com/evaperisteri/spot-a-bird-app/blob/79c203129fab4fb7435f9b61076fbb313fbf4d59/docs/postman/README.md)
-
 A complete Postman collection is included to test the backend API endpoints independently of the frontend.
 
 # Quick Start
@@ -150,10 +148,9 @@ A complete Postman collection is included to test the backend API endpoints inde
         *   `docs/postman/SpotABirdApp.postman_environment.json`
 2.  **Select Environment:** In the top-right corner of Postman, select the **"SpotABirdApp"** environment.
 3.  **Get an Auth Token:** Run the `Login User` request first to authenticate and automatically save the JWT token to your environment variables.
-4.  **Test APIs:** You can now run any other request (e.g., `Get All Families`, `Create Observation`).
+4.  **Test APIs:** You can now run any other request (e.g., `Get All Families`, `Save new log`).
 
 The collection includes automated tests for validating responses. For more details, see the [full Postman documentation](https://github.com/evaperisteri/spot-a-bird-app/blob/1f38ac0ccbd97e090a2036e776683c942c501fea/docs/postman/README.md).
-
 ________________________________________
 ## 🔸 Data Sources & Attribution
 
