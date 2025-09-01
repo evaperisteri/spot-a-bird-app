@@ -152,15 +152,17 @@ A complete Postman collection is included to test the backend API endpoints inde
 3.  **Get an Auth Token:** Run the `Login User` request first to authenticate and automatically save the JWT token to your environment variables.
 4.  **Test APIs:** You can now run any other request (e.g., `Get All Families`, `Create Observation`).
 
-The collection includes automated tests for validating responses. For more details, see the [full Postman documentation](./docs/postman/README.md).
+The collection includes automated tests for validating responses. For more details, see the [full Postman documentation](https://github.com/evaperisteri/spot-a-bird-app/blob/1f38ac0ccbd97e090a2036e776683c942c501fea/docs/postman/README.md).
 
 ________________________________________
 ## 🔸 Data Sources & Attribution
 
-### Bird Species Data
+# Bird Species Data
 The taxonomic data and species information for birds of Greece is sourced from:
 > Chandrinos G. and Kastritis Th. (2009). *BIRDS*. In: Legakis, Α. & P. Maragkou (editors). *The Red Data Book of Endangered Animals of Greece*. Hellenic Zoological Society, Athens.
+Found here: https://ornithologiki.gr/en/birds-of-greece/katalogos-ton-poulion-tis-elladas-2
 
-### Images
+# Images
+[See Attributions](https://github.com/evaperisteri/spot-a-bird-app/blob/18e8a5de191d8621ee746489a2ed420ff4c90557/IMAGE_ATTRIBUTION.md)
 Bird species images are sourced from Wikipedia and are used under the terms of their respective licenses (typically Creative Commons Attribution-ShareAlike or Public Domain).
 

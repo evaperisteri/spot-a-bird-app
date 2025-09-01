@@ -48,7 +48,6 @@ species_id,author,license,source_url
 38,"Bengt Nyman","CC BY 2.0","https://commons.wikimedia.org/wiki/File:Anas_querquedula,_Slottsskogen,_Göteborg,_Sweden_1.jpg"
 39,"Andy Reago & Chrissy McClarren","CC BY 2.0","https://commons.wikimedia.org/wiki/File:Northern_shoveler_pair_in_Marine_Park_(33233).jpg"
 40,"Mike's Birds","CC BY-SA 2.0","https://commons.wikimedia.org/wiki/File:Blue-winged_teal_at_Sacramento_National_Wildlife_Refuge-5326.jpg"
-
 41,"Mdf","CC BY-SA 3.0","https://commons.wikimedia.org/wiki/File:Gadwall-female.jpg"
 42,"Koshy Koshy","CC BY 2.0","https://commons.wikimedia.org/wiki/File:1J6A3215-Eurasian_Wigeon.jpg"
 43,"Paxson Woelber","CC0 1.0","https://commons.wikimedia.org/wiki/File:20250709_mallard_duckling_wethersfield_cove_PD208385_1.jpg"
@@ -69,7 +68,6 @@ species_id,author,license,source_url
 58,"J.M. Garg","CC BY-SA 3.0","https://commons.wikimedia.org/wiki/File:Dove_Iran.jpg"
 59,"Andreas Trepte","CC BY-SA 2.5","https://commons.wikimedia.org/wiki/File:Syrrhapte_paradoxal.jpg"
 60,"Francisco Javier Flores","CC BY-SA 4.0","https://commons.wikimedia.org/wiki/File:Pterocles_orientalis_in_flight.jpg"
-
 61,"Francisco Javier Flores","CC BY-SA 4.0","https://commons.wikimedia.org/wiki/File:Pin-tailed_sandgrouse_(Pterocles_alchata).jpg"
 62,"Andreas Trepte","CC BY-SA 2.5","https://commons.wikimedia.org/wiki/File:Adultwithchicks.jpg"
 63,"Savvas Pavlides","CC BY-SA 4.0","https://commons.wikimedia.org/wiki/File:%CE%92%CE%BF%CF%85%CE%BD%CE%BF%CF%83%CF%84%CE%B1%CF%87%CF%84%CE%AC%CF%81%CE%B1_Alpine_Swift_Tachymarptis_melba.jpg"
@@ -231,7 +229,6 @@ species_id,author,license,source_url
 218,"Vitaliy Gorshkov","CC BY-SA 4.0","https://commons.wikimedia.org/wiki/File:%D0%9E%D1%81%D0%BE%D0%B5%D0%B4_%D0%93%D1%80%D0%BE%D0%B4%D0%BD%D0%BE.JPG"
 219,"Giles Laurent","CC BY-SA 4.0","https://commons.wikimedia.org/wiki/File:023_Wild_Bearded_Vulture_Switzerland_Pfyn-Finges_Photo_by_Giles_Laurent.jpg"
 220,"Rudmer Zwerver","CC BY-SA 2.0","https://commons.wikimedia.org/wiki/File:Aasgier_(48794413228)_(detail).jpg"
-
 221,"Andreas Trepte","CC BY-SA 2.5","https://commons.wikimedia.org/wiki/File:Circaetus_gallicus_02.jpg"
 222,"Bernard Dupont","CC BY-SA 2.0","https://commons.wikimedia.org/wiki/File:Cinereous_Vulture_and_Eurasian_Griffon_(50862528446).jpg"
 223,"Andreas Trepte","CC BY-SA 2.5","https://commons.wikimedia.org/wiki/File:Aegypius_monachus.jpg"
@@ -354,7 +351,6 @@ species_id,author,license,source_url
 339,"Alexey Yakovlev","CC BY-SA 2.0","https://commons.wikimedia.org/wiki/File:Pallas%27s_Leaf_Warbler,_Tunkinskiy_Rayon,_Buryat,_Russia_2.jpg"
 340,"J.M. Garg","CC BY-SA 3.0","https://commons.wikimedia.org/wiki/File:DuskyWarbler_Cropped.jpg"
 341,"J.M. Garg","CC BY-SA 3.0","https://commons.wikimedia.org/wiki/File:Willow_Warbler_Phylloscopus_trochilus.jpg"
-
 342,"Francisco Javier Flores","CC BY-SA 4.0","https://commons.wikimedia.org/wiki/File:Phylloscopus_ibericus.jpg"
 343,"Francis C. Franklin","CC BY-SA 3.0","https://commons.wikimedia.org/wiki/File:Chiffchaff_-_Phylloscopus_collybita.jpg"
 344,"J.M. Garg","CC BY-SA 3.0","https://commons.wikimedia.org/wiki/File:Green_warbler.jpg"
