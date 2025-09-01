@@ -162,4 +162,6 @@ Found here: https://ornithologiki.gr/en/birds-of-greece/katalogos-ton-poulion-ti
 # Images
 [See Attributions](https://github.com/evaperisteri/spot-a-bird-app/blob/18e8a5de191d8621ee746489a2ed420ff4c90557/IMAGE_ATTRIBUTION.md)
 Bird species images are sourced from Wikipedia and are used under the terms of their respective licenses (typically Creative Commons Attribution-ShareAlike or Public Domain).
+________________________________________
+![Screenshot Carousel](carousel.gif)
 
