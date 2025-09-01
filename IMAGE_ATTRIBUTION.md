@@ -4,7 +4,7 @@ This educational application uses bird images from Wikimedia Commons. All images
 
 ## Complete Image Credits
 
-|Species Id|Author                          |License                | Source URL                   |
+|Species Id|Author                          |License                | Source URL                                                                                                                                                                           |
 |----------|--------------------------------|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |1         |Yossi Eshbol                    |CC BY-SA 3.0           | https://commons.wikimedia.org/wiki/File:A_common_quail_in_Lebanon,_crop.jpg                                                                                                          |
 |2         |Andreas Trepte                  |CC BY-SA 2.5           | https://commons.wikimedia.org/wiki/File:Steinhuhn.jpg                                                                                                                                |
