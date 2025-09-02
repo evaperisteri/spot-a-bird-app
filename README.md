@@ -8,8 +8,18 @@ This project has two parts:
 - **Frontend**: https://github.com/evaperisteri/spot-a-bird-react
 
 ---
+# 🔸 Interactive API Documentation
 
-## 🔸 Tools & Frameworks
+**Live API Documentation**: https://evaperisteri.github.io/spot-a-bird-openAPI/
+
+# How to Use the API Documentation:
+1. **Start the backend** (follow instructions below)
+2. **Open the documentation**: [https://evaperisteri.github.io/spot-a-bird-openAPI/](https://evaperisteri.github.io/spot-a-bird-openAPI/)
+3. **Use the "Try it out" feature** to test endpoints against your local backend
+
+> **Note**: The documentation connects to `localhost:8080`, so you must have the backend running locally for the "Try it out" feature to work.
+---
+## 🔸 Tools & Frameworks Used
 
 ### Backend:
 - Java 17, Spring Boot, Gradle
@@ -135,13 +145,26 @@ ________________________________________
 
    (The frontend will communicate with the backend running on http://localhost:8080.)
 ________________________________________
-## 🔸 API Testing with Postman
+## 🔸 API Testing Options
+**Option 1: Interactive Web Documentation**
+URL: https://evaperisteri.github.io/spot-a-bird-openAPI/
 
-•	Postman Collection Import Guide:
+Features: Full API documentation with "Try it out" functionality
 
-A complete Postman collection is included to test the backend API endpoints independently of the frontend.
+Requirements: Backend must be running on localhost:8080
 
-# Quick Start
+**Option2: Postman Collection:**
+
+A complete Postman collection is included to test the backend API endpoints with **comprehensive automated testing**.
+  # Collection Includes:
+
+- **🔹 40+ pre-configured requests** covering all API endpoints
+- **🔹 Automated test scripts** for response validation
+- **🔹 Environment variables** for easy configuration
+- **🔹 Test data cleanup** procedures
+- **🔹 Performance testing** (response time checks)
+- 
+  # Quick Start
 1.  **Import the Collection & Environment:**
     *   In Postman, click **Import** and select both files:
         *   `docs/postman/SpotABirdApp.postman_collection.json`
