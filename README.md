@@ -8,11 +8,11 @@ This project has two parts:
 - **Frontend**: https://github.com/evaperisteri/spot-a-bird-react
 
 ---
-# 🔸 Interactive API Documentation
+## 🔸 Interactive API Documentation
 
 **Live API Documentation**: https://evaperisteri.github.io/spot-a-bird-openAPI/
 
-# How to Use the API Documentation:
+### How to Use the API Documentation:
 1. **Start the backend** (follow instructions below)
 2. **Open the documentation**: [https://evaperisteri.github.io/spot-a-bird-openAPI/](https://evaperisteri.github.io/spot-a-bird-openAPI/)
 3. **Use the "Try it out" feature** to test endpoints against your local backend
@@ -156,7 +156,7 @@ Requirements: Backend must be running on localhost:8080
 **Option2: Postman Collection:**
 
 A complete Postman collection is included to test the backend API endpoints with **comprehensive automated testing**.
-  # Collection Includes:
+  ### Collection Includes:
 
 - **🔹 40+ pre-configured requests** covering all API endpoints
 - **🔹 Automated test scripts** for response validation
@@ -164,7 +164,7 @@ A complete Postman collection is included to test the backend API endpoints with
 - **🔹 Test data cleanup** procedures
 - **🔹 Performance testing** (response time checks)
 - 
-  # Quick Start
+  ### Quick Start
 1.  **Import the Collection & Environment:**
     *   In Postman, click **Import** and select both files:
         *   `docs/postman/SpotABirdApp.postman_collection.json`
@@ -177,12 +177,12 @@ The collection includes automated tests for validating responses. For more detai
 ________________________________________
 ## 🔸 Data Sources & Attribution
 
-# Bird Species Data
+### Bird Species Data
 The taxonomic data and species information for birds of Greece is sourced from:
 > Chandrinos G. and Kastritis Th. (2009). *BIRDS*. In: Legakis, Α. & P. Maragkou (editors). *The Red Data Book of Endangered Animals of Greece*. Hellenic Zoological Society, Athens.
 Found here: https://ornithologiki.gr/en/birds-of-greece/katalogos-ton-poulion-tis-elladas-2
 
-# Images
+### Images
 [See Attributions](https://github.com/evaperisteri/spot-a-bird-app/blob/18e8a5de191d8621ee746489a2ed420ff4c90557/IMAGE_ATTRIBUTION.md)
 Bird species images are sourced from Wikipedia and are used under the terms of their respective licenses (typically Creative Commons Attribution-ShareAlike or Public Domain).
 ________________________________________
